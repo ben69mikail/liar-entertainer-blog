@@ -1,0 +1,68 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import postsData from '../../data/posts.json';
+
+type WPPost = { slug: string };
+
+export async function getStaticPaths() {
+  const wpSlugs = new Set((postsData as WPPost[]).map((p) => p.slug));
+  const entries = await getCollection('blog');
+  return entries
+    .filter((e) => !e.data.draft && !wpSlugs.has(String(e.id)))
+    .map((e) => ({ params: { slug: String(e.id) }, props: { entry: e } }));
+}
+
+const { entry } = Astro.props as { entry: Awaited<ReturnType<typeof getCollection<'blog'>>>[number] };
+const { Content } = await render(entry);
+
+const dateLabel = new Date(entry.data.publishDate).toLocaleDateString('de-DE', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+});
+const canonical = `https://liar-entertainer.com/blog/${entry.id}/`;
+const desc = entry.data.description ?? entry.data.title;
+---
+
+<BaseLayout
+  title={`${entry.data.title} | Clown Zauberer LIAR`}
+  description={desc}
+  canonical={canonical}
+>
+  <article class="max-w-[800px] mx-auto px-4 py-12">
+    <header class="mb-8">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-[#1f2025] mb-3">{entry.data.title}</h1>
+      <p class="text-sm text-[#595959]">
+        <time datetime={entry.data.publishDate.toISOString()}>{dateLabel}</time>
+        {entry.data.author && <span> · von {entry.data.author}</span>}
+      </p>
+      {entry.data.categories.length > 0 && (
+        <p class="text-sm text-[#595959] mt-1">
+          {entry.data.categories.map((c) => (
+            <span class="inline-block bg-[#f4f4f4] px-2 py-0.5 rounded mr-1 text-xs">{c}</span>
+          ))}
+        </p>
+      )}
+    </header>
+
+    {entry.data.heroImage && (
+      <img
+        src={entry.data.heroImage}
+        alt={entry.data.heroImageAlt ?? entry.data.title}
+        class="w-full rounded-lg mb-8"
+        loading="eager"
+        width="800"
+        height="450"
+      />
+    )}
+
+    <div class="prose prose-lg max-w-none [&_h2]:text-[#1f2025] [&_h2]:font-bold [&_h2]:mt-8 [&_h3]:font-semibold [&_a]:text-[#d7393e] [&_a]:underline">
+      <Content />
+    </div>
+
+    <footer class="mt-12 pt-6 border-t text-sm">
+      <a href="/blog/" class="text-[#d7393e] hover:underline">← Zurück zum Blog</a>
+    </footer>
+  </article>
+</BaseLayout>
