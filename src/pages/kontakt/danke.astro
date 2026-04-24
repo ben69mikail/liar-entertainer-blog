@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Danke für Ihre Anfrage – Clown Zauberer LIAR"
+  description="Ihre Anfrage wurde erfolgreich gesendet. Wir melden uns innerhalb von 24 Stunden!"
+  canonical="https://liar-entertainer.com/kontakt/danke/"
+  noindex={true}
+>
+  <section class="py-24 bg-white">
+    <div class="max-w-[600px] mx-auto px-4 text-center">
+      <div class="text-6xl mb-6">🎉</div>
+      <h1 class="text-[#1f2025] font-extrabold text-3xl sm:text-4xl mb-4">
+        Vielen Dank für Ihre Anfrage!
+      </h1>
+      <p class="text-[#374151] text-base leading-relaxed mb-8">
+        Ich habe Ihre Nachricht erhalten und melde mich <strong>innerhalb von 24 Stunden</strong> bei Ihnen. Ich freue mich schon auf Ihr Event!
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/" class="inline-flex items-center justify-center bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-8 py-3 rounded transition-colors">
+          Zur Startseite
+        </a>
+        <a href="tel:+491721517578" class="inline-flex items-center justify-center bg-white border border-gray-200 text-[#1f2025] font-bold px-8 py-3 rounded hover:bg-gray-50 transition-colors">
+          📞 +49 172 1517578
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

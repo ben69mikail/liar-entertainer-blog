@@ -1,0 +1,33 @@
+# Dependencies & Build
+node_modules/
+dist/
+.astro/
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+
+# Claude Code lokal (enthaelt Shell-Erlaubnis-Liste mit Klartext-Passwoertern)
+.claude/
+
+# Server-Konfig mit Klartext-Secrets
+public/api/config.php
+public/api/reviews-cache.json
+
+# Build-Artefakte / Archive
+*.zip
+
+# Lokale Logs / Screenshots
+logs/
+screenshots/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Backups
+*.bak
+deploy_ionos_old.py

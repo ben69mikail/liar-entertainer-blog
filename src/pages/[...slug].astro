@@ -1,0 +1,2017 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import pagesData from '../data/pages.json';
+import postsData from '../data/posts.json';
+import scrapedData from '../data/scraped-pages.json';
+
+type WPItem = {
+  title: string; slug: string; type: string; status: string;
+  content: string; excerpt: string; date: string; link: string;
+  meta: Record<string, string | undefined>;
+  categories: { slug: string; name: string }[];
+};
+type ScrapedItem = { scrapedHtml: string; type: string; url: string; htmlLength: number; };
+
+const allItems: WPItem[] = [...(pagesData as WPItem[]), ...(postsData as WPItem[])];
+const scraped = scrapedData as Record<string, ScrapedItem>;
+
+function resolveTitle(t: string | undefined, fb: string) {
+  if (!t) return fb;
+  return t
+    .replace(/%title%/g, fb)
+    .replace(/%sitename%/g, 'Clown Zauberer LIAR')
+    .replace(/%sep%/g, '|')
+    .replace(/%page%/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+function getFirstImg(c: string) {
+  const m = c.match(/https?:\/\/liar-entertainer\.com\/wp-content\/uploads\/[^\s"'<>)]+\.(jpg|jpeg|png|webp)/i);
+  return m ? m[0] : null;
+}
+
+const SVC: Record<string, string> = {
+  'kindergeburtstag': 'https://liar-entertainer.com/wp-content/uploads/2023/08/CLown-Kinderzauberer-Geburtstag.jpg',
+  'clown-zauberer': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Clown-Zauberer-mit-Zaubershow.jpg',
+  'zauberer': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Buehnen-Zauberei.jpg',
+  'zaubershow': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Buehnen-Zauberei.jpg',
+  'clownshow': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Clown-bei-Clownshow.jpg',
+  'kinderzauberer': 'https://liar-entertainer.com/wp-content/uploads/2023/08/CLown-Kinderzauberer-Geburtstag.jpg',
+  'ballonmodellage': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Ballonmodellage-1.jpg',
+  'glitzer-tattoo': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Glitzer-tattoo.jpeg',
+  'walk-act': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Clownerie-und-Zauberei-in-NRW.jpg',
+  'tisch-zauberer': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Close-Up-Zauberei-Dortmund.jpg',
+  'buehnen-zauberer': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Buehnen-Zauberer-Essen.jpg',
+  'strassen-sommer-fest': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Fest.jpg',
+  'kindergarten-kita': 'https://liar-entertainer.com/wp-content/uploads/2023/08/CLown-Kinderzauberer-Geburtstag.jpg',
+  'karneval': 'https://liar-entertainer.com/wp-content/uploads/2023/08/Karneval-245x300.jpeg',
+  'schule': 'https://liar-entertainer.com/wp-content/uploads/2023/08/CLown-Kinderzauberer-Geburtstag.jpg',
+};
+
+export function getStaticPaths() {
+  const pages2 = pagesData as WPItem[];
+  const posts2 = postsData as WPItem[];
+  const all2 = [...pages2, ...posts2];
+  const paths: { params: { slug: string }; props: { pageSlug: string } }[] = [];
+  const seen = new Set<string>();
+
+  for (const item of all2) {
+    try {
+      const url = new URL(item.link);
+      let path = url.pathname;
+      // Remove leading/trailing slashes
+      path = path.replace(/^\/|\/$/g, '');
+      if (!path) continue;
+      // Decode URL-encoded characters
+      let decoded: string;
+      try { decoded = decodeURIComponent(path); } catch { decoded = path; }
+      if (seen.has(decoded)) continue;
+      seen.add(decoded);
+      paths.push({ params: { slug: decoded }, props: { pageSlug: item.slug } });
+    } catch { /* skip */ }
+  }
+  return paths;
+}
+
+const { slug } = Astro.params as { slug: string };
+const { pageSlug } = Astro.props as { pageSlug: string };
+const page = allItems.find(p => p.slug === pageSlug);
+if (!page) return Astro.redirect('/');
+
+function fixLazyImages(html: string): string {
+  return html
+    // Replace data-src with src (WordPress lazy-load)
+    .replace(/<img([^>]*?)\ssrc="data:image\/svg\+xml[^"]*"([^>]*?)\sdata-src="([^"]+)"([^>]*?)>/gi,
+      '<img$1 src="$3"$2$4>')
+    // Also handle data-lazy-src
+    .replace(/<img([^>]*?)\sdata-lazy-src="([^"]+)"([^>]*?)>/gi,
+      '<img$1 src="$2"$3>')
+    // Remove any remaining data-src attributes to clean up
+    .replace(/\sdata-src="[^"]*"/gi, '')
+    .replace(/\sdata-lazy-src="[^"]*"/gi, '');
+}
+
+function fixVideoEmbeds(html: string): string {
+  // Remove fixed width/height from YouTube iframes and let CSS handle aspect ratio
+  return html
+    .replace(/<iframe([^>]*?)(width="[^"]*")([^>]*?)(height="[^"]*")([^>]*?)>/gi,
+      '<iframe$1$3$5>')
+    .replace(/<iframe([^>]*?)(height="[^"]*")([^>]*?)(width="[^"]*")([^>]*?)>/gi,
+      '<iframe$1$3$5>');
+}
+
+function fixBrokenLinks(html: string): string {
+  return html
+    // 1. Entferne WordPress /author/ Links — behalte nur den Ankertext
+    .replace(/<a[^>]*href="\/author\/[^"]*"[^>]*>(.*?)<\/a>/gi, '$1')
+    // 2. Entferne WordPress /category/ Links — behalte nur den Ankertext
+    .replace(/<a[^>]*href="\/category\/[^"]*"[^>]*>(.*?)<\/a>/gi, '$1')
+    // 3. Entferne WordPress /tag/ Links — behalte nur den Ankertext
+    .replace(/<a[^>]*href="\/tag\/[^"]*"[^>]*>(.*?)<\/a>/gi, '$1')
+    // 4a. Fix /clown/zauberer/kinderzauberer/kinderzauberer-in-X/ → /kinderzauberer/kinderzauberer-in-X/
+    .replace(/href="\/clown\/zauberer\/kinderzauberer\/(kinderzauberer-in-[^"]+)"/gi, 'href="/kinderzauberer/$1"')
+    // 4b. Fix /clown/zauberer/kinderzauberer/ → /kinderzauberer/
+    .replace(/href="\/clown\/zauberer\/kinderzauberer\/"/gi, 'href="/kinderzauberer/"')
+    // 5. Fix /clown/zauberer/zaubershow/ → /zauberer/zaubershow/
+    .replace(/href="\/clown\/zauberer\/zaubershow\/"/gi, 'href="/zauberer/zaubershow/"')
+    // 6. Fix /clown/zauberer/ → /zauberer/
+    .replace(/href="\/clown\/zauberer\/"/gi, 'href="/zauberer/"')
+    // 7. Fix /clown/geburtstag/geburtstag-in-X/ → /kindergeburtstag/geburtstag-in-X/
+    .replace(/href="\/clown\/geburtstag\/(geburtstag-in-[^"]+)"/gi, 'href="/kindergeburtstag/$1"')
+    // 8. Fix /clown/geburtstag/ → /kindergeburtstag/
+    .replace(/href="\/clown\/geburtstag\/"/gi, 'href="/kindergeburtstag/"')
+    // 9. Fix /clown/clown-in-X/ → /clown/clownshow/clown-in-X/
+    .replace(/href="\/clown\/(clown-in-[^"]+)"/gi, 'href="/clown/clownshow/$1"')
+    // 10. Fix /clown/kindergeburtstag/ → /kindergeburtstag/
+    .replace(/href="\/clown\/kindergeburtstag\/"/gi, 'href="/kindergeburtstag/"')
+    // 11. Fix /wp-content/uploads/.../www.DOMAIN → https://www.DOMAIN
+    .replace(/href="\/wp-content\/uploads\/[^"]*\/(www\.[a-z0-9][a-z0-9.-]+\.[a-z]{2,})([^"]*)"/gi,
+      (_, domain, rest) => `href="https://${domain}${rest}"`)
+    // 12. Entferne übrige /wp-content/ Links — behalte nur den Ankertext
+    .replace(/<a[^>]*href="\/wp-content\/[^"]*"[^>]*>(.*?)<\/a>/gi, '$1')
+    // 13. Fix /clown/ (root, existiert nicht) → /
+    .replace(/href="\/clown\/"/gi, 'href="/"')
+    // 14. Fix /clown-in-X/ (ohne /clown/ Prefix) → /clown/clownshow/clown-in-X/
+    .replace(/href="\/(clown-in-[^"]+)"/gi, 'href="/clown/clownshow/$1"')
+    // 15. Fix /clown/geburtstag-in-X/ → /kindergeburtstag/geburtstag-in-X/
+    .replace(/href="\/clown\/(geburtstag-in-[^"]+)"/gi, 'href="/kindergeburtstag/$1"')
+    // 16. Fix falsche Seiten-URLs → korrekte Ziele
+    .replace(/href="\/zauberer-kindergeburtstag\/"/gi, 'href="/kindergeburtstag/"')
+    .replace(/href="\/clown-kindergeburtstag\/"/gi, 'href="/kindergeburtstag/"')
+    .replace(/href="\/ballonkuenstler\/"/gi, 'href="/clown/ballonmodellage/"')
+    .replace(/href="\/kinderschminken\/"/gi, 'href="/clown/glitzer-tattoo/"')
+    .replace(/href="\/glitzer-tattoos-kinder\/"/gi, 'href="/clown/glitzer-tattoo/"')
+    // 17. Fix /clown/glitzer-tattoos (falsch) → /clown/glitzer-tattoo/
+    .replace(/href="\/clown\/glitzer-tattoos"/gi, 'href="/clown/glitzer-tattoo/"')
+    // 18. Fix /kontakt (ohne trailing slash) → /kontakt/
+    .replace(/href="\/kontakt"/gi, 'href="/kontakt/"')
+    // 19. Fix Grammatik: "DER französischer" → "DER französische"
+    .replace(/DER französischer/g, 'DER französische')
+    .replace(/der französischer/g, 'der französische')
+    // 20. TrustIndex Widget entfernen (ersetzt durch GoogleReviews-Komponente)
+    .replace(/<pre\s+class="ti-widget"[^>]*>[\s\S]*?<\/pre>/gi, '')
+    .replace(/<div\s+data-src="https?:\/\/cdn\.trustindex\.io\/[^"]*"[^>]*><\/div>/gi, '');
+}
+
+function stylizeCityContent(html: string): string {
+  // === A1: Preis-Karten erstellen ===
+  // Überspringe wenn schon price-grid vorhanden (z.B. Gelsenkirchen mit manueller Preis-Sektion)
+  if (html.includes('class="price-grid"')) {
+    // Price cards already exist, skip price card creation
+    // Continue with other stylizations (FAQ, emoji, etc.)
+    html = html
+      .replace(/<i\s+class="fas fa-magic"><\/i>/gi, '🪄')
+      .replace(/<i\s+class="far fa-smile"><\/i>/gi, '😊')
+      .replace(/<i\s+class="fas fa-star"><\/i>/gi, '⭐')
+      .replace(/<i\s+class="fas fa-heart"><\/i>/gi, '❤️')
+      .replace(/<i\s+class="fas fa-check"><\/i>/gi, '✅');
+    return html;
+  }
+  // Verschiedene Seiten nutzen verschiedene Überschriften und Strukturen.
+  // Step 1: Finde die Preis-Überschrift (erst H2, dann H3 als Fallback)
+  const priceKeywords = /Preis|kostet|Leistungspaket|150\s*€|150\s*Euro/i;
+  let priceHeading: { full: string; idx: number; endIdx: number } | null = null;
+  let m: RegExpExecArray | null;
+
+  // Erst H2 durchsuchen
+  const h2Regex = /<h2([^>]*)>([\s\S]*?)<\/h2>/gi;
+  while ((m = h2Regex.exec(html)) !== null) {
+    const text = m[2].replace(/<[^>]+>/g, '');
+    if (priceKeywords.test(text)) {
+      priceHeading = { full: m[0], idx: m.index, endIdx: m.index + m[0].length };
+      break;
+    }
+  }
+
+  // Fallback: H3 (z.B. Gladbeck nutzt H3 "PREISE FÜR GLADBECK")
+  if (!priceHeading) {
+    const h3Regex = /<h3([^>]*)>([\s\S]*?)<\/h3>/gi;
+    while ((m = h3Regex.exec(html)) !== null) {
+      const text = m[2].replace(/<[^>]+>/g, '');
+      if (/Preis/i.test(text)) {
+        priceHeading = { full: m[0], idx: m.index, endIdx: m.index + m[0].length };
+        break;
+      }
+    }
+  }
+
+  if (priceHeading) {
+    // Step 2: Sektion-Inhalt extrahieren (bis zum nächsten H2)
+    const after = html.substring(priceHeading.endIdx);
+    const nextH2 = after.match(/<h2[\s>]/i);
+    const sectionLen = nextH2 ? nextH2.index! : after.length;
+    const priceBlock = after.substring(0, sectionLen);
+
+    // Step 3: Preis-Items in Karten wickeln
+    // Pattern A: H3+P Gruppen (z.B. Essen, Düsseldorf, Dinslaken) — alle <p> bis zum nächsten <h3> sammeln
+    const h3Count = (priceBlock.match(/<h3[\s>]/gi) || []).length;
+    let wrapped = priceBlock;
+    if (h3Count >= 2) {
+      // Sammle H3 + ALLE nachfolgenden P-Tags bis zum nächsten H3 in eine price-card
+      wrapped = priceBlock.replace(
+        /(<h3[^>]*>[\s\S]*?<\/h3>)((?:\s*<p[^>]*>[\s\S]*?<\/p>)+)/gi,
+        '<div class="price-card">$1$2</div>'
+      );
+    }
+
+    // Pattern B: <p> mit <strong>...€/Euro...</strong> (z.B. Castrop-Rauxel, Dorsten)
+    if (!wrapped.includes('price-card')) {
+      wrapped = priceBlock.replace(
+        /(<p[^>]*>)\s*(<strong>[^<]*(?:€|Euro)[^<]*<\/strong>[\s\S]*?)(<\/p>)/gi,
+        '<div class="price-card">$1$2$3</div>'
+      );
+    }
+
+    // Pattern C: Emoji-markierte Preisblöcke (z.B. Gelsenkirchen: 🎭 FESTPREIS, 🚗 FAHRTKOSTEN)
+    // Sammle zusammengehörige <p>-Tags zu Karten
+    if (!wrapped.includes('price-card')) {
+      const paragraphs = priceBlock.match(/<p[^>]*>[\s\S]*?<\/p>/gi) || [];
+      if (paragraphs.length > 0) {
+        let cards: string[] = [];
+        let currentCard: string[] = [];
+        let currentTitle = '';
+
+        for (const p of paragraphs) {
+          const text = p.replace(/<[^>]+>/g, '').trim();
+          // Neuer Preis-Block startet mit Emoji oder "OPTIONALE" oder enthält "FESTPREIS"/"FAHRTKOSTEN"
+          const isNewBlock = /^[🎭🚗🎈✨⭐🎪]/.test(text) || /^OPTIONALE/i.test(text) ||
+            /FESTPREIS|FAHRTKOSTEN/i.test(text);
+          // Checkmark-Zeilen (✓) gehören zum aktuellen Block
+          const isCheckmark = /^✓/.test(text);
+          // "Ihr Vorteil" ist ein separater Info-Block
+          const isInfoBlock = /^Ihr Vorteil/i.test(text);
+
+          if (isNewBlock && !isCheckmark) {
+            // Vorherige Karte abschließen
+            if (currentCard.length > 0) {
+              cards.push(`<div class="price-card"><h3>${currentTitle}</h3>${currentCard.join('')}</div>`);
+            }
+            // Titel aus erstem Satz extrahieren (bis zum ersten Zeilenumbruch oder ✓)
+            const titleMatch = text.match(/^(.+?(?:€|Euro|\d+\s*€))/i);
+            currentTitle = titleMatch ? titleMatch[1].trim() : text.split(/\s{2,}|Im Preis/)[0].trim();
+            // Rest des Paragraphen als Content
+            currentCard = [p];
+          } else if (isInfoBlock) {
+            // Info-Block als eigene Karte
+            if (currentCard.length > 0) {
+              cards.push(`<div class="price-card"><h3>${currentTitle}</h3>${currentCard.join('')}</div>`);
+              currentCard = [];
+              currentTitle = '';
+            }
+            cards.push(`<div class="price-card price-card-info">${p}</div>`);
+          } else {
+            currentCard.push(p);
+          }
+        }
+        // Letzte Karte abschließen
+        if (currentCard.length > 0 && currentTitle) {
+          cards.push(`<div class="price-card"><h3>${currentTitle}</h3>${currentCard.join('')}</div>`);
+        }
+
+        if (cards.length > 0) {
+          wrapped = cards.join('\n');
+        }
+      }
+    }
+
+    // Pattern D: <li>-Elemente mit Preisen (€) als separate Karten (z.B. Recklinghausen)
+    // Wenn nur 1 Karte existiert aber <ul><li> mit Preisen vorhanden sind
+    const currentCardCount = (wrapped.match(/price-card/g) || []).length;
+    if (currentCardCount <= 1) {
+      const liMatches = priceBlock.match(/<li[^>]*>[\s\S]*?<\/li>/gi) || [];
+      const priceLis = liMatches.filter(li => /€|Euro/i.test(li));
+      if (priceLis.length > 0) {
+        const liCards = priceLis.map(li => {
+          const text = li.replace(/<[^>]+>/g, '').trim();
+          // Titel: Emoji + <strong>Name:</strong> Preis
+          const titleMatch = text.match(/^([^:]+:\s*\d+\s*€)/);
+          const title = titleMatch ? titleMatch[1].trim() : text.substring(0, 50);
+          // Rest als Beschreibung
+          const desc = titleMatch ? text.substring(titleMatch[0].length).trim() : '';
+          // Originales HTML der <li> nutzen, aber als <p> konvertieren
+          const content = li.replace(/<\/?li[^>]*>/gi, '').trim();
+          return `<div class="price-card"><h3>${title}</h3><p>${desc || content}</p></div>`;
+        });
+        // Vorhandene Karten behalten und neue anhängen
+        wrapped = wrapped + liCards.join('\n');
+        // Originale <ul> entfernen aus wrapped
+        wrapped = wrapped.replace(/<ul[^>]*>[\s\S]*?<\/ul>/gi, '');
+      }
+    }
+
+    if (wrapped.includes('price-card')) {
+      html = html.substring(0, priceHeading.endIdx)
+        + '<div class="price-grid">' + wrapped + '</div>'
+        + html.substring(priceHeading.endIdx + sectionLen);
+    }
+  }
+
+  // === A2: Font Awesome Icons → Emoji ===
+  html = html
+    .replace(/<i\s+class="fas fa-magic"><\/i>/gi, '🪄')
+    .replace(/<i\s+class="far fa-smile"><\/i>/gi, '😊')
+    .replace(/<i\s+class="fas fa-star"><\/i>/gi, '⭐')
+    .replace(/<i\s+class="fas fa-heart"><\/i>/gi, '❤️')
+    .replace(/<i\s+class="fas fa-check"><\/i>/gi, '✅');
+
+  // === A3: FAQ-Karten (Bold-Fragen in Anführungszeichen) ===
+  // Pattern 1: „Frage?" + Antwort im selben <p> (Essen-Style)
+  html = html.replace(
+    /<p([^>]*)><strong>\u201E([^<]*\?)\u201C<\/strong><br\s*\/?>\s*([\s\S]*?)<\/p>/gi,
+    '<div class="faq-card"><p$1><strong>\u201E$2\u201C</strong><br>$3</p></div>'
+  );
+  html = html.replace(
+    /<p([^>]*)><strong>„([^<]*\?)"<\/strong><br\s*\/?>\s*([\s\S]*?)<\/p>/gi,
+    '<div class="faq-card"><p$1><strong>„$2"</strong><br>$3</p></div>'
+  );
+
+  // Pattern 2: ❓ Frage? in eigenem <p> + Antwort in nächstem <p> (Gelsenkirchen-Style)
+  html = html.replace(
+    /<p([^>]*)>❓\s*([^<]*\?)<\/p>\s*<p([^>]*)>([\s\S]*?)<\/p>/gi,
+    '<div class="faq-card"><p$1><strong>„$2"</strong><br>$4</p></div>'
+  );
+
+  // === A4: KONTAKTFORMULAR-Buttons entfernen (WordPress-Überbleibsel) ===
+  html = html.replace(
+    /<div\s+class="wp-block-button[^"]*"[^>]*>\s*<a[^>]*>KONTAKTFORMULAR<\/a>\s*<\/div>/gi,
+    ''
+  );
+
+  // === A4b: "-----" Trenner entfernen (WordPress-Überbleibsel nach KONTAKTFORMULAR) ===
+  html = html.replace(/<p[^>]*>\s*_{3,}\s*<\/p>/gi, '');
+
+  // === A4c: Kaputte Kontakt-Buttons mit Anker-Links entfernen ===
+  html = html.replace(
+    /<div\s+class="wp-block-button[^"]*"[^>]*>\s*<a[^>]*href="#[^"]*"[^>]*>[^<]*(?:Kontakt|kontakt)[^<]*<\/a>\s*<\/div>/gi,
+    ''
+  );
+
+  // === A5: **bold** Markdown-Marker → HTML <strong> konvertieren ===
+  // WordPress-Seiten (Moers, Herne, Marl, Mülheim, Herten, Haltern) haben rohe **text** Marker.
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+  // === A6: <details>/<summary> FAQ schöner stylen ===
+  // Einige Seiten (Haltern, Düsseldorf, Castrop-Rauxel, Moers) nutzen details/summary.
+  // Wir fügen CSS-Klassen hinzu für konsistentes faq-card-ähnliches Styling.
+  html = html.replace(/<details/g, '<details class="city-faq-item"');
+  html = html.replace(/<summary/g, '<summary class="city-faq-summary"');
+
+  // === A7: Inline-Styles auf Bildern entfernen (width:XXXpx constraints) ===
+  // WordPress setzt fixe Inline-Styles die zu kleinen Bildern auf Desktop führen.
+  html = html.replace(/(<img[^>]*?)style="[^"]*width:\s*\d+px[^"]*"/gi, '$1');
+  // Auch figure-Level Inline-Styles mit width
+  html = html.replace(/(<figure[^>]*?)style="[^"]*width:\s*\d+px[^"]*"/gi, '$1');
+
+  // === A8: Dunkle Sektionen abwechselnd Blau/Rot markieren ===
+  // CSS-Sibling-Selektoren funktionieren nicht, da Sektionen nicht immer Geschwister sind.
+  // Deshalb: build-time Klassen hinzufügen (dark-blue / dark-red abwechselnd).
+  let colorIdx = 0;
+  html = html.replace(/class="([^"]*\bhas-dark-bg\b[^"]*)"/gi, (match, classes) => {
+    const colorClass = colorIdx % 2 === 0 ? 'dark-blue' : 'dark-red';
+    colorIdx++;
+    return `class="${classes} ${colorClass}"`;
+  });
+
+  return html;
+}
+
+function stripInlineGradients(html: string): string {
+  // Entferne ALLE inline background-gradients aus dem gescrapten HTML.
+  // WordPress setzt bunte Gradients auf Container, Sections und Spalten,
+  // die zwischen Sektionen durchscheinen und das Design-System brechen.
+  // Der Client-JS fügt gezielt nur die gewünschten Gradients zurück.
+  return html.replace(
+    /(<(?:div|section)[^>]*?)\s*style="([^"]*)"/gi,
+    (match, tag, style) => {
+      if (!style.includes('gradient') && !style.includes('background')) return match;
+      // Entferne background gradient declarations und einfarbige backgrounds
+      const cleaned = style
+        .replace(/background(?:-image)?:\s*linear-gradient\([^)]+\)[^;]*;?/gi, '')
+        .replace(/background(?:-color)?:\s*rgb\([^)]+\)[^;]*;?/gi, '')
+        .replace(/background(?:-color)?:\s*#[0-9a-fA-F]{3,8}[^;]*;?/gi, '')
+        .trim();
+      return cleaned ? `${tag} style="${cleaned}"` : tag;
+    }
+  );
+}
+
+const rawScraped: string | null = scraped[pageSlug]?.scrapedHtml ?? null;
+let _processedScraped: string | null = rawScraped ? fixVideoEmbeds(fixBrokenLinks(fixLazyImages(rawScraped))) : null;
+// Für City-Pages: Alle inline-Gradients entfernen (Client-JS setzt eigene)
+if (_processedScraped && (pageSlug.startsWith('geburtstag-in-') || pageSlug.startsWith('kinderzauberer-in-') || pageSlug.startsWith('clown-in-'))) {
+  _processedScraped = stripInlineGradients(_processedScraped);
+}
+
+// === Gelsenkirchen-spezifisch: Zwei Bilder tauschen ===
+// Bild 1 (Intro "Von Buer bis Horst"): Geburtstag-mit-dem-Clown (Portrait) → soll Zaubershow-Bild werden
+// Bild 2 (Zaubershow-Beschreibung): Clown-Zauberer-mit-Zaubershow (Querformat) → soll Geburtstag-Bild werden
+if (_processedScraped && pageSlug === 'geburtstag-in-gelsenkirchen') {
+  const img1Src = 'https://liar-entertainer.com/wp-content/uploads/2023/08/Geburtstag-mit-dem-Clown-768x1024.jpg';
+  const img2Src = 'https://liar-entertainer.com/wp-content/uploads/2023/08/Clown-Zauberer-mit-Zaubershow.jpg';
+  // Temporärer Platzhalter für den Tausch
+  _processedScraped = _processedScraped
+    .replace(new RegExp(img1Src.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '__TEMP_IMG_SWAP__')
+    .replace(new RegExp(img2Src.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), img1Src)
+    .replace(/__TEMP_IMG_SWAP__/g, img2Src);
+  // Auch Optimole-URL des zweiten Bildes behandeln
+  _processedScraped = _processedScraped
+    .replace(/mlwwlszqtwuz\.i\.optimole\.com\/w:\d+\/h:\d+\/q:mauto\/f:avif\/https:\/\/liar-entertainer\.com\/wp-content\/uploads\/2023\/08\/Clown-Zauberer-mit-Zaubershow/g,
+      'liar-entertainer.com/wp-content/uploads/2023/08/Clown-Zauberer-mit-Zaubershow');
+  // Beide getauschte Bilder mit Klasse für konsistente Höhe markieren
+  _processedScraped = _processedScraped
+    .replace(/(class="wp-image-1077[^"]*")/g, '$1 data-swap="true"')
+    .replace(/(class="wp-image-304[^"]*")/g, '$1 data-swap="true"');
+  // Inline-Styles entfernen (CSS übernimmt via data-swap Attribut)
+  _processedScraped = _processedScraped
+    .replace(/style="object-fit:cover;width:352px;height:492px"/g, '')
+    .replace(/style="object-fit:cover;width:358px;height:269px"/g, '');
+
+  // === Gelsenkirchen: Preis-Sektion komplett ersetzen ===
+  // Die 2-Spalten-WordPress-Struktur macht das Regex-Matching unmöglich.
+  // Deshalb: den gesamten Block zwischen H2 "PREISE" und nächstem </section> durch
+  // handstrukturierte Preis-Karten ersetzen.
+  const priceH2Match = _processedScraped.match(/<h2[^>]*>[^<]*PREISE F(?:Ü|U)R GELSENKIRCHEN[^<]*<\/h2>/i);
+  if (priceH2Match) {
+    const priceH2Idx = priceH2Match.index!;
+    // Finde das Ende der Section (nächstes </section> nach dem H2)
+    const afterH2 = _processedScraped.substring(priceH2Idx);
+    const sectionEndMatch = afterH2.match(/<\/section>/i);
+    const sectionEndIdx = sectionEndMatch ? priceH2Idx + sectionEndMatch.index! : priceH2Idx + 5000;
+
+    const newPriceSection = `
+      <h2 class="wp-block-heading has-text-align-center" style="color:#fff">PREISE FÜR GELSENKIRCHEN</h2>
+      <div class="price-grid">
+        <div class="price-card">
+          <h3>🎭 Zaubershow: 150 €</h3>
+          <p>40 Minuten voller Zauber, Lachen und Staunen</p>
+          <p>✓ Komplette interaktive Zaubershow<br>
+          ✓ Bis zu 12 Kinder (mehr nach Absprache)<br>
+          ✓ Geburtstagskind steht im Mittelpunkt<br>
+          ✓ Gesamtes Material & Equipment<br>
+          ✓ Flexibel: drinnen oder draußen<br>
+          ✓ Festpreis – Samstag wie Mittwoch!</p>
+        </div>
+        <div class="price-card">
+          <h3>🚗 Fahrtkosten: nur 10–20 €</h3>
+          <p>Kurze Anfahrt aus dem benachbarten Gladbeck (0,40 €/km):</p>
+          <p>• Buer: ca. 10 € • Horst: ca. 10 €<br>
+          • Erle: ca. 10 € • Schalke: ca. 10 €<br>
+          • Ückendorf: ca. 12 € • Bismarck: ca. 10 €</p>
+          <p><em>Ihr Vorteil: Durch die Nähe zu Gladbeck zahlen Sie deutlich weniger als Familien in weiter entfernten Städten!</em></p>
+        </div>
+        <div class="price-card">
+          <h3>✨ Optionale Extras</h3>
+          <p>🎈 <strong>Ballonmodellage:</strong> +20 €<br>
+          ca. 15 Minuten, 1 Ballon pro Kind</p>
+          <p>💎 <strong>Glitzer-Tattoos:</strong> +40 €<br>
+          ca. 30 Minuten, 1 Tattoo pro Kind</p>
+        </div>
+      </div>`;
+
+    _processedScraped = _processedScraped.substring(0, priceH2Idx)
+      + newPriceSection
+      + _processedScraped.substring(sectionEndIdx);
+  }
+}
+
+// === Waltrop: Pre-Processing — Layout-Verbesserungen ===
+if (_processedScraped && pageSlug === 'geburtstag-in-waltrop') {
+  // W1: Intro-Paragraph aus der twoOne-Sektion extrahieren → volle Breite
+  // Der erste <p> vor der H2 "Professionelle Kinderunterhaltung" soll vor die 2-Spalten-Sektion
+  const introMatch = _processedScraped.match(/<p>(Ein <a href="\/kindergeburtstag\/">Kindergeburtstag<\/a> in Waltrop[\s\S]*?)<\/p>/i);
+  const twoOneMatch = _processedScraped.match(/<section[^>]*has-2-columns\s+has-desktop-twoOne-layout[^>]*>/i);
+  if (introMatch && twoOneMatch) {
+    // Entferne den Intro-Paragraph aus seinem aktuellen Platz
+    _processedScraped = _processedScraped.replace(introMatch[0], '');
+    // Finde die twoOne-Section erneut (Position hat sich verschoben)
+    const twoOneMatch2 = _processedScraped.match(/<section[^>]*has-2-columns\s+has-desktop-twoOne-layout[^>]*>/i);
+    if (twoOneMatch2) {
+      const insertIdx = _processedScraped.indexOf(twoOneMatch2[0]);
+      _processedScraped = _processedScraped.substring(0, insertIdx)
+        + `<div class="waltrop-intro-fullwidth"><p>${introMatch[1]}</p></div>`
+        + _processedScraped.substring(insertIdx);
+    }
+  }
+
+  // W2: Pricing bleibt in der dark-bg Section, wird aber als weiße Karte dargestellt
+  // (CSS via .waltrop-pricing-section: white background, rounded corners)
+}
+
+// === Haltern am See: Preis-Sektion + 3 Bilder komplett entfernen ===
+if (_processedScraped && pageSlug === 'geburtstag-in-haltern-am-see') {
+  // Die gesamte <section> mit "Preise für den Geburtstag in Haltern am See" entfernen.
+  // Sie ist eine .has-dark-bg Section mit H2, Preis-Karten und 3 Bildern.
+  _processedScraped = _processedScraped.replace(
+    /<section[^>]*class="[^"]*has-dark-bg[^"]*"[^>]*>[\s\S]*?Preise f(?:ü|u)r den Geburtstag in Haltern[\s\S]*?<\/section>/i,
+    ''
+  );
+}
+
+const _isCitySlug = pageSlug.startsWith('geburtstag-in-') || pageSlug.startsWith('kinderzauberer-in-') || pageSlug.startsWith('clown-in-');
+
+let scrapedContent: string | null = _processedScraped && _isCitySlug
+  ? stylizeCityContent(_processedScraped)
+  : _processedScraped;
+
+// === Post-stylize: Doppelte Preissektionen entfernen ===
+// Wenn price-grid existiert UND es noch einen ungestylten "Die Preise"/"ZAUBERSHOW"/"40 Minuten" Block gibt,
+// entferne die gesamte Section die den ungestylten Block enthält
+if (scrapedContent && scrapedContent.includes('price-grid') && scrapedContent.includes('price-card')) {
+  // Pattern: Section mit "Die Preise" + "ZAUBERSHOW" + "40 Minuten" als Text (NICHT in price-card)
+  // Entferne die section, die "Die Preise" als Überschrift enthält und KEINE price-card hat
+  // Typisch: <section ...has-1-columns...>...<strong>Die Preise</strong>...<h3>ZAUBERSHOW</h3>...40 Minuten...</section>
+  scrapedContent = scrapedContent.replace(
+    /<section[^>]*class="[^"]*has-1-columns[^"]*"[^>]*>(?:(?!<\/section>)[\s\S])*?(?:Die Preise|ZAUBERSHOW)(?:(?!<\/section>)[\s\S])*?(?:40 Minuten|Festpreis)(?:(?!<\/section>)[\s\S])*?<\/section>/gi,
+    (match) => {
+      // Nur entfernen wenn KEIN price-card drin ist
+      if (match.includes('price-card')) return match;
+      return '';
+    }
+  );
+  // Pattern B: wp-block-group mit "Die Preise" + "ZAUBERSHOW" (einige Seiten nutzen div statt section)
+  scrapedContent = scrapedContent.replace(
+    /<div[^>]*class="[^"]*wp-block-group[^"]*"[^>]*>(?:(?!<\/section>|<section)[\s\S])*?(?:Die Preise|ZAUBERSHOW)(?:(?!<\/section>|<section)[\s\S])*?(?:40 Minuten|Festpreis)[\s\S]*?(?:<\/div>\s*){2,5}/gi,
+    (match) => {
+      if (match.includes('price-card')) return match;
+      // Nur kurze Matches (< 3000 chars) entfernen um nicht zu viel Content zu löschen
+      if (match.length > 3000) return match;
+      return '';
+    }
+  );
+  // Pattern C: Für Seiten wie Wesel/Xanten mit "Im Festpreis enthalten/inbegriffen" als zweite Preis-H2
+  scrapedContent = scrapedContent.replace(
+    /<section[^>]*class="[^"]*has-1-columns[^"]*"[^>]*>(?:(?!<\/section>)[\s\S])*?Im Festpreis (?:enthalten|inbegriffen)(?:(?!<\/section>)[\s\S])*?<\/section>/gi,
+    (match) => {
+      if (match.includes('price-card')) return match;
+      return '';
+    }
+  );
+}
+
+// === Post-stylize: Einheitliche 3-Spalten Preiskarten auf ALLEN Seiten ===
+// Ersetze den Inhalt jedes price-grid durch die 3 Standard-Karten (Zaubershow, Ballonmodellage, Glitzer-Tattoos)
+if (scrapedContent && scrapedContent.includes('price-grid') && _isCitySlug) {
+  const standardPriceCards = `
+    <div class="price-card"><h3>🎩 Zaubershow</h3>
+      <p class="price-amount">150 €</p>
+      <p>✓ 40 Minuten voller Zauber, Lachen und Staunen</p>
+      <p>✓ Bis ca. 12 Kinder – Mindestalter: 4 Jahre</p>
+      <p>✓ Inkl. Material</p>
+      <p>✓ Das Geburtstagskind steht immer im Mittelpunkt</p>
+      <p>✓ zzgl. Fahrtkosten (0,40€/km, Hin- &amp; Rückfahrt) ab Gladbeck</p>
+      <p><em>Direkt ab der ersten Minute nimmt die Show die kleinen Gäste mit auf eine fantasievolle Reise!</em></p>
+    </div>
+    <div class="price-card"><h3>🎈 Luftballonmodellage</h3>
+      <p class="price-amount">+ 20 €</p>
+      <p>✓ Für jedes Kind 1 Ballon</p>
+      <p>✓ Ca. 15 Minuten</p>
+      <p>✓ Tolle Erinnerung zum Mitnehmen</p>
+      <p>✓ Große Auswahl an Figuren: Hund, Schwert, Blume u.v.m.</p>
+      <p>✓ Perfekte Ergänzung zur Zaubershow</p>
+      <p><em>Ob Schwerter, Hunde oder Blumen – die Kinder staunen, wenn aus einem Ballon ihre Wunschfigur entsteht!</em></p>
+    </div>
+    <div class="price-card"><h3>✨ Glitzer-Tattoos</h3>
+      <p class="price-amount">+ 40 €</p>
+      <p>✓ Für jedes Kind 1 Tattoo</p>
+      <p>✓ Ca. 30 Minuten</p>
+      <p>✓ Hautverträglich & langanhaltend</p>
+      <p>✓ Viele Motive: Einhörner, Schmetterlinge, Sterne u.v.m.</p>
+      <p>✓ Hält mehrere Tage auf der Haut</p>
+      <p><em>Ein funkelndes Highlight, das die Kinder noch Tage nach der Feier begeistert!</em></p>
+    </div>`;
+
+  // Ersetze den gesamten price-grid Block durch die Standard-Karten
+  // Finde den price-grid Div und sein korrektes schließendes </div> (mit div-Tiefe)
+  const pgIdx = scrapedContent.indexOf('class="price-grid');
+  if (pgIdx >= 0) {
+    // Finde den Anfang des <div
+    const divStart = scrapedContent.lastIndexOf('<div', pgIdx);
+    // Finde das korrekte schließende </div> mit Tiefenzählung
+    let depth = 0;
+    let i = divStart;
+    let found = false;
+    while (i < scrapedContent.length) {
+      const nextOpen = scrapedContent.indexOf('<div', i + 1);
+      const nextClose = scrapedContent.indexOf('</div>', i + 1);
+      if (nextClose < 0) break;
+      if (i === divStart) { depth = 1; i = divStart + 4; continue; }
+      if (nextOpen >= 0 && nextOpen < nextClose) {
+        depth++;
+        i = nextOpen + 4;
+      } else {
+        depth--;
+        if (depth === 0) {
+          const endIdx = nextClose + 6; // '</div>'.length
+          // Ersetze den gesamten price-grid Block
+          const openTag = '<div class="price-grid">';
+          scrapedContent = scrapedContent.substring(0, divStart)
+            + openTag + standardPriceCards + '</div>'
+            + scrapedContent.substring(endIdx);
+          found = true;
+          break;
+        }
+        i = nextClose + 6;
+      }
+    }
+  }
+}
+
+// === Post-stylize: 2-Spalten Layout-Fixes ===
+// CSS-basierter Ansatz: Bild-Spalte sticky machen, damit der Weißraum minimiert wird
+
+// === Post-stylize: Bochum – erste Einsatzgebiet-Sektion entfernen ===
+if (scrapedContent && pageSlug === 'geburtstag-in-bochum') {
+  // Entferne die ERSTE Einsatzgebiet-Sektion (es gibt zwei, die zweite am Ende bleibt)
+  const einsatzMatch = scrapedContent.match(/<section[^>]*>[\s\S]*?Einsatzgebiet[\s\S]*?<\/section>/i);
+  if (einsatzMatch) {
+    scrapedContent = scrapedContent.replace(einsatzMatch[0], '');
+  }
+}
+
+// === Post-stylize: Bottrop – Einsatzgebiet-Sektion + Stats-Banner entfernen ===
+if (scrapedContent && pageSlug === 'geburtstag-in-bottrop') {
+  // Entferne die fehlerhaft dargestellte Einsatzgebiet-Sektion
+  scrapedContent = scrapedContent.replace(
+    /<section[^>]*>[\s\S]*?Einsatzgebiet[\s\S]*?<\/section>/i,
+    ''
+  );
+  // Entferne den originalen Stats-Banner (dark-red has-3-columns) aus dem HTML
+  // Er wird per Client-JS als neuer, sauberer Banner wieder eingefügt
+  scrapedContent = scrapedContent.replace(
+    /<div[^>]*class="[^"]*dark-red[^"]*"[^>]*>[\s\S]*?<\/div>(?=\s*<section|\s*<h[23]|\s*<div[^>]*class="[^"]*alignfull)/i,
+    ''
+  );
+}
+
+// === Post-stylize: Datteln – Einsatzgebiet-Sektion entfernen ===
+if (scrapedContent && pageSlug === 'geburtstag-in-datteln') {
+  // Entferne die fehlerhafte Einsatzgebiet-Sektion vor "Ausgezeichnet"
+  scrapedContent = scrapedContent.replace(
+    /<section[^>]*>[\s\S]*?Einsatzgebiet[\s\S]*?<\/section>/i,
+    ''
+  );
+}
+
+// === Post-stylize: Bottrop-spezifische Anpassungen ===
+// Bottrop wird komplett per Client-JS gefixt (siehe Script-Block unten)
+
+// === Post-stylize: Castrop-Rauxel-spezifische Anpassungen ===
+if (scrapedContent && pageSlug === 'geburtstag-in-castrop-rauxel') {
+  // CR2: Abstände nach "Sie sind gestresst" reduzieren
+  scrapedContent = scrapedContent.replace(
+    /(<\/p>\s*)((?:<br\s*\/?>|\s|&nbsp;)*?)(\s*<figure)/gi,
+    '$1$3'
+  );
+}
+
+// === Post-stylize: Oberhausen-spezifische Anpassungen ===
+if (scrapedContent && pageSlug === 'geburtstag-in-oberhausen') {
+  // O2: Preis-Grid auf 2 Spalten (statt 4)
+  scrapedContent = scrapedContent.replace(
+    /class="price-grid"/g,
+    'class="price-grid price-grid-2col"'
+  );
+
+  // O3: "Perfekt zugeschnitten" blaue Sektion: aus dem price-grid herausnehmen
+  // und als eigenständige volle-Breite-Sektion mit 2 Feature-Karten nebeneinander darstellen.
+  // Die Section steckt im WordPress-Content verschachtelt und wird per Client-JS repositioniert.
+  // Hier markieren wir sie nur mit einer speziellen Klasse.
+  scrapedContent = scrapedContent.replace(
+    /(<section[^>]*class="[^"]*)(alignfull[^"]*has-1-columns[^"]*"[^>]*>[\s\S]*?Perfekt zugeschnitten)/i,
+    '$1perfekt-section $2'
+  );
+}
+
+// === Post-stylize: Castrop-Rauxel-spezifische Anpassungen ===
+if (scrapedContent && pageSlug === 'geburtstag-in-castrop-rauxel') {
+  // CR1: "So läuft meine Show" zentrieren (egal ob h2, h3, strong)
+  scrapedContent = scrapedContent.replace(
+    /(<(?:h2|h3|strong)[^>]*>)([\s\S]*?So läuft meine Show[\s\S]*?)(<\/(?:h2|h3|strong)>)/i,
+    (match, open, content, close) => {
+      if (!open.includes('text-align')) {
+        return open.replace('>', ' style="text-align:center;display:block;">') + content + close;
+      }
+      return match;
+    }
+  );
+
+  // CR2: Abstände zwischen Text und Bildern reduzieren (leere Absätze und <br> entfernen)
+  scrapedContent = scrapedContent.replace(/<p>\s*(&nbsp;|\s)*<\/p>/gi, '');
+  scrapedContent = scrapedContent.replace(/(<\/p>)\s*(<br\s*\/?>)+\s*(<figure|<div class="wp-block-image)/gi, '$1$3');
+}
+
+// === Post-stylize: Waltrop-spezifische Anpassungen ===
+if (scrapedContent && pageSlug === 'geburtstag-in-waltrop') {
+  // W5: "Im Festpreis enthalten" Inhalt in die erste Preis-Karte integrieren
+  const festpreisMatch = scrapedContent.match(/<div class="price-card">\s*<h3>[^<]*Im Festpreis enthalten[^<]*<\/h3>([\s\S]*?)<\/div>/i);
+  if (festpreisMatch) {
+    const festpreisContent = festpreisMatch[1];
+    scrapedContent = scrapedContent.replace(festpreisMatch[0], '');
+    const firstCardEnd = scrapedContent.match(/<div class="price-card">[\s\S]*?<\/div>/i);
+    if (firstCardEnd) {
+      const insertIdx = scrapedContent.indexOf(firstCardEnd[0]) + firstCardEnd[0].length - 6;
+      scrapedContent = scrapedContent.substring(0, insertIdx)
+        + `<hr style="border:none;border-top:1px solid #eee;margin:0.75rem 0"><p style="font-weight:600;color:#3b55d5;margin-bottom:0.25rem">Im Festpreis enthalten:</p>${festpreisContent}`
+        + scrapedContent.substring(insertIdx);
+    }
+  }
+
+  // W6: Pricing-Bereich visuell aufwerten (jetzt auf hellem Hintergrund)
+  // Finde den exakten H2 der "Ehrliche Preise" enthält (indexOf statt [\s\S]*? Regex)
+  const ehrlicheIdx = scrapedContent.indexOf('Ehrliche Preise');
+  if (ehrlicheIdx > -1) {
+    const h2Start = scrapedContent.lastIndexOf('<h2', ehrlicheIdx);
+    const h2End = scrapedContent.indexOf('</h2>', ehrlicheIdx);
+    if (h2Start > -1 && h2End > -1) {
+      const preisH2 = scrapedContent.substring(h2Start, h2End + 5);
+      const preisIdx = h2Start;
+      const afterPreisH2 = scrapedContent.substring(preisIdx);
+      const priceGridPos = afterPreisH2.indexOf('class="price-grid"');
+      if (priceGridPos > -1) {
+        // Finde das schließende </div> des price-grid (zähle open/close div Tags)
+        const gridDivStart = afterPreisH2.lastIndexOf('<div', priceGridPos);
+        let depth = 0;
+        let gridEndIdx = -1;
+        const searchStr = afterPreisH2.substring(gridDivStart);
+        const divRegex = /<\/?div[^>]*>/gi;
+        let dm;
+        while ((dm = divRegex.exec(searchStr)) !== null) {
+          if (dm[0].startsWith('</')) depth--;
+          else depth++;
+          if (depth === 0) {
+            gridEndIdx = gridDivStart + dm.index + dm[0].length;
+            break;
+          }
+        }
+        if (gridEndIdx > -1) {
+          const pricingBlock = afterPreisH2.substring(0, gridEndIdx);
+          scrapedContent = scrapedContent.substring(0, preisIdx)
+            + `<div class="waltrop-pricing-section">${pricingBlock}</div>`
+            + scrapedContent.substring(preisIdx + gridEndIdx);
+        }
+      }
+    }
+  }
+
+  // W7: CTA-Bereich "unvergesslich machen" — H3 → H2 Upgrade
+  scrapedContent = scrapedContent.replace(
+    /<h3([^>]*)>([\s\S]*?Kindergeburtstag in Waltrop unvergesslich[\s\S]*?)<\/h3>/i,
+    '<h2$1>$2</h2>'
+  );
+}
+
+// === HTML-Tag-Balancierung: Offene <div>-Tags schließen ===
+// Gescraptes WP-HTML hat oft ungeschlossene <div>-Tags, die dazu führen,
+// dass nachfolgende Astro-Sektionen (GoogleReviews, CTA, Kontakt-Footer)
+// vom Browser als Kinder des nicht geschlossenen Divs interpretiert werden.
+if (scrapedContent) {
+  const openDivs = (scrapedContent.match(/<div[\s>]/gi) || []).length;
+  const closeDivs = (scrapedContent.match(/<\/div>/gi) || []).length;
+  const unclosed = openDivs - closeDivs;
+  if (unclosed > 0) {
+    scrapedContent += '</div>'.repeat(unclosed);
+  }
+}
+
+const fixedPageContent: string | null = page.content ? fixVideoEmbeds(fixBrokenLinks(page.content)) : null;
+const seoTitle = resolveTitle(page.meta.rank_math_title, page.title);
+const rawDesc = (
+  (page.meta?.rank_math_description || '').trim() ||
+  ((page.excerpt || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()) ||
+  ((page.content || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim())
+).substring(0, 160)
+  .replace(/DER französischer/g, 'DER französische')
+  .replace(/der französischer/g, 'der französische')
+  .replace(/der niveauvoller/g, 'der niveauvolle');
+const heroImg = SVC[pageSlug] ?? getFirstImg(page.content) ?? 'https://liar-entertainer.com/wp-content/uploads/2023/08/Clown-Zauberer-mit-Zaubershow.jpg';
+const canonicalUrl = `https://liar-entertainer.com/${slug}/`;
+
+const isCityPage = pageSlug.startsWith('kinderzauberer-in-') || pageSlug.startsWith('geburtstag-in-') || pageSlug.startsWith('clown-in-');
+const cityName = isCityPage ? pageSlug.replace(/^(kinderzauberer-in-|geburtstag-in-|clown-in-)/, '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : null;
+const isBlogPost = page.type === 'post';
+const isGeburtstagsSeite = pageSlug.startsWith('geburtstag-in-');
+
+// --- Keywords generieren ---
+const focusKeyword = page.meta?.rank_math_focus_keyword || '';
+// Umlaut-Mapping für Stadtnamen aus Slugs
+const umlautMap: Record<string, string> = {
+  'Duesseldorf': 'Düsseldorf', 'Muelheim': 'Mülheim',
+  'Haltern Am See': 'Haltern am See', 'Castrop Rauxel': 'Castrop-Rauxel',
+};
+const displayCity = cityName ? (umlautMap[cityName] || cityName) : null;
+
+// --- Hero-Inhalte pro Kategorie ---
+// Original-H1-Titel von der Live-Seite liar-entertainer.com
+const originalH1: Record<string, string> = {
+  // Kindergeburtstag
+  'geburtstag-in-essen': 'Geburtstag in Essen: Echter Pott-Zauber für Ihre Feier',
+  'geburtstag-in-dortmund': 'Geburtstag in Dortmund: Der Guide für Eltern in der Großstadt',
+  'geburtstag-in-oberhausen': 'Geburtstag in Oberhausen feiern – Clown Zauberer LIAR macht\'s unvergesslich!',
+  'geburtstag-in-bottrop': 'Geburtstag in Bottrop feiern – Clown Zauberer für magische Momente',
+  'geburtstag-in-gelsenkirchen': 'Geburtstag in Gelsenkirchen',
+  'geburtstag-in-duisburg': 'Geburtstag in Duisburg',
+  'geburtstag-in-bochum': 'Geburtstag in Bochum – Clown & Zauberer für unvergessliche Momente',
+  'geburtstag-in-castrop-rauxel': 'Kindergeburtstag in Castrop-Rauxel – Witzig & Magisch!',
+  'geburtstag-in-moers': 'Geburtstag in Moers',
+  'geburtstag-in-wesel': 'Geburtstag in Wesel',
+  'geburtstag-in-xanten': 'Geburtstag in Xanten',
+  'geburtstag-in-waltrop': 'Geburtstag in Waltrop',
+  'geburtstag-in-datteln': 'Geburtstag in Datteln',
+  'geburtstag-in-haltern-am-see': 'Geburtstag in Haltern am See',
+  'geburtstag-in-herne': 'Geburtstag in Herne',
+  'geburtstag-in-herten': 'Geburtstag in Herten',
+  'geburtstag-in-marl': 'Geburtstag in Marl',
+  'geburtstag-in-gladbeck': 'Geburtstag in Gladbeck',
+  'geburtstag-in-duesseldorf': 'Geburtstag in Düsseldorf',
+  'geburtstag-in-recklinghausen': 'Geburtstag in Recklinghausen',
+  'geburtstag-in-dinslaken': 'Geburtstag in Dinslaken',
+  'geburtstag-in-dorsten': 'Geburtstag in Dorsten',
+  'geburtstag-in-muelheim': 'Geburtstag in Mülheim',
+  // Kinderzauberer
+  'kinderzauberer-in-essen': 'Kinderzauberer in Essen buchen 🎩 – Fantastische Momente für Ihre Kleinen',
+  'kinderzauberer-in-dortmund': 'Kinderzauberer in Dortmund – Magische Shows für Ihr Event',
+  'kinderzauberer-in-duisburg': 'Kinderzauberer in Duisburg buchen – Die lustigste Show in NRW',
+  'kinderzauberer-in-gelsenkirchen': 'Kinderzauberer in Gelsenkirchen buchen | Beste Bewertungen',
+  'kinderzauberer-in-bochum': 'Kinderzauberer in Bochum – Zaubershow für Kindergeburtstag & Events',
+  'kinderzauberer-in-oberhausen': 'Kinderzauberer in Oberhausen',
+  'kinderzauberer-in-bottrop': 'Kinderzauberer in Bottrop buchen – Zaubershow für Kindergeburtstag & Events',
+  'kinderzauberer-in-herne': 'Kinderzauberer in Herne buchen – Unvergessliche Zaubershow für Ihr Event',
+  'kinderzauberer-in-haltern': 'Buchen Sie DEN Kinderzauberer in Haltern am See',
+  'kinderzauberer-in-marl': 'Kinderzauberer in Marl – TOP Zaubershow',
+  'kinderzauberer-in-recklinghausen': 'Kinderzauberer in Recklinghausen',
+  'kinderzauberer-in-moers': 'Kinderzauberer in Moers',
+  'kinderzauberer-in-duesseldorf': 'TOP Show mit Kinderzauberer in Düsseldorf buchen',
+  'kinderzauberer-in-dinslaken': 'Kinderzauberer in Dinslaken gesucht? TOP Zaubershow',
+  'kinderzauberer-in-dorsten': 'Kinderzauberer in Dorsten buchen – Zaubershow, Ballonmodellage & mehr',
+  'kinderzauberer-in-muelheim': 'Kinderzauberer in Mülheim mit TOP Bewertungen',
+  'kinderzauberer-in-herten': 'Kinderzauberer in Herten buchen | Erlebnis-Show für Kinder',
+  'kinderzauberer-in-datteln': 'Kinderzauberer in Datteln buchen | Zaubershow für Ihr Event',
+  // Clown
+  'clown-in-essen': 'Clown in Essen ⭐ | Shows & Events | TOP bewertet | Magie pur',
+  'clown-in-dortmund': 'Clown in Dortmund – LIAR | Kindergeburtstag & Events',
+  'clown-in-duisburg': 'Clown in Duisburg',
+  'clown-in-gelsenkirchen': 'TOP Clown in Gelsenkirchen – LIAR | Shows & Zauberkunst',
+  'clown-in-bochum': 'Clown in Bochum',
+  'clown-in-oberhausen': 'Clown in Oberhausen',
+  'clown-in-bottrop': 'Clown in Bottrop',
+  'clown-in-gladbeck': 'Clown in Gladbeck buchen – Unvergessliche Kinderunterhaltung',
+  'clown-in-haltern': 'Clown in Haltern am See buchen – Kinderunterhaltung',
+  'clown-in-herne': 'Clown in Herne mit TOP Bewertungen',
+  'clown-in-marl': 'Clown in Marl | Zaubershow & Walk Act',
+  'clown-in-recklinghausen': 'Clown Recklinghausen – Ruhrfestspiele & Kultur | TOP',
+  'clown-in-duesseldorf': 'Clown Düsseldorf – LIAR | Profi-Shows & Magie',
+  'clown-in-dinslaken': 'Clown in Dinslaken – LIAR buchen | Zaubershow & Clownerie',
+  'clown-in-dorsten': 'Clown Dorsten – LIAR | Show, Magie & Clownerie',
+  'clown-in-muelheim': 'Clown in Mülheim – Kindershow TOP',
+  'clown-in-herten': 'Clown in Herten',
+  'clown-in-datteln': 'Clown in Datteln – Zauberspaß & gute Laune für Dein Event',
+};
+
+let heroTitle = '';
+let heroSubtitle = '';
+let heroBreadcrumbParent = { label: '', href: '' };
+
+// Verwende Original-H1-Titel wenn vorhanden, sonst generischen Fallback
+const originalTitle = originalH1[pageSlug];
+
+if (isGeburtstagsSeite && displayCity) {
+  heroTitle = originalTitle || `Geburtstag in ${displayCity}`;
+  heroSubtitle = 'Unvergessliche Kindergeburtstage mit Clown Zauberer LIAR – Lachen, Staunen und pure Magie!';
+  heroBreadcrumbParent = { label: 'Kindergeburtstag', href: '/kindergeburtstag/' };
+} else if (pageSlug.startsWith('kinderzauberer-in-') && displayCity) {
+  heroTitle = originalTitle || `Kinderzauberer in ${displayCity}`;
+  heroSubtitle = `Magische Zaubershow für Kinder in ${displayCity} – Staunen, Lachen und unvergessliche Momente!`;
+  heroBreadcrumbParent = { label: 'Kinderzauberer', href: '/kinderzauberer/' };
+} else if (pageSlug.startsWith('clown-in-') && displayCity) {
+  heroTitle = originalTitle || `Clown in ${displayCity}`;
+  heroSubtitle = `Clownshow und Unterhaltung in ${displayCity} – Spaß, Lachen und gute Laune für Groß und Klein!`;
+  heroBreadcrumbParent = { label: 'Clownshow', href: '/clown/clownshow/' };
+}
+
+function buildKeywords(): string {
+  const c = displayCity;
+  if (isCityPage && c) {
+    if (pageSlug.startsWith('kinderzauberer-in-')) {
+      return `Kinderzauberer ${c}, Kinderzauberer in ${c}, Zauberer ${c}, Kindergeburtstag ${c}, Zaubershow ${c}, Clown ${c}, Kinderunterhaltung ${c}, NRW, Ruhrgebiet`;
+    } else if (pageSlug.startsWith('geburtstag-in-')) {
+      return `Kindergeburtstag ${c}, Geburtstag ${c}, Clown Kindergeburtstag ${c}, Zauberer Geburtstag ${c}, Kinderparty ${c}, Kindergeburtstag feiern ${c}, NRW, Ruhrgebiet`;
+    } else if (pageSlug.startsWith('clown-in-')) {
+      return `Clown ${c}, Clown in ${c}, Clownshow ${c}, Clown buchen ${c}, Zauberer ${c}, Kindergeburtstag ${c}, NRW, Ruhrgebiet`;
+    }
+  }
+  if (isBlogPost) {
+    // Blog-Posts: Focus-Keyword + Kategorien
+    const cats = (page.categories || []).map((cat: {slug: string; name: string}) => cat.name);
+    const parts = [focusKeyword, ...cats, 'Clown Zauberer Blog', 'NRW'].filter(Boolean);
+    return [...new Set(parts)].join(', ');
+  }
+  // Sonstige Seiten: Focus-Keyword + allgemeine Keywords
+  if (focusKeyword) {
+    return `${focusKeyword}, Clown Zauberer NRW, ${focusKeyword} NRW`;
+  }
+  return '';
+}
+const pageKeywords = buildKeywords();
+
+const schemas = [
+  isCityPage && cityName ? { '@context': 'https://schema.org', '@type': 'Service', name: `Clown Zauberer in ${cityName}`, serviceType: 'Kinderunterhaltung', areaServed: { '@type': 'City', name: cityName }, provider: { '@type': 'LocalBusiness', name: 'Clown Zauberer LIAR', url: 'https://liar-entertainer.com', telephone: '+491721517578' } } : null,
+  isBlogPost ? { '@context': 'https://schema.org', '@type': 'Article', headline: seoTitle, description: rawDesc, image: heroImg, author: { '@type': 'Person', name: 'Clown Zauberer LIAR' }, publisher: { '@type': 'Organization', name: 'Clown Zauberer LIAR', url: 'https://liar-entertainer.com' }, datePublished: page.date, dateModified: page.date } : null,
+].filter(Boolean);
+---
+
+<BaseLayout title={seoTitle || page.title} description={rawDesc} keywords={pageKeywords || undefined} canonical={canonicalUrl} ogImage={heroImg} heroPreload={heroImg} structuredData={schemas.length > 0 ? schemas : undefined}>
+
+{scrapedContent ? (
+  <>
+    {isBlogPost && (
+      <section class="bg-white pt-8 pb-2">
+        <div class="max-w-[750px] mx-auto px-4">
+          <nav class="text-sm text-[#595959] mb-4">
+            <a href="/" class="text-[#d7393e] hover:underline">Clown</a>
+            <span class="mx-1">»</span>
+            <a href="/blog/" class="text-[#d7393e] hover:underline">Blog</a>
+            <span class="mx-1">»</span>
+            <span>{page.title}</span>
+          </nav>
+          <h1 class="text-[#1f2025] font-extrabold text-3xl sm:text-4xl leading-tight mb-3">{page.title}</h1>
+          <div class="flex flex-wrap items-center gap-3 text-sm text-[#595959] mb-6 pb-4 border-b border-gray-100">
+            <time>{new Date(page.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}</time>
+            {page.categories && page.categories.length > 0 && (
+              <span class="flex flex-wrap gap-1">
+                {page.categories.map((c: {slug: string; name: string}) => (
+                  <span class="bg-[#f4f4f4] text-[#555] px-2 py-0.5 rounded text-xs">{c.name}</span>
+                ))}
+              </span>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {isCityPage && displayCity && heroTitle && (
+      <>
+        {/* Hero-Sektion */}
+        <section class="relative py-36 overflow-hidden">
+          <div class="absolute inset-0 bg-cover" style={`background-image: url('${heroImg}'); background-position: center 20%;`} />
+          <div class="absolute inset-0 bg-black/50" />
+          <div class="relative max-w-[750px] mx-auto px-4 text-center">
+            <div class="inline-flex items-center gap-2 bg-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium mb-4 backdrop-blur-sm">
+              <span>📍</span> {displayCity}
+            </div>
+            <h1 class="text-white font-extrabold text-3xl sm:text-4xl leading-tight mb-3">{heroTitle}</h1>
+            <p class="text-gray-200 text-base leading-relaxed max-w-xl mx-auto">{heroSubtitle}</p>
+          </div>
+        </section>
+        {/* Breadcrumb */}
+        <section class="bg-white pt-4 pb-0">
+          <div class="max-w-6xl mx-auto px-4">
+            <nav class="text-sm text-[#595959]">
+              <a href="/" class="text-[#d7393e] hover:underline">Clown</a>
+              <span class="mx-1">»</span>
+              <a href={heroBreadcrumbParent.href} class="text-[#d7393e] hover:underline">{heroBreadcrumbParent.label}</a>
+              <span class="mx-1">»</span>
+              <span>{heroTitle}</span>
+            </nav>
+          </div>
+        </section>
+      </>
+    )}
+
+    <div class={`wp-scraped${isCityPage ? ' city-page' : ''}`}>
+      <Fragment set:html={scrapedContent} />
+    </div>
+
+    {/* City-Page Design-System Enforcement Script */}
+    {isCityPage && (
+      <script is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+          /* ============================================================
+             DESIGN SYSTEM ENFORCEMENT
+             Basierend auf den Menü-Seiten (Source of Truth):
+             - Max 2 farbige Sektionen pro Seite
+             - Jede farbige Sektion: 60px SVG-Waves oben + unten
+             - Erlaubte Farben: #d7393e (rot), #3b55d5 (blau), #1f2025 (dunkel)
+             - Standard-Hintergrund: weiß oder #f9fafb (grau)
+             ============================================================ */
+          // === Fix 1: 2-Spalten mit langem Text + Bild: Text ab 2. H2 als volle Breite ===
+          document.querySelectorAll('.has-2-columns.has-desktop-twoOne-layout, .has-2-columns.has-desktop-oneTwo-layout').forEach(section => {
+            const cols = section.querySelectorAll('.wp-block-themeisle-blocks-advanced-column');
+            if (cols.length < 2) return;
+            let textCol = null;
+            for (const col of cols) {
+              if (col.querySelectorAll('h2').length >= 2) { textCol = col; break; }
+            }
+            if (!textCol) return;
+            const h2s = textCol.querySelectorAll('h2');
+            const secondH2 = h2s[1];
+            const toMove = [];
+            let el = secondH2;
+            while (el) { toMove.push(el); el = el.nextElementSibling; }
+            if (toMove.length === 0) return;
+            let topSection = section;
+            while (topSection.parentElement && !topSection.parentElement.classList.contains('city-page') &&
+                   !topSection.parentElement.classList.contains('wp-scraped') &&
+                   !topSection.parentElement.classList.contains('nv-content-wrap')) {
+              topSection = topSection.parentElement;
+            }
+            const fullWidth = document.createElement('div');
+            fullWidth.className = 'alignfull';
+            fullWidth.style.cssText = 'padding: 0.75rem 0;';
+            const inner = document.createElement('div');
+            inner.className = 'innerblocks-wrap';
+            inner.style.cssText = 'max-width: 900px; margin: 0 auto; padding: 0 1.5rem;';
+            toMove.forEach(n => inner.appendChild(n));
+            fullWidth.appendChild(inner);
+            topSection.parentElement.insertBefore(fullWidth, topSection.nextSibling);
+          });
+
+          // === Fix 2: Gradient-Sektionen (blaues Feld) aus dem price-grid herausnehmen ===
+          document.querySelectorAll('.price-grid').forEach(grid => {
+            // Finde verschachtelte gradient-Sektionen innerhalb des price-grid
+            grid.querySelectorAll('section').forEach(section => {
+              const bg = getComputedStyle(section).backgroundImage;
+              if (bg.includes('gradient') || section.querySelector('[class*="overlay"]')) {
+                // Diese Section gehört nicht ins price-grid
+                // Verschiebe sie nach dem price-grid als eigene volle-Breite-Sektion
+                const wrapper = document.createElement('div');
+                wrapper.className = 'alignfull';
+                wrapper.style.cssText = section.style.cssText;
+                // Übernehme den Gradient als Background
+                wrapper.style.background = bg;
+                wrapper.style.padding = '1rem 0';
+                wrapper.style.borderRadius = '1rem';
+                wrapper.style.maxWidth = '1000px';
+                wrapper.style.margin = '2rem auto';
+
+                // Verschiebe den Inhalt
+                const inner = document.createElement('div');
+                inner.style.cssText = 'max-width: 800px; margin: 0 auto; padding: 0 2rem; text-align: center;';
+                while (section.firstChild) {
+                  // Skip overlay divs
+                  if (section.firstChild.classList?.contains('wp-block-themeisle-blocks-advanced-columns-overlay')) {
+                    section.removeChild(section.firstChild);
+                    continue;
+                  }
+                  inner.appendChild(section.firstChild);
+                }
+                wrapper.appendChild(inner);
+
+                // Feature-Karten nebeneinander
+                const featureGrid = wrapper.querySelector('.feature-highlight-grid');
+                if (featureGrid) {
+                  featureGrid.style.cssText = 'display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.5rem;';
+                }
+
+                // Einfügen nach dem price-grid-Container
+                const priceParent = grid.closest('.alignfull') || grid.parentElement;
+                priceParent.parentElement.insertBefore(wrapper, priceParent.nextSibling);
+                section.remove();
+              }
+            });
+          });
+
+          // === Fix 3: Bottrop-spezifische Fixes ===
+          if (location.pathname.includes('bottrop')) {
+            // B1: Markiere die city-page als Bottrop
+            document.querySelector('.city-page')?.classList.add('bottrop-page');
+
+            // B1b: has-dark-bg von der Preissektion entfernen
+            const darkBlueEl = document.querySelector('.dark-blue');
+            if (darkBlueEl) {
+              // Entferne has-dark-bg von ALLEN Elementen innerhalb dark-blue
+              // AUSSER innerhalb von .bottrop-warum-blue
+              darkBlueEl.querySelectorAll('.has-dark-bg').forEach(el => {
+                if (!el.closest('.bottrop-warum-blue')) {
+                  el.classList.remove('has-dark-bg');
+                }
+              });
+              darkBlueEl.classList.remove('has-dark-bg');
+            }
+
+            // B1c: Preis-Überschrift explizit rot setzen
+            const preisH2b = Array.from(document.querySelectorAll('h2')).find(h => h.textContent.includes('Preise für Ihren'));
+            if (preisH2b) {
+              preisH2b.style.setProperty('color', '#d7393e', 'important');
+              // Alle Texte in der Preissektion auf dunkel
+              const preisParent = preisH2b.closest('section') || preisH2b.parentElement;
+              preisParent.querySelectorAll('h3, p, li, a, strong, span').forEach(el => {
+                if (!el.closest('.bottrop-warum-blue') && !el.closest('.price-card')) {
+                  const c = getComputedStyle(el).color;
+                  if (c === 'rgb(255, 255, 255)') {
+                    el.style.setProperty('color', '#1f2025', 'important');
+                  }
+                }
+              });
+            }
+
+            // B2: Extra price-cards außerhalb des price-grid entfernen
+            document.querySelectorAll('.price-card').forEach(card => {
+              if (!card.closest('.price-grid')) card.remove();
+            });
+
+            // B3: "Warum Eltern" Section: explizit blauen Gradient setzen
+            const warumH2 = Array.from(document.querySelectorAll('h2')).find(h => h.textContent.includes('Warum Eltern'));
+            if (warumH2) {
+              const warumSec = warumH2.closest('section');
+              if (warumSec) {
+                warumSec.classList.add('bottrop-warum-blue');
+              }
+            }
+
+            // B4: Stats-Banner neu bauen und VOR "Ihre Vorteile" einfügen
+            const vorteileH = Array.from(document.querySelectorAll('h2, h3')).find(h =>
+              h.textContent.includes('Vorteile auf einen Blick'));
+            if (vorteileH) {
+              const vorteileSection = vorteileH.closest('.alignfull, section') || vorteileH.parentElement;
+              // Neuen blauen Stats-Banner erstellen
+              const newBanner = document.createElement('div');
+              newBanner.className = 'alignfull';
+              newBanner.style.cssText = 'background: linear-gradient(135deg, #3b55d5 0%, #2a3fa8 50%, #3b55d5 100%); padding: 2rem 0; text-align: center; color: #fff; margin: 0.5rem 0;';
+              newBanner.innerHTML = `
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; max-width: 900px; margin: 0 auto;">
+                  <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 1.5rem 2rem; min-width: 180px;">
+                    <div style="font-size: 2rem;">🪄</div>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #ffb546;">400</div>
+                    <div style="font-size: 0.9rem;">Shows im Jahr</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 1.5rem 2rem; min-width: 180px;">
+                    <div style="font-size: 2rem;">😊</div>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #ffb546;">110.000</div>
+                    <div style="font-size: 0.9rem;">Lachende Kinder</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 1.5rem 2rem; min-width: 180px;">
+                    <div style="font-size: 2rem;">🪄</div>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #ffb546;">15</div>
+                    <div style="font-size: 0.9rem;">Jahre Erfahrung</div>
+                  </div>
+                </div>`;
+              vorteileSection.parentElement.insertBefore(newBanner, vorteileSection);
+            }
+
+            // B4b: Originale Stats-Sektion verstecken (die im roten Bereich)
+            const origStats = Array.from(document.querySelectorAll('.city-page div, .city-page section')).find(el =>
+              el.textContent.includes('400') && el.textContent.includes('Shows im Jahr') &&
+              el.textContent.includes('110') && el.textContent.includes('Erfahrung') &&
+              el.offsetHeight > 50 && el.offsetHeight < 300 && el.offsetWidth > 500 &&
+              !el.querySelector('[style*="#3b55d5"]')); // Nicht den neuen Banner
+            if (origStats) {
+              origStats.style.setProperty('display', 'none', 'important');
+            }
+
+            // B5: ALLE roten Hintergründe weiß machen (AUSSER bottrop-warum-blue)
+            document.querySelectorAll('.city-page [style*="215, 57"], .city-page [style*="d7393e"]').forEach(el => {
+              if (el.closest('.bottrop-warum-blue')) return;
+              el.style.setProperty('background', '#fff', 'important');
+            });
+          }
+
+          // === Fix 3c: wird nach allen anderen Fixes am Ende ausgeführt (siehe unten) ===
+
+          // === Fix 4: 2-Spalten mit Bild+Text Ungleichgewicht: Bild über Text ===
+          document.querySelectorAll('.has-2-columns').forEach(section => {
+            const cols = section.querySelectorAll('.wp-block-themeisle-blocks-advanced-column');
+            if (cols.length < 2) return;
+
+            let imgCol = null, textCol = null;
+            for (const col of cols) {
+              const hasOnlyImg = col.querySelector('figure, .wp-block-image') &&
+                col.querySelectorAll('p').length <= 1;
+              const textLen = col.textContent.trim().length;
+              if (hasOnlyImg && textLen < 100) imgCol = col;
+              else if (textLen > 400) textCol = col;
+            }
+
+            if (!imgCol || !textCol) return;
+
+            // Messe die tatsächliche Höhe: wenn Text viel höher als Bild
+            const img = imgCol.querySelector('img');
+            if (!img) return;
+            const imgH = img.offsetHeight || img.naturalHeight || 300;
+            const textH = textCol.scrollHeight;
+
+            // Wenn Text deutlich höher als Bild: Layout umstellen
+            if (textH > imgH * 1.4) {
+              section.classList.add('img-above-text');
+              // Bild-Spalte VOR die Text-Spalte verschieben (oben)
+              const grid = section.querySelector('.innerblocks-wrap');
+              if (grid && imgCol !== grid.firstElementChild) {
+                grid.insertBefore(imgCol, grid.firstElementChild);
+              }
+            }
+          });
+
+          // === Fix 3b: Globale Preis-Bereinigung – Extra price-cards und Preis-Hinweise entfernen ===
+          // Entferne alle price-card Divs die NICHT im price-grid sind
+          document.querySelectorAll('.price-card').forEach(card => {
+            if (!card.closest('.price-grid')) card.remove();
+          });
+          // Entferne Preis-Hinweise (Fahrtkosten, Extra, etc.) die direkt nach dem price-grid stehen
+          document.querySelectorAll('.price-grid').forEach(pg => {
+            let el = pg.nextElementSibling;
+            while (el) {
+              const next = el.nextElementSibling;
+              const txt = el.textContent?.trim() || '';
+              // Entferne wenn es Preis/Fahrtkosten/Extra-Hinweis ist
+              if (/Fahrtkosten|Extra|Ballon|Tattoo|Glitzer|Festpreis|buchbar|Wochenend|zzgl|pro Kilometer/i.test(txt) && txt.length < 500) {
+                el.remove();
+              } else if (el.tagName === 'P' && txt.length < 200 && /€|Euro|Preis|kosten/i.test(txt)) {
+                el.remove();
+              } else {
+                break; // Stoppe beim ersten nicht-Preis-Element
+              }
+              el = next;
+            }
+          });
+
+          // === Fix 3e: Banner "400 Shows / 110.000 / 15 Jahre" korrekt stylen ===
+          // Suche den EXAKTEN Container der die 3 Stats enthält (kleinster Wrapper)
+          const allDivs = document.querySelectorAll('.city-page div, .city-page section');
+          let statsEl = null;
+          for (const el of allDivs) {
+            const txt = el.textContent?.trim() || '';
+            if (txt.length < 1000 && txt.includes('Shows') && txt.includes('Erfahrung') &&
+                (txt.includes('400') || txt.includes('Lach'))) {
+              // Kleinster Container der alle 3 Stats enthält
+              if (!statsEl || el.offsetHeight < statsEl.offsetHeight) {
+                statsEl = el;
+              }
+            }
+          }
+          if (statsEl) {
+            // Ersetze die gesamte Stats-Section durch einen sauberen Banner
+            // (wie auf den Menü-Seiten: roter Hintergrund + Wave oben/unten + 3 Stat-Karten)
+            const alignfullParent = statsEl.closest('.alignfull') || statsEl.closest('section') || statsEl;
+
+            // Wave SVG oben (weiß → rot)
+            const waveTop = document.createElement('div');
+            waveTop.style.cssText = 'overflow:hidden;line-height:0;background:white;display:block;';
+            waveTop.innerHTML = '<svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;"><path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#d7393e"/></svg>';
+
+            // Stats-Banner
+            const banner = document.createElement('div');
+            banner.style.cssText = 'background:#d7393e;padding:2rem 1rem;text-align:center;';
+            banner.innerHTML = `
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:900px;margin:0 auto;">
+                <div style="background:rgba(255,255,255,0.15);border-radius:1rem;padding:1.5rem;">
+                  <div style="font-size:2rem;">🪄</div>
+                  <div style="font-size:2.5rem;font-weight:800;color:white;">400</div>
+                  <div style="font-size:0.9rem;color:white;">Shows im Jahr</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.15);border-radius:1rem;padding:1.5rem;">
+                  <div style="font-size:2rem;">😊</div>
+                  <div style="font-size:2.5rem;font-weight:800;color:white;">110.000</div>
+                  <div style="font-size:0.9rem;color:white;">Lachende Kinder</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.15);border-radius:1rem;padding:1.5rem;">
+                  <div style="font-size:2rem;">🪄</div>
+                  <div style="font-size:2.5rem;font-weight:800;color:white;">15</div>
+                  <div style="font-size:0.9rem;color:white;">Jahre Erfahrung</div>
+                </div>
+              </div>`;
+
+            // Wave SVG unten (rot → weiß)
+            const waveBottom = document.createElement('div');
+            waveBottom.style.cssText = 'overflow:hidden;line-height:0;background:#d7393e;display:block;';
+            waveBottom.innerHTML = '<svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;"><path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/></svg>';
+
+            // Einfügen und altes Element ersetzen
+            alignfullParent.parentElement.insertBefore(waveTop, alignfullParent);
+            alignfullParent.parentElement.insertBefore(banner, alignfullParent);
+            alignfullParent.parentElement.insertBefore(waveBottom, alignfullParent);
+            alignfullParent.remove();
+          }
+
+          // === Fix 4: Leere Sektionen entfernen (farbig UND weiß) ===
+          // Durchlaufe ALLE Sektionen und entferne solche ohne sinnvollen Inhalt
+          document.querySelectorAll('.city-page .alignfull, .city-page section, .city-page .wp-block-themeisle-blocks-advanced-columns, .city-page .wp-block-columns').forEach(s => {
+            if (s.closest('.price-grid')) return;
+
+            const text = s.textContent.trim();
+            const hasImg = s.querySelector('img');
+            const hasVid = s.querySelector('iframe');
+            const hasPriceGrid = s.querySelector('.price-grid');
+
+            // Entferne wenn: kein sinnvoller Text, kein Bild, kein Video, kein Price-Grid
+            if (text.length < 20 && !hasImg && !hasVid && !hasPriceGrid) {
+              s.remove();
+            }
+          });
+
+          // === Fix 4b: Dinslaken – "Meine Show mehr als nur Tricks" zu 1-Spalte umbauen ===
+          if (window.location.pathname.includes('dinslaken')) {
+            const showHeadings = Array.from(document.querySelectorAll('h2')).filter(h =>
+              /meine Show.*mehr als nur Tricks/i.test(h.textContent));
+            showHeadings.forEach(h => {
+              const section = h.closest('.has-2-columns, .alignfull, section');
+              if (section && section.classList.contains('has-2-columns')) {
+                // Umbauen: 2-Spalten → 1-Spalte
+                section.classList.remove('has-2-columns');
+                section.classList.add('has-1-columns');
+                const grid = section.querySelector('.innerblocks-wrap');
+                if (grid) {
+                  grid.style.gridTemplateColumns = '1fr';
+                  grid.style.maxWidth = '800px';
+                  grid.style.margin = '0 auto';
+                  grid.style.textAlign = 'center';
+                }
+              }
+            });
+          }
+
+          // === Fix 5: Einsatzgebiet-Sektion vereinheitlichen ===
+          // Suche nach Einsatzgebiet/Auch unterwegs Heading
+          const einsatzHeadings = Array.from(document.querySelectorAll('h2, h3')).filter(h =>
+            /Einsatzgebiet|Auch unterwegs|Regional|Einsatzgebiete/i.test(h.textContent));
+
+          einsatzHeadings.forEach(heading => {
+            const section = heading.closest('.alignfull, section, .has-2-columns, .has-1-columns');
+            if (!section) return;
+
+            const is2Col = section.classList.contains('has-2-columns');
+
+            // Ersetze ALLE vorhandenen Bilder in der Einsatzgebiet-Sektion durch das Karten-Bild
+            const existingImgs = section.querySelectorAll('img');
+            existingImgs.forEach(img => {
+              img.src = '/images/karte-einsatzgebiet.jpg';
+              img.alt = 'Karte Einsatzgebiet Clown Zauberer LIAR';
+              img.style.cssText = 'border-radius: 0.5rem; width: 100%; max-width: 400px; height: auto;';
+            });
+
+            if (existingImgs.length === 0) {
+              // Kein Bild vorhanden: Karten-Bild hinzufügen
+              const imgEl = document.createElement('img');
+              imgEl.src = '/images/karte-einsatzgebiet.jpg';
+              imgEl.alt = 'Karte Einsatzgebiet Clown Zauberer LIAR';
+              imgEl.style.cssText = 'border-radius: 0.5rem; width: 100%; max-width: 400px; height: auto;';
+              imgEl.loading = 'lazy';
+
+              if (is2Col) {
+                const cols = section.querySelectorAll('.wp-block-themeisle-blocks-advanced-column');
+                if (cols.length >= 2) {
+                  const shorter = cols[0].scrollHeight < cols[1].scrollHeight ? cols[0] : cols[1];
+                  shorter.appendChild(imgEl);
+                }
+              } else {
+                // 1-Spalte → 2-Spalten-Grid
+                const innerWrap = section.querySelector('.innerblocks-wrap') || section;
+                const col = innerWrap.querySelector('.wp-block-themeisle-blocks-advanced-column');
+                if (col) {
+                  const grid = document.createElement('div');
+                  grid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;';
+                  const leftCol = document.createElement('div');
+                  while (col.firstChild) leftCol.appendChild(col.firstChild);
+                  const rightCol = document.createElement('div');
+                  rightCol.style.cssText = 'display: flex; justify-content: center; align-items: start;';
+                  rightCol.appendChild(imgEl);
+                  grid.appendChild(leftCol);
+                  grid.appendChild(rightCol);
+                  col.appendChild(grid);
+                }
+              }
+            } else if (!is2Col) {
+              // Hat Bild aber keine 2-Spalten → Layout umbauen
+              const innerWrap = section.querySelector('.innerblocks-wrap') || section;
+              const col = innerWrap.querySelector('.wp-block-themeisle-blocks-advanced-column');
+              const existingImg = section.querySelector('img');
+              if (col && existingImg) {
+                const grid = document.createElement('div');
+                grid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;';
+                const leftCol = document.createElement('div');
+                const rightCol = document.createElement('div');
+                rightCol.style.cssText = 'display: flex; justify-content: center; align-items: start;';
+                const figure = existingImg.closest('figure') || existingImg;
+                rightCol.appendChild(figure.cloneNode(true));
+                figure.remove();
+                while (col.firstChild) leftCol.appendChild(col.firstChild);
+                grid.appendChild(leftCol);
+                grid.appendChild(rightCol);
+                col.appendChild(grid);
+              }
+            }
+          });
+
+          // === Fix 6: Einsatzgebiet-Sektion hinzufügen wo keine existiert ===
+          (() => {
+            const cp = document.querySelector('.city-page');
+            if (!cp) return;
+            // Prüfe ob Einsatzgebiet-Sektion vorhanden
+            const allH = cp.querySelectorAll('h2, h3');
+            let hasEinsatz = false;
+            for (const h of allH) {
+              if (/Einsatzgebiet|Auch unterwegs|Regional|Einsatzgebiete/i.test(h.textContent)) {
+                hasEinsatz = true;
+                break;
+              }
+            }
+            if (hasEinsatz) return;
+
+            // Bestimme Stadt aus dem Slug
+            const path = window.location.pathname;
+            let city = '';
+            const m = path.match(/(?:geburtstag-in-|kinderzauberer-in-|clown-in-)([^/]+)/);
+            if (m) city = m[1].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            if (!city) return;
+
+            // Bestimme Seitentyp
+            let typ = 'Clown';
+            if (path.includes('geburtstag')) typ = 'Kindergeburtstag';
+            else if (path.includes('kinderzauberer')) typ = 'Kinderzauberer';
+
+            // Standard-Einsatzgebiet-Text
+            const einsatzText = `<strong>Haupteinsatzgebiet ${typ}</strong>
+<p>Gladbeck | Oberhausen | Gelsenkirchen | Essen | Duisburg | Bottrop | Bochum | Dinslaken | Wesel | Castrop-Rauxel | Dorsten | Herten | Herne | Marl | Mülheim | Recklinghausen</p>
+<p><strong>Weitere NRW-Städte</strong></p>
+<p>Düsseldorf | Dortmund | Köln | Münster | Bielefeld | Bonn | Aachen | Krefeld | Moers | Lünen | Hagen | Hamm | Solingen | Wuppertal | Leverkusen | Neuss | Paderborn | Borken</p>
+<p>Auf Anfrage bin ich auch außerhalb von NRW buchbar – inklusive Belgien, Frankreich, Österreich und Schweiz!</p>`;
+
+            // Erstelle die Einsatzgebiet-Sektion
+            const section = document.createElement('div');
+            section.className = 'alignfull';
+            section.style.cssText = 'background: #f9fafb; padding: 1rem 0;';
+            section.innerHTML = `
+              <div style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
+                <h2 style="color: #d7393e; text-align: center; font-weight: 800; margin-bottom: 1.5rem;">Einsatzgebiet</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                  <div>${einsatzText}</div>
+                  <div style="text-align: center;"><img src="/images/karte-einsatzgebiet.jpg" alt="Karte Einsatzgebiet ${typ} ${city}" style="max-width: 100%; border-radius: 0.5rem; max-height: 350px;" loading="lazy" /></div>
+                </div>
+              </div>`;
+
+            // Einfügen VOR dem Footer/GoogleReviews, nach dem letzten Content
+            const contentWrap = cp.querySelector('.nv-content-wrap');
+            if (contentWrap) {
+              contentWrap.appendChild(section);
+            }
+          })();
+
+          // === Fix 0: HeaderGap auf max 50px reduzieren ===
+          // Finde alle Container-Elemente zwischen Breadcrumb und erstem Content
+          // und setze deren Padding/Margin auf 0
+          const allCityEls = document.querySelectorAll('.city-page .nv-content-wrap *, .city-page .container *');
+          const bcNav = document.querySelector('nav.text-sm');
+          const bcBottom = bcNav ? bcNav.getBoundingClientRect().bottom : 0;
+          // Finde erstes Content-Element
+          let firstContentY = Infinity;
+          const contentEls = document.querySelectorAll('.city-page h2, .city-page h3, .city-page p');
+          for (const el of contentEls) {
+            if (el.textContent?.trim()?.length > 10 && el.offsetHeight > 0) {
+              const y = el.getBoundingClientRect().top;
+              if (y > bcBottom && y < firstContentY) firstContentY = y;
+            }
+          }
+          // Reduziere Padding/Margin auf allen Elementen zwischen bc und firstContent
+          if (firstContentY !== Infinity && firstContentY - bcBottom > 70) {
+            for (const el of allCityEls) {
+              const r = el.getBoundingClientRect();
+              if (r.top >= bcBottom && r.bottom <= firstContentY && r.height > 0) {
+                const cs = getComputedStyle(el);
+                const pt = parseFloat(cs.paddingTop);
+                const mt = parseFloat(cs.marginTop);
+                const mb = parseFloat(cs.marginBottom);
+                if (pt > 10) el.style.setProperty('padding-top', '4px', 'important');
+                if (mt > 10) el.style.setProperty('margin-top', '0', 'important');
+                if (mb > 10) el.style.setProperty('margin-bottom', '0', 'important');
+              }
+            }
+          }
+
+          // === Fix 6: Seitenspezifische Einsatzgebiet-Sektionen entfernen ===
+          const pagePath = window.location.pathname;
+          // Castrop-Rauxel: Einsatzgebiet NICHT entfernen - wird per Fix 5 umgebaut
+          const removeSlugs = ['bochum','bottrop','datteln','duisburg','duesseldorf','herne'];
+          if (removeSlugs.some(s => pagePath.includes(s))) {
+            const einsatzH = Array.from(document.querySelectorAll('.city-page h2, .city-page h3')).find(h =>
+              /Einsatzgebiet|Einsatzgebiete/i.test(h.textContent));
+            if (einsatzH) {
+              const section = einsatzH.closest('.alignfull, section, .has-2-columns, .has-1-columns');
+              if (section) section.remove();
+            }
+          }
+
+          // === Fix 8: Seitenspezifische Abstände + Layout-Korrekturen ===
+          // Düsseldorf: 2-Spalten "Warum Familien" zu 1-Spalte
+          if (pagePath.includes('duesseldorf')) {
+            const warumH = Array.from(document.querySelectorAll('h2')).find(h => /Warum Familien/i.test(h.textContent));
+            if (warumH) {
+              const section = warumH.closest('.has-2-columns');
+              if (section) {
+                section.classList.remove('has-2-columns');
+                section.classList.add('has-1-columns');
+                const grid = section.querySelector('.innerblocks-wrap');
+                if (grid) grid.style.cssText = 'display: block; max-width: 900px; margin: 0 auto;';
+              }
+            }
+          }
+
+          // Bochum: Blaue erste Sektion → weißer Hintergrund, Text schwarz, Links rot
+          if (pagePath.includes('bochum')) {
+            const allSects = document.querySelectorAll('.city-page .alignfull, .city-page section');
+            for (const s of allSects) {
+              const bg = getComputedStyle(s).background || '';
+              if (bg.includes('59, 85, 213') || bg.includes('42, 63, 168')) {
+                if (!s.textContent.includes('Shows im Jahr')) {
+                  // Entferne blauen Gradient, setze weiß
+                  s.style.setProperty('background', '#fff', 'important');
+                  // Overlay auch transparent machen
+                  const overlay = s.querySelector('.wp-block-themeisle-blocks-advanced-columns-overlay');
+                  if (overlay) overlay.style.setProperty('background', 'transparent', 'important');
+                  // Alle Texte schwarz
+                  s.querySelectorAll('h2, h3, h4, p, span, strong, li').forEach(el => {
+                    el.style.setProperty('color', '#1f2025', 'important');
+                  });
+                  // Links rot
+                  s.querySelectorAll('a').forEach(a => {
+                    a.style.setProperty('color', '#d7393e', 'important');
+                  });
+                  break;
+                }
+              }
+            }
+          }
+
+          // Bochum: Stats-Banner einfügen direkt VOR "Geburtstag in Bochum und ganz NRW"
+          if (pagePath.includes('bochum') && pagePath.includes('geburtstag')) {
+            const nrwH = Array.from(document.querySelectorAll('h2, h3')).find(h =>
+              h.textContent.includes('Bochum') && h.textContent.includes('NRW'));
+            if (nrwH) {
+              const nrwSection = nrwH.closest('.alignfull, section') || nrwH.parentElement;
+              const banner = document.createElement('div');
+              banner.className = 'bochum-stats-banner-new';
+              banner.style.cssText = 'width:100vw;margin-left:calc(-50vw + 50%);margin-top:0;margin-bottom:0;overflow:hidden;';
+              banner.innerHTML = `<div style="line-height:0;overflow:hidden;"><svg viewBox="0 0 1440 40" preserveAspectRatio="none" style="display:block;width:100%;height:25px;"><path d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z" fill="#d7393e"/></svg></div><div style="background:#d7393e;padding:2rem 0;text-align:center;color:#fff;"><div style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;max-width:900px;margin:0 auto;"><div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:1.5rem 2rem;min-width:180px;"><div style="font-size:2rem;">🪄</div><div style="font-size:2.5rem;font-weight:800;color:#ffb546;">400</div><div style="font-size:0.9rem;">Shows im Jahr</div></div><div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:1.5rem 2rem;min-width:180px;"><div style="font-size:2rem;">😊</div><div style="font-size:2.5rem;font-weight:800;color:#ffb546;">110.000</div><div style="font-size:0.9rem;">Lachende Kinder</div></div><div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:1.5rem 2rem;min-width:180px;"><div style="font-size:2rem;">🪄</div><div style="font-size:2.5rem;font-weight:800;color:#ffb546;">15</div><div style="font-size:0.9rem;">Jahre Erfahrung</div></div></div></div><div style="line-height:0;overflow:hidden;"><svg viewBox="0 0 1440 40" preserveAspectRatio="none" style="display:block;width:100%;height:25px;"><path d="M0,0 C360,40 1080,40 1440,0 L1440,0 L0,0 Z" fill="#d7393e"/></svg></div>`;
+              nrwSection.parentElement.insertBefore(banner, nrwSection);
+            }
+          }
+
+          // Global: Alle H3 auf Stadtseiten auch zentrieren
+          document.querySelectorAll('.city-page h3').forEach(h3 => {
+            if (getComputedStyle(h3).textAlign !== 'center') {
+              h3.style.textAlign = 'center';
+            }
+          });
+
+          // === Fix 9: Aggressive globale Abstandsreduzierung ===
+          // Alle Sektionen + divs auf city-page: Wenn gap > 40px → reduzieren
+          const cityContent = document.querySelector('.city-page .nv-content-wrap') || document.querySelector('.city-page');
+          if (cityContent) {
+            const allBlocks = cityContent.querySelectorAll(':scope > *, .alignfull, section');
+            allBlocks.forEach(el => {
+              const prev = el.previousElementSibling;
+              if (prev && prev.offsetHeight > 0 && el.offsetHeight > 0) {
+                const gap = el.getBoundingClientRect().top - prev.getBoundingClientRect().bottom;
+                if (gap > 40) {
+                  el.style.marginTop = Math.max(8, gap * 0.3) + 'px';
+                }
+              }
+            });
+            // Auch innerhalb der Sektionen: paragraph → figure Abstände
+            cityContent.querySelectorAll('p + figure, p + .wp-block-image, p + img').forEach(el => {
+              el.style.marginTop = '0.75rem';
+            });
+            // Figure → h2/h3 Abstände
+            cityContent.querySelectorAll('figure + h2, figure + h3, .wp-block-image + h2, img + h2').forEach(el => {
+              el.style.marginTop = '1.5rem';
+            });
+          }
+
+          // === Fix 9b: Bottrop-spezifisch ===
+          if (pagePath.includes('bottrop')) {
+            // Banner: Hintergrund blau statt rot (Kästchen bleiben rot)
+            // Das Stats-Banner ist bereits rot - wir ändern den äußeren Hintergrund zu blau
+            // Die Parent-Sections der Stats sollen blau sein
+            const statsParents = document.querySelectorAll('.city-page section.alignfull, .city-page .alignfull');
+            statsParents.forEach(s => {
+              const bg = getComputedStyle(s).background;
+              // Nur die ÄUSSERE Section auf blau setzen (nicht die Stats-Box selbst)
+              if (bg.includes('215, 57, 62') && s.offsetWidth > 1000 && s.querySelector('.innerblocks-wrap')) {
+                // Prüfe ob dies eine Wrapper-Section ist (nicht die Stats-Box)
+                const cols = s.querySelectorAll('.wp-block-themeisle-blocks-advanced-column');
+                if (cols.length === 0 || s.textContent.length > 300) {
+                  s.style.setProperty('background', 'linear-gradient(135deg, #3b55d5 0%, #2a3fa8 50%, #3b55d5 100%)', 'important');
+                }
+              }
+            });
+
+            // "Jetzt Ihren Geburtstag in Bottrop buchen" Sektion: weißer Hintergrund
+            const jetztH = Array.from(document.querySelectorAll('h2, h3')).find(h =>
+              /Jetzt.*Geburtstag.*Bottrop.*buchen/i.test(h.textContent));
+            if (jetztH) {
+              const section = jetztH.closest('.alignfull, section');
+              if (section) {
+                const bg = getComputedStyle(section).background;
+                if (bg.includes('215, 57, 62') || bg.includes('gradient')) {
+                  section.style.setProperty('background', '#fff', 'important');
+                  section.querySelectorAll('h2, h3, h4, p, span, a, strong').forEach(el => {
+                    el.style.setProperty('color', '#1f2025', 'important');
+                  });
+                  section.querySelectorAll('a').forEach(a => {
+                    a.style.setProperty('color', '#d7393e', 'important');
+                  });
+                }
+              }
+            }
+          }
+
+          // === Fix 7: HeaderGap reduzieren – leere erste Sektionen entfernen ===
+          const cw = document.querySelector('.city-page .nv-content-wrap');
+          if (cw) {
+            // Entferne leere/fast leere Elemente am Anfang
+            const kids = Array.from(cw.children);
+            for (const kid of kids) {
+              const txt = kid.textContent?.trim() || '';
+              const hasImg = kid.querySelector('img');
+              const hasVid = kid.querySelector('iframe');
+              const h = kid.offsetHeight;
+              // Entferne wenn: leer/fast leer, kein Bild/Video, kleiner als 200px
+              if (txt.length < 80 && !hasImg && !hasVid && h < 250 && !kid.querySelector('h2')) {
+                kid.style.display = 'none';
+              } else {
+                break;
+              }
+            }
+          }
+
+          // === Fix 3c FINAL: Bild vor Text verhindern (läuft als LETZTES) ===
+          // Nach allen DOM-Umstrukturierungen: prüfe ob das erste sichtbare Bild
+          // vor dem ersten H2 steht und verschiebe es
+          setTimeout(() => {
+            const cp = document.querySelector('.city-page');
+            if (!cp) return;
+            const allEls = cp.querySelectorAll('img, h2');
+            let fImg = null, fH2 = null;
+            for (const el of allEls) {
+              if (!fImg && el.tagName === 'IMG' && el.offsetHeight > 0 && !el.src.includes('svg') && !el.src.includes('karte')) {
+                fImg = el;
+              }
+              if (!fH2 && el.tagName === 'H2') {
+                fH2 = el;
+              }
+              if (fImg && fH2) break;
+            }
+            if (fImg && fH2 && (fImg.compareDocumentPosition(fH2) & Node.DOCUMENT_POSITION_FOLLOWING)) {
+              // Bild steht VOR H2 im DOM → verstecke es und clone nach H2
+              const container = fImg.closest('.wp-block-image, figure, .wp-block-themeisle-blocks-advanced-column') || fImg;
+              // Prüfe ob Container nur das Bild enthält (kein Text)
+              if (container.textContent.trim().length < 50) {
+                container.style.setProperty('display', 'none', 'important');
+              } else {
+                fImg.style.setProperty('display', 'none', 'important');
+              }
+              // Clone nach dem ersten P-Tag der H2-Section
+              const clone = document.createElement('img');
+              clone.src = fImg.src;
+              clone.alt = fImg.alt || '';
+              clone.style.cssText = 'max-width:400px;width:100%;height:auto;margin:1.5rem auto;display:block;border-radius:0.75rem;';
+              const targetP = fH2.parentElement?.querySelector('p');
+              if (targetP) targetP.after(clone);
+              else fH2.after(clone);
+            }
+
+
+          }, 50);
+
+          // === Bottrop FINAL: Leere Container entfernen + Stats-Banner einfügen ===
+          if (location.pathname.includes('bottrop')) {
+            setTimeout(() => {
+              try {
+                // B-CLEAN: Entferne leere Container/Divs zwischen "nach Hause" und "Ihre Vorteile"
+                // (alte Wave-Container die jetzt leer sind)
+                const vorteileH2 = Array.from(document.querySelectorAll('h2, h3')).find(h =>
+                  h.textContent.includes('Vorteile auf einen Blick'));
+                const nachHauseP = Array.from(document.querySelectorAll('p')).find(p =>
+                  p.textContent.includes('nach Hause') && p.textContent.includes('Bottrop'));
+
+                if (nachHauseP && vorteileH2) {
+                  // Finde den wp-block-columns Container der zwischen den beiden liegt
+                  const nachHauseSection = nachHauseP.closest('.alignfull, section, .has-2-columns') || nachHauseP.parentElement;
+                  let sibling = nachHauseSection.nextElementSibling;
+                  while (sibling && !sibling.contains(vorteileH2)) {
+                    const next = sibling.nextElementSibling;
+                    const text = sibling.textContent.trim();
+                    // Entferne leere Container
+                    if (text.length < 10 && !sibling.querySelector('img') && !sibling.querySelector('iframe')) {
+                      sibling.style.setProperty('display', 'none', 'important');
+                    }
+                    sibling = next;
+                  }
+                }
+
+                // B-BANNER: Stats-Banner VOR "Ihre Vorteile" einfügen
+                if (vorteileH2) {
+                  const vorteileSection = vorteileH2.closest('.alignfull, section, .wp-block-columns') || vorteileH2.parentElement;
+
+                  const banner = document.createElement('div');
+                  banner.className = 'bottrop-stats-banner-new';
+                  banner.style.cssText = 'width:100vw;margin-left:calc(-50vw + 50%);margin-top:0;margin-bottom:0;overflow:hidden;';
+                  banner.innerHTML = `
+                    <div style="line-height:0;overflow:hidden;">
+                      <svg viewBox="0 0 1440 40" preserveAspectRatio="none" style="display:block;width:100%;height:25px;">
+                        <path d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z" fill="#d7393e"/>
+                      </svg>
+                    </div>
+                    <div style="background:#d7393e;padding:2rem 0;text-align:center;color:#fff;">
+                      <div style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;max-width:900px;margin:0 auto;">
+                        <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:1.5rem 2rem;min-width:180px;">
+                          <div style="font-size:2rem;">🪄</div>
+                          <div style="font-size:2.5rem;font-weight:800;color:#ffb546;">400</div>
+                          <div style="font-size:0.9rem;">Shows im Jahr</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:1.5rem 2rem;min-width:180px;">
+                          <div style="font-size:2rem;">😊</div>
+                          <div style="font-size:2.5rem;font-weight:800;color:#ffb546;">110.000</div>
+                          <div style="font-size:0.9rem;">Lachende Kinder</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:1.5rem 2rem;min-width:180px;">
+                          <div style="font-size:2rem;">🪄</div>
+                          <div style="font-size:2.5rem;font-weight:800;color:#ffb546;">15</div>
+                          <div style="font-size:0.9rem;">Jahre Erfahrung</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="line-height:0;overflow:hidden;">
+                      <svg viewBox="0 0 1440 40" preserveAspectRatio="none" style="display:block;width:100%;height:25px;">
+                        <path d="M0,0 C360,40 1080,40 1440,0 L1440,0 L0,0 Z" fill="#d7393e"/>
+                      </svg>
+                    </div>`;
+                  vorteileSection.parentElement.insertBefore(banner, vorteileSection);
+                }
+
+                // Originale Stats-Sektion komplett verstecken
+                // Finde alle Elemente mit "Shows im Jahr" die NICHT im neuen Banner sind
+                document.querySelectorAll('.city-page span, .city-page div, .city-page section').forEach(el => {
+                  if (el.closest('.bottrop-stats-banner-new')) return;
+                  if ((el.textContent.includes('Shows im Jahr') || el.textContent.includes('Lachende Kinder')) &&
+                      el.textContent.includes('Jahre Erfahrung') && el.offsetWidth > 0) {
+                    // Verstecke das Element und alle Eltern bis zur nächsten Section
+                    let target = el;
+                    while (target && !target.classList?.contains('nv-content-wrap')) {
+                      if (target.offsetHeight < 200 && target.textContent.trim().length < 200) {
+                        target.style.setProperty('display', 'none', 'important');
+                        break;
+                      }
+                      target = target.parentElement;
+                    }
+                  }
+                });
+
+                // Alle roten Hintergründe weiß (AUSSER warum-blue UND neuer Banner!)
+                document.querySelectorAll('.city-page [style*="215, 57"]').forEach(el => {
+                  if (el.closest('.bottrop-warum-blue')) return;
+                  if (el.closest('.bottrop-stats-banner-new')) return; // Neuen Banner schützen
+                  el.style.setProperty('background', '#fff', 'important');
+                });
+
+                // Roten Strich über "Kindergeburtstag in Bottrop und ganz NRW" entfernen
+                // Das ist eine border-top oder ein schmaler roter Gradient-Container
+                const nrwH = Array.from(document.querySelectorAll('h2, h3')).find(h =>
+                  h.textContent.includes('Bottrop') && h.textContent.includes('NRW'));
+                if (nrwH) {
+                  const nrwSection = nrwH.closest('.alignfull, section');
+                  if (nrwSection) {
+                    // Entferne alle roten Borders/Backgrounds über der NRW-Section
+                    let prev = nrwSection.previousElementSibling;
+                    while (prev) {
+                      const bg = getComputedStyle(prev).background || '';
+                      const h = prev.offsetHeight;
+                      if (h < 30 && (bg.includes('215, 57') || bg.includes('d7393e'))) {
+                        prev.style.setProperty('display', 'none', 'important');
+                      }
+                      if (h > 30) break;
+                      prev = prev.previousElementSibling;
+                    }
+                    // Auch border-top der Section selbst entfernen
+                    nrwSection.style.setProperty('border-top', 'none', 'important');
+                  }
+                }
+              } catch(e) { console.error('Bottrop fix error:', e); }
+            }, 150);
+          }
+
+          // (Fix WAVES und Fix FINAL entfernt — das NEUES Design-System Script unten
+          //  übernimmt Waves + Spacing korrekt mit max-2-Sektionen-Limit)
+        });
+      </script>
+    )}
+
+    {/* NEUES Design-System Script — überschreibt alle vorherigen Fixes */}
+    {isCityPage && (
+      <script is:inline>
+        window.addEventListener('load', () => {
+          const cp = document.querySelector('.city-page');
+          if (!cp) return;
+
+          // === 1. WordPress-Waves verstecken ===
+          cp.querySelectorAll('.top, .bottom, .rotate').forEach(el => {
+            el.style.display = 'none';
+          });
+
+          // === 2. Leere Sektionen entfernen ===
+          cp.querySelectorAll('section, .alignfull, .wp-block-themeisle-blocks-advanced-columns, .wp-block-columns').forEach(s => {
+            if (s.closest('.price-grid') || s.closest('[class*="stats-banner"]')) return;
+            const text = s.textContent.trim();
+            const hasImg = s.querySelector('img');
+            const hasVid = s.querySelector('iframe');
+            const hasPG = s.querySelector('.price-grid');
+            if (text.length < 15 && !hasImg && !hasVid && !hasPG && s.offsetHeight > 30) {
+              s.style.display = 'none';
+            }
+          });
+
+          // === 3. Max 2 farbige Sektionen — Rest wird weiß ===
+          const coloredSections = [];
+          cp.querySelectorAll('section, .alignfull, div').forEach(s => {
+            if (s.closest('[class*="stats-banner"]')) return;
+            if (s.offsetHeight < 50 || s.offsetWidth < 200) return;
+            // Skip wrapper sections that contain child sections (they wrap entire page content)
+            // Also strip their gradients so they don't bleed through
+            const childSections = s.querySelectorAll('section, .alignfull');
+            if (childSections.length > 1) {
+              const bg = getComputedStyle(s).backgroundImage || '';
+              if (bg.includes('gradient')) {
+                s.style.setProperty('background-image', 'none', 'important');
+                s.style.setProperty('background-color', 'transparent', 'important');
+              }
+              return;
+            }
+            const bg = getComputedStyle(s).backgroundImage || '';
+            const bgC = getComputedStyle(s).backgroundColor || '';
+            const isColored = bg.includes('gradient') ||
+              (bgC !== 'rgba(0, 0, 0, 0)' && bgC !== 'rgb(255, 255, 255)' && bgC !== 'rgb(249, 250, 251)');
+            if (isColored && s.textContent.trim().length > 20) {
+              // Prüfe: ist es ein erlaubter farbiger Bereich?
+              const isRed = bg.includes('215, 57') || bg.includes('d7393e');
+              const isBlue = bg.includes('59, 85') || bg.includes('3b55d5');
+              const isDark = bg.includes('31, 32') || bg.includes('1f2025');
+              if (isRed || isBlue || isDark) {
+                // Skip if already inside a found colored section
+                const isNested = coloredSections.some(cs => cs.el.contains(s) && cs.el !== s);
+                if (!isNested) {
+                  coloredSections.push({ el: s, color: isRed ? 'red' : isBlue ? 'blue' : 'dark' });
+                }
+              } else {
+                // Unerlaubte Farbe → weiß machen
+                s.style.setProperty('background', '#fff', 'important');
+                s.querySelectorAll('h2, h3, h4, p, span, strong, li').forEach(t => {
+                  if (getComputedStyle(t).color === 'rgb(255, 255, 255)') {
+                    t.style.setProperty('color', '#1f2025', 'important');
+                  }
+                });
+                s.querySelectorAll('a').forEach(a => a.style.setProperty('color', '#d7393e', 'important'));
+              }
+            }
+          });
+
+          // Wenn mehr als 2 farbige Sektionen: überschüssige weiß machen
+          if (coloredSections.length > 2) {
+            // Behalte die ersten 2, mache den Rest weiß
+            coloredSections.slice(2).forEach(({ el }) => {
+              el.style.setProperty('background', '#fff', 'important');
+              el.querySelectorAll('h2, h3, h4, p, span, strong, li').forEach(t => {
+                if (getComputedStyle(t).color === 'rgb(255, 255, 255)') {
+                  t.style.setProperty('color', '#1f2025', 'important');
+                }
+              });
+              el.querySelectorAll('a').forEach(a => a.style.setProperty('color', '#d7393e', 'important'));
+            });
+          }
+
+          // === 4. SVG-Waves für die verbleibenden farbigen Sektionen ===
+          const waveColors = { red: '#d7393e', blue: '#3b55d5', dark: '#1f2025' };
+          coloredSections.slice(0, 2).forEach(({ el, color }) => {
+            if (el.closest('[class*="stats-banner"]')) return;
+            // Entferne existierende Waves (WordPress-Klassen UND dynamisch erstellte)
+            el.querySelectorAll('.top, .bottom').forEach(w => w.remove());
+            // Entferne auch dynamisch erstellte Wave-Divs (haben SVG mit viewBox 1440)
+            for (const child of [...el.children]) {
+              if (child.querySelector && child.querySelector('svg[viewBox*="1440"]') && child.children.length === 1) {
+                child.remove();
+              }
+            }
+            const fill = waveColors[color] || '#3b55d5';
+            // Wave oben
+            const wTop = document.createElement('div');
+            wTop.style.cssText = 'overflow:hidden;line-height:0;margin-bottom:-1px;';
+            wTop.innerHTML = '<svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;"><path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="' + fill + '"/></svg>';
+            el.insertBefore(wTop, el.firstChild);
+            // Wave unten
+            const wBot = document.createElement('div');
+            wBot.style.cssText = 'overflow:hidden;line-height:0;margin-top:-1px;';
+            wBot.innerHTML = '<svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;"><path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/></svg>';
+            el.appendChild(wBot);
+          });
+
+          // === 5. Preis-Karten: Immer 3 Spalten ===
+          cp.querySelectorAll('.price-grid').forEach(pg => {
+            pg.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:1000px;margin:1rem auto 1.5rem;';
+            // Entferne Extra-Cards über 3
+            const cards = pg.querySelectorAll('.price-card');
+            if (cards.length > 3) {
+              for (let i = 3; i < cards.length; i++) cards[i].remove();
+            }
+          });
+
+          // === 6. Overlay-Divs minimieren ===
+          cp.querySelectorAll('.wp-block-themeisle-blocks-advanced-columns-overlay').forEach(o => {
+            o.style.cssText = 'max-height:0;overflow:hidden;padding:0;';
+          });
+        });
+      </script>
+    )}
+
+    {/* Service-Links für Blog-Posts */}
+    {isBlogPost && (
+      <section class="py-10 bg-[#f9fafb]">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+          <p class="text-[#595959] font-bold text-sm uppercase tracking-widest mb-4">Unsere Leistungen</p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <a href="/clown/clownshow/" class="bg-white px-5 py-3 rounded-lg shadow-sm text-[#d7393e] hover:underline font-medium text-sm">🤡 Clownshow</a>
+            <a href="/zauberer/" class="bg-white px-5 py-3 rounded-lg shadow-sm text-[#3b55d5] hover:underline font-medium text-sm">🎩 Zauberer</a>
+            <a href="/kinderzauberer/" class="bg-white px-5 py-3 rounded-lg shadow-sm text-[#d7393e] hover:underline font-medium text-sm">✨ Kinderzauberer</a>
+            <a href="/kindergeburtstag/" class="bg-white px-5 py-3 rounded-lg shadow-sm text-[#3b55d5] hover:underline font-medium text-sm">🎂 Kindergeburtstag</a>
+            <a href="/zauberer/zaubershow/" class="bg-white px-5 py-3 rounded-lg shadow-sm text-[#d7393e] hover:underline font-medium text-sm">🪄 Zaubershow</a>
+            <a href="/galerie/" class="bg-white px-5 py-3 rounded-lg shadow-sm text-[#3b55d5] hover:underline font-medium text-sm">📸 Galerie</a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* Google Reviews – nach dem Content wie in der Referenz */}
+    <GoogleReviews />
+
+    {/* CTA-Sektion im Referenz-Stil */}
+    {isCityPage ? (
+      <section class="bg-gray-50 py-14">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+          <p class="font-bold text-[#d7393e] text-sm uppercase tracking-widest mb-2">EINFACH KONTAKT AUFNEHMEN</p>
+          <h2 class="text-[#1f2025] font-bold text-2xl sm:text-3xl mb-6">{cityName ? `Clown Zauberer buchen in ${displayCity}` : 'Jetzt buchen'}</h2>
+          <p class="text-[#374151] mb-6 text-sm leading-relaxed max-w-xl mx-auto">
+            Sie können mir Ihre Anfrage unverbindlich senden. Ihre Angaben werden selbstverständlich absolut vertraulich behandelt und nicht weitergegeben. Je mehr Angaben ich von Ihnen bekomme, desto besser kann ich Sie beraten. Sie können auch einfach unter 0172-1517578 anrufen oder über WhatsApp schreiben.
+          </p>
+          <a href="/kontakt/" class="inline-block bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-8 py-3 rounded transition-colors">
+            Kontaktformular
+          </a>
+        </div>
+      </section>
+    ) : (
+      <section class="pb-12 bg-white">
+        <div class="max-w-[750px] mx-auto px-4">
+          <div class="mt-10 bg-[#f4f4f4] rounded-lg p-8 text-center">
+            <h2 class="text-[#1f2025] font-bold text-xl mb-3">Jetzt buchen</h2>
+            <p class="text-[#595959] mb-5">Unvergessliche Unterhaltung für Ihr Event – einfach und unverbindlich anfragen!</p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+              <a href="/kontakt/" class="inline-flex items-center justify-center gap-2 bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-8 py-3 rounded transition-colors">Kontakt aufnehmen</a>
+              <a href="tel:+491721517578" class="inline-flex items-center justify-center bg-white border border-gray-200 text-[#1f2025] font-bold px-8 py-3 rounded hover:bg-gray-50 transition-colors">+49 172 1517578</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* Kontakt-Info-Zeile */}
+    {isCityPage && (
+      <section class="bg-white py-10 border-t border-gray-100">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+          <p class="font-bold text-[#1f2025] text-lg mb-2">Clown Zauberer LIAR</p>
+          <p class="text-[#374151] mb-2">Anschrift : Beethovenstr. 15, 45966 Gladbeck</p>
+          <p class="text-[#374151] mb-4">
+            TEL : <a href="tel:+491721517578" class="hover:text-[#d7393e] transition-colors">0172 – 1517578</a>
+            {' '}// Email :
+            <a href="mailto:info@liar-entertainer.com" class="hover:text-[#d7393e] transition-colors">info@liar-entertainer.com</a>
+          </p>
+        </div>
+      </section>
+    )}
+  </>
+) : (
+  <>
+    <section class="relative py-36 overflow-hidden">
+      <div class="absolute inset-0 bg-cover" style={`background-image: url('${heroImg}'); background-position: center 20%;`} />
+      <div class="absolute inset-0 bg-black/50" />
+      <div class="relative max-w-[750px] mx-auto px-4 text-center">
+        {isCityPage && cityName && <div class="inline-flex items-center gap-2 bg-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium mb-4">📍 {cityName}</div>}
+        <h1 class="text-white font-bold text-3xl sm:text-4xl leading-tight mb-3">{seoTitle || page.title}</h1>
+        {rawDesc && <p class="text-gray-200 text-base leading-relaxed">{rawDesc}</p>}
+      </div>
+    </section>
+    <section class="pt-4 pb-12 bg-white">
+      <div class="max-w-[750px] mx-auto px-4">
+        {fixedPageContent && <div class="wp-content"><Fragment set:html={fixedPageContent} /></div>}
+      </div>
+    </section>
+    <GoogleReviews />
+    <section class="bg-white py-10 border-t border-gray-100">
+      <div class="max-w-3xl mx-auto px-4 text-center">
+        <h2 class="text-[#1f2025] font-bold text-xl mb-3">{isCityPage && cityName ? `Clown Zauberer buchen in ${cityName}` : 'Jetzt buchen'}</h2>
+        <p class="text-[#595959] mb-5">Unvergessliche Unterhaltung für Ihr Event – einfach und unverbindlich anfragen!</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="/kontakt/" class="inline-flex items-center justify-center gap-2 bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-8 py-3 rounded transition-colors">Kontakt aufnehmen</a>
+          <a href="tel:+491721517578" class="inline-flex items-center justify-center bg-white border border-gray-200 text-[#1f2025] font-bold px-8 py-3 rounded hover:bg-gray-50 transition-colors">+49 172 1517578</a>
+        </div>
+      </div>
+    </section>
+  </>
+)}
+
+</BaseLayout>

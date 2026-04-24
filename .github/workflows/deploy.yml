@@ -1,0 +1,56 @@
+name: Build & Deploy to IONOS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro
+        run: npm run build
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install paramiko
+        run: pip install paramiko
+
+      - name: Deploy to IONOS via SFTP
+        env:
+          IONOS_SFTP_HOST: ${{ secrets.IONOS_SFTP_HOST }}
+          IONOS_SFTP_USER: ${{ secrets.IONOS_SFTP_USER }}
+          IONOS_SFTP_PASS: ${{ secrets.IONOS_SFTP_PASS }}
+          IONOS_SFTP_REMOTE: ${{ secrets.IONOS_SFTP_REMOTE }}
+          LOCAL_DIST_DIR: dist
+        run: python deploy_ionos.py
+
+      - name: Notify n8n (optional)
+        if: success() && env.N8N_DEPLOY_WEBHOOK != ''
+        env:
+          N8N_DEPLOY_WEBHOOK: ${{ secrets.N8N_DEPLOY_WEBHOOK }}
+        run: |
+          curl -sS -X POST "$N8N_DEPLOY_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "{\"event\":\"deploy_done\",\"sha\":\"${{ github.sha }}\",\"ref\":\"${{ github.ref }}\"}"

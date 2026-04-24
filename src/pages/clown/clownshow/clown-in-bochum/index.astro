@@ -1,0 +1,410 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import karteImg from '../../../../assets/images/home/clown-zauberer-gladbeck-karte.jpg';
+import { Image } from 'astro:assets';
+import GoogleReviews from '../../../../components/GoogleReviews.astro';
+
+const seoTitle = "Clown Bochum | TOP Bewertungen | Jetzt buchen";
+const seoDescription = "Clown in Bochum buchen ✓ Französischer Clown Zauberer LIAR ✓ 400+ Top-Bewertungen ✓ Für Kindergeburtstag & Events ✓ Auch in Herne & Dortmund ✓ Anfragen!";
+const heroImg = 'https://liar-entertainer.com/wp-content/uploads/2023/08/Clown-Ruhrgebiet.jpg';
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Clown in Bochum",
+  "description": "Clown LIAR für Kindergeburtstag und Kinderfest in Bochum, NRW",
+  "url": "https://liar-entertainer.com/clown/clownshow/clown-in-bochum/",
+  "serviceType": ["Clownshow", "Kinderunterhaltung"],
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Clown Zauberer LIAR",
+    "url": "https://liar-entertainer.com",
+    "telephone": "+491721517578"
+  },
+  "areaServed": { "@type": "City", "name": "Bochum" },
+  "offers": { "@type": "Offer", "price": "150", "priceCurrency": "EUR" }
+};
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Was kostet ein Auftritt von Clown LIAR in Bochum? 💶",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Unterschiedlich! Die Gage ist immer individuell abhängig von verschiedenen Faktoren: Art und Umfang der Veranstaltung (Kindergeburtstag, Firmenevent, großes Stadtfest)Anzahl der Zuschauer und Dauer der ShowAnfahrtsweg nach Bochum oder UmgebungZeitpunkt (Wochentag/Wochenende) und eventuell Jahreszeit (Hochsaison im Sommer)Gewünschte Programme (nur Clownshow, oder mit Zauberei, Ballons, Walk Act kombiniert)Bei KINDERGEBURTSTAGEN gibt es feste, transparente Preise! Für Veranstaltungen erstelle ich Ihnen gerne ein individuelles, faires Angebot. Fragen Sie einfach unverbindlich nach! 📞"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wieviel Platz braucht man für die Clownshow? 📏",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ganz wenig! Ohne lange Vorbereitungszeit und mit einer Fläche von nur 2×2 Meter kann ich bereits eine vollwertige Show vorführen. Das bedeutet, ich bin extrem flexibel einsetzbar:✅ Wohnzimmer & Kinderzimmer (perfekt für Kindergeburtstage zu Hause)✅ Partykeller & Gartenhäuschen✅ Terrasse & Gartenanlage (Outdoor-Events)✅ Große und kleine Bühnen (Stadtfeste, Vereinsfeiern)✅ Bücherei, Gemeindezentrum, Pfarrheim✅ Kindergarten, Kita, Grundschule✅ Turnhalle & MehrzweckraumSie brauchen keine große Location – die Show funktioniert überall! 🎪"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie lange dauert eine Vorführung mit dem Clown? ⏰",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die Show ist ab 25-30 Minuten zu buchen – perfekt für kürzere Events oder als Teil eines größeren Programms. Auf Wunsch kann die Show auch bis zu 45 Minuten oder länger dauern, je nach Ihren Bedürfnissen. Das Besondere?!? Die Show lässt sich flexibel in jeder Veranstaltung einbauen: Kindergeburtstag & FamilienfeierKarnevalfeier & FaschingspartyKinderfest & StraßenfestSommerfest im Kindergarten oder in der SchuleSchützenfest & VereinsjubiläumBetriebsfeier mit FamilienprogrammHochzeit (Kinderbetreuung während der Feier)Ich passe mich Ihrem Zeitplan an – unkompliziert und professionell! 👍"
+      }
+    }
+  ]
+};
+
+const structuredData = [serviceSchema, faqSchema];
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords="Clown Bochum, Clown in Bochum, Clownshow Bochum, Clown buchen Bochum, Zauberer Bochum, NRW"
+  canonical="https://liar-entertainer.com/clown/clownshow/clown-in-bochum/"
+  ogImage={heroImg}
+  structuredData={structuredData}
+>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden" style="min-height: 600px;">
+    <div class="absolute inset-0 bg-cover bg-center" style={`background-image: url('${heroImg}'); background-position: center 20%;`}></div>
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative flex flex-col items-center justify-center text-center px-6" style="min-height: 600px;">
+      <div class="inline-flex items-center gap-2 bg-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium mb-4 backdrop-blur-sm">
+        <span>📍</span> Bochum
+      </div>
+      <h1 class="text-white font-extrabold text-center leading-tight mb-3" style="font-size: clamp(2rem, 5vw, 3.5rem); text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">
+        Clown in Bochum
+      </h1>
+      <p class="text-gray-200 text-base leading-relaxed max-w-xl mx-auto">
+        Clownshow und Unterhaltung in Bochum – Spaß, Lachen und gute Laune für Groß und Klein!
+      </p>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section class="bg-white pt-4 pb-0">
+    <div class="max-w-6xl mx-auto px-4">
+      <nav class="text-sm text-[#595959]">
+        <a href="/" class="text-[#d7393e] hover:underline">Clown</a>
+        <span class="mx-1">»</span>
+        <a href="/clown/clownshow/" class="text-[#d7393e] hover:underline">Clownshow</a>
+        <span class="mx-1">»</span>
+        <span>Clown in Bochum</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Intro Section -->
+  <section class="bg-white py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="text-[#d7393e] font-bold text-xl mb-4">Buchen Sie den Clown in Bochum! 🤡</h2>
+          <p class="text-[#374151] mb-4 leading-relaxed">Zögern Sie nicht und buchen Sie den Clown mit TOP Bewertungen in Bochum! Meine Kunst ist es, mit kleinen aber feinen Gesten und ausgeprägtem Mimenspiel auf jedes Gesicht ein Lächeln zu zaubern 😊. Da darf ich selbst natürlich auch mal herrlich tollpatschig sein – denn genau das macht den Charme eines echten Clowns aus!</p>
+          <p class="text-[#374151] mb-4 leading-relaxed">Mit meiner Clownshow sorge ich für ein Erlebnis, das bei Kindern und Erwachsenen noch sehr lange in Erinnerung bleiben wird. Ob als unterhaltsamer WALK-ACT durch Ihre Veranstaltung oder in Kombination mit faszinierender BALLONMODELLAGE und verblüffender ZAUBEREI – Ihre Veranstaltung oder private Feier (Hochzeit, Firmenevent oder Geburtstag) wird garantiert zum unvergesslichen Highlight! 🎉</p>
+        </div>
+        <div class="flex justify-center">
+          <img
+            src="https://liar-entertainer.com/wp-content/uploads/2023/08/Clown.jpg"
+            alt="Clownshow in Bochum"
+            class="rounded-full object-cover object-[20%]"
+            style="width: 320px; height: 320px;"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Google Reviews -->
+  <GoogleReviews />
+
+  <!-- Wave: white → blue -->
+  <div style="overflow:hidden;line-height:0;background:white;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#3b55d5"/>
+    </svg>
+  </div>
+  <section class="bg-[#3b55d5] py-14 text-white text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <p class="text-[#ffb546] font-bold text-sm uppercase tracking-widest mb-4">BOCHUM</p>
+      <h2 class="text-white font-bold text-3xl sm:text-4xl mb-6">✨ Clownshow in Bochum – mit Herz &amp; Humor</h2>
+      <p class="text-white leading-relaxed mb-4">
+        Meine Show ist speziell auf Kinder abgestimmt: lebendig, interaktiv und voller Überraschungen.
+      </p>
+      <p class="text-white leading-relaxed">
+        Die Kinder dürfen mitzaubern, lachen, staunen – und manchmal selbst zur kleinen Zauberin oder zum Zauberer werden.
+        Dabei achte ich besonders auf Respekt, Empathie und ein liebevolles Miteinander.
+      </p>
+    </div>
+  </section>
+  <!-- Wave: blue → white -->
+  <div style="overflow:hidden;line-height:0;background:#3b55d5;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- Witzig und Magisch! ✨ -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-[#1f2025] font-bold text-2xl sm:text-3xl text-center mb-6">Witzig und Magisch! ✨</h2>
+      <p class="text-[#374151] mb-4 leading-relaxed">Meine Kunst ist es, mit kleinen aber feinen Gesten und ausgeprägtem Minenspiel auf jedes Gesicht ein Lächeln zu zaubern. Da darf ich selbst natürlich auch mal wunderbar tollpatschig sein – schließlich lebt die Clownerie von genau diesen ehrlichen, liebenswerten Momenten!</p>
+      <p class="text-[#374151] mb-4 leading-relaxed">Als professioneller Clown und Entertainer bin ich seit über 15 Jahren in der Region aktiv. Bis heute trat ich über 4.000 Mal erfolgreich auf: bei Privatpartys (Geburtstage, Hochzeiten), Firmenveranstaltungen, Vereinsfeiern, Messen, in Theatern, Kindergärten, Grundschulen und natürlich auch bei vielen Events direkt in Bochum! Diese Erfahrung spürt man in jeder Show – routiniert, aber immer mit frischer Begeisterung! 🎭</p>
+    </div>
+  </section>
+
+  <!-- ZAUBERSHOW -->
+  <section class="bg-white py-14">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-[#1f2025] font-bold text-2xl sm:text-3xl text-center mb-6">ZAUBERSHOW</h2>
+      <p class="text-[#374151] mb-4 leading-relaxed">Der Clown findet den besten Draht zu den Kindern und der Zauberer überrascht sie mit verblüffenden Tricks! Mädchen und Jungs erleben eine erstklassige und witzige Mischung aus Clownerie und Zauberei, bei der ich die Zuschauer zu aktiven Mitwirkenden mache und direkt einbeziehe.</p>
+      <p class="text-[#374151] mb-4 leading-relaxed">Die Kinder stehen dabei im absoluten Mittelpunkt – nicht die Zaubertricks! Durch die Interaktion entstehen unvergessliche Momente: Kinder kommen auf die Bühne, helfen bei den Tricks mit und werden selbst zu kleinen Zauberern. Das Pendeln zwischen Staunen und herzhaftem Lachen macht diese Show zu einem besonderen Erlebnis für die ganze Familie! ✨</p>
+    </div>
+  </section>
+
+  <!-- Wave: white → red (Stats) -->
+  <div style="overflow:hidden;line-height:0;background:white;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#d7393e"/>
+    </svg>
+  </div>
+
+  <!-- Stats Banner -->
+  <section class="bg-[#d7393e] py-10 text-white text-center">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-transparent border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">🪄</div>
+          <div class="text-4xl font-extrabold">400</div>
+          <div class="text-sm mt-1">Shows im Jahr</div>
+        </div>
+        <div class="bg-transparent border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">😊</div>
+          <div class="text-4xl font-extrabold">110.000</div>
+          <div class="text-sm mt-1">Lachende Kinder</div>
+        </div>
+        <div class="bg-transparent border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">🪄</div>
+          <div class="text-4xl font-extrabold">15</div>
+          <div class="text-sm mt-1">Jahre Erfahrung</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: red → white -->
+  <div style="overflow:hidden;line-height:0;background:#d7393e;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- Bildergalerie -->
+  <section class="bg-white py-14">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <img src="https://liar-entertainer.com/wp-content/uploads/2023/08/Fotogalerie-Clown-Zauberer-16.jpg" alt="Staunende Kinder bei dem Auftritt von Clown in Bochum" class="rounded-xl w-full object-cover object-top shadow-sm" loading="lazy" style="height:280px" />
+        <img src="https://liar-entertainer.com/wp-content/uploads/2023/08/Zaubershow-2.jpg" alt="Zaubershow auf einer Bühne für den Clown" class="rounded-xl w-full object-cover object-top shadow-sm" loading="lazy" style="height:280px" />
+        <img src="https://liar-entertainer.com/wp-content/uploads/2023/08/Fruehlingsfest-Kray-Kinderzauberer.jpg" alt="Clown in Bochum mit Ballonmodellage" class="rounded-xl w-full object-cover object-top shadow-sm" loading="lazy" style="height:280px" />
+        <img src="https://liar-entertainer.com/wp-content/uploads/2023/08/Glitzer-Tattoos-.jpg" alt="So sehen Glitzer Tattoos aus beim Zauberer LIAR in Bochum" class="rounded-xl w-full object-cover object-top shadow-sm" loading="lazy" style="height:280px" />
+        <img src="https://liar-entertainer.com/wp-content/uploads/2023/08/Clown-bei-Clownshow.jpg" alt="Clown in Bochum bei Clownshow" class="rounded-xl w-full object-cover object-top shadow-sm" loading="lazy" style="height:280px" />
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-center font-bold text-[#1f2025] text-sm uppercase tracking-widest mb-2">NOCH FRAGEN?</h2>
+      <h3 class="text-center font-bold text-[#1f2025] text-2xl sm:text-3xl mb-10">
+        Hier sind ein paar Antworten
+      </h3>
+
+      <div class="space-y-3" id="faq-list">
+        <div class="faq-item bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <button
+            class="faq-btn w-full text-left px-6 py-4 font-semibold text-[#1f2025] flex items-center justify-between gap-4"
+            aria-expanded="false"
+          >
+            <span>Was kostet ein Auftritt von Clown LIAR in Bochum? 💶</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer hidden px-6 pb-5 text-[#374151] leading-relaxed">
+            Unterschiedlich! Die Gage ist immer individuell abhängig von verschiedenen Faktoren: Art und Umfang der Veranstaltung (Kindergeburtstag, Firmenevent, großes Stadtfest)Anzahl der Zuschauer und Dauer der ShowAnfahrtsweg nach Bochum oder UmgebungZeitpunkt (Wochentag/Wochenende) und eventuell Jahreszeit (Hochsaison im Sommer)Gewünschte Programme (nur Clownshow, oder mit Zauberei, Ballons, Walk Act kombiniert)Bei KINDERGEBURTSTAGEN gibt es feste, transparente Preise! Für Veranstaltungen erstelle ich Ihnen gerne ein individuelles, faires Angebot. Fragen Sie einfach unverbindlich nach! 📞
+          </div>
+        </div>
+        <div class="faq-item bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <button
+            class="faq-btn w-full text-left px-6 py-4 font-semibold text-[#1f2025] flex items-center justify-between gap-4"
+            aria-expanded="false"
+          >
+            <span>Wieviel Platz braucht man für die Clownshow? 📏</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer hidden px-6 pb-5 text-[#374151] leading-relaxed">
+            Ganz wenig! Ohne lange Vorbereitungszeit und mit einer Fläche von nur 2×2 Meter kann ich bereits eine vollwertige Show vorführen. Das bedeutet, ich bin extrem flexibel einsetzbar:✅ Wohnzimmer & Kinderzimmer (perfekt für Kindergeburtstage zu Hause)✅ Partykeller & Gartenhäuschen✅ Terrasse & Gartenanlage (Outdoor-Events)✅ Große und kleine Bühnen (Stadtfeste, Vereinsfeiern)✅ Bücherei, Gemeindezentrum, Pfarrheim✅ Kindergarten, Kita, Grundschule✅ Turnhalle & MehrzweckraumSie brauchen keine große Location – die Show funktioniert überall! 🎪
+          </div>
+        </div>
+        <div class="faq-item bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <button
+            class="faq-btn w-full text-left px-6 py-4 font-semibold text-[#1f2025] flex items-center justify-between gap-4"
+            aria-expanded="false"
+          >
+            <span>Wie lange dauert eine Vorführung mit dem Clown? ⏰</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer hidden px-6 pb-5 text-[#374151] leading-relaxed">
+            Die Show ist ab 25-30 Minuten zu buchen – perfekt für kürzere Events oder als Teil eines größeren Programms. Auf Wunsch kann die Show auch bis zu 45 Minuten oder länger dauern, je nach Ihren Bedürfnissen. Das Besondere?!? Die Show lässt sich flexibel in jeder Veranstaltung einbauen: Kindergeburtstag & FamilienfeierKarnevalfeier & FaschingspartyKinderfest & StraßenfestSommerfest im Kindergarten oder in der SchuleSchützenfest & VereinsjubiläumBetriebsfeier mit FamilienprogrammHochzeit (Kinderbetreuung während der Feier)Ich passe mich Ihrem Zeitplan an – unkompliziert und professionell! 👍
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Sektion -->
+  <!-- Wave oben (weiß → blau) -->
+  <div style="overflow:hidden;line-height:0;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#3b55d5"/>
+    </svg>
+  </div>
+  <section class="py-14 bg-[#3b55d5]">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-white font-extrabold text-xl uppercase tracking-widest mb-6">
+        SCHNELLE EINDRÜCKE
+      </h2>
+      <div class="relative w-full max-w-2xl mx-auto mb-8" style="padding-bottom: 56.25%; position: relative;">
+        <iframe
+          src="https://www.youtube.com/embed/Cop0SqRIX4Y"
+          title="Clown Zauberer für Geburtstag, Feier, Veranstaltung in NRW : die lustigste Zaubershow im Pott!"
+          class="absolute inset-0 w-full h-full rounded-lg"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <h3 class="text-white font-bold text-xl mb-6">
+        Mehr Fotos und Videos in der Galerie
+      </h3>
+      <a
+        href="/galerie/"
+        class="inline-block bg-[#f5a623] hover:bg-[#e69420] text-[#1f2025] font-bold px-10 py-4 rounded-full text-base transition-colors"
+      >
+        Zur Foto- und Videogalerie
+      </a>
+    </div>
+  </section>
+  <!-- Wave unten (blau → weiß) -->
+  <div style="overflow:hidden;line-height:0;background:#3b55d5;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+
+
+  <!-- Einsatzgebiet -->
+  <section class="bg-white py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-[#d7393e] font-bold text-2xl text-center mb-10">Nicht nur in Bochum unterwegs</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div>
+          <p class="text-[#374151] mb-4 leading-relaxed">Besonders häufig trete ich in folgenden Städten auf:</p>
+          <h3 class="font-bold text-[#1f2025] mb-3">Ruhrgebiet</h3>
+          <p class="text-[#374151] mb-4 leading-relaxed">
+            <a href="/clown/clownshow/clown-in-bochum/" class="text-[#d7393e] hover:underline">Bochum</a> |
+            <a href="/clown/clownshow/clown-in-oberhausen/" class="text-[#d7393e] hover:underline">Oberhausen</a> |
+            <a href="/clown/clownshow/clown-in-gelsenkirchen/" class="text-[#d7393e] hover:underline">Gelsenkirchen</a> |
+            <a href="/clown/clownshow/clown-in-essen/" class="text-[#d7393e] hover:underline">Essen</a> |
+            <a href="/clown/clownshow/clown-in-duisburg/" class="text-[#d7393e] hover:underline">Duisburg</a> |
+            <a href="/clown/clownshow/clown-in-herten/" class="text-[#d7393e] hover:underline">Herten</a> |
+            <a href="/clown/clownshow/clown-in-herne/" class="text-[#d7393e] hover:underline">Herne</a> |
+            <a href="/clown/clownshow/clown-in-marl/" class="text-[#d7393e] hover:underline">Marl</a> |
+            <a href="/clown/clownshow/clown-in-gladbeck/" class="text-[#d7393e] hover:underline">Gladbeck</a> |
+            <a href="/clown/clownshow/clown-in-muelheim/" class="text-[#d7393e] hover:underline">Mülheim</a> |
+            <a href="/clown/clownshow/clown-in-dortmund/" class="text-[#d7393e] hover:underline">Dortmund</a> |
+            Lünen | Hagen | Witten |
+            <a href="/clown/clownshow/clown-in-recklinghausen/" class="text-[#d7393e] hover:underline">Castrop-Rauxel</a>
+          </p>
+          <h3 class="font-bold text-[#1f2025] mb-3">Weitere NRW-Städte</h3>
+          <p class="text-[#374151] mb-4 leading-relaxed">
+            <a href="/clown/clownshow/clown-in-duesseldorf/" class="text-[#d7393e] hover:underline">Düsseldorf</a> |
+            Moers | Krefeld |
+            <a href="/clown/clownshow/clown-in-dorsten/" class="text-[#d7393e] hover:underline">Dorsten</a> |
+            Reken | Ahaus | Münster | Köln | Neuss
+          </p>
+          <p class="text-[#374151] leading-relaxed">
+            Selbstverständlich kann man mich auch überregional und international buchen – ich war bereits in Frankreich, Belgien, den Niederlanden, Österreich und der Schweiz im Einsatz!
+          </p>
+        </div>
+        <div>
+          <Image
+            src={karteImg}
+            alt="Karte Einsatzgebiet Clownshow Bochum"
+            class="rounded-lg w-full h-auto"
+            widths={[400, 600, 800]}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="bg-white py-10 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <p class="font-bold text-[#1f2025] text-lg mb-2">Clown Zauberer LIAR</p>
+      <p class="text-[#374151] mb-2">Anschrift: Beethovenstr. 15, 45966 Gladbeck</p>
+      <p class="text-[#374151] mb-4">
+        TEL: <a href="tel:+491721517578" class="hover:text-[#d7393e] transition-colors">0172 – 1517578</a>
+        &nbsp;|&nbsp;
+        Email: <a href="mailto:info@liar-entertainer.com" class="hover:text-[#d7393e] transition-colors">info@liar-entertainer.com</a>
+      </p>
+      <a href="/kontakt/" class="inline-block bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-8 py-3 rounded transition-colors">
+        Kontaktformular
+      </a>
+    </div>
+  </section>
+
+<!-- Cross-Linking: Weitere Services in Bochum -->
+<section class="py-10 bg-[#f9fafb]">
+  <div class="max-w-3xl mx-auto px-4 text-center">
+    <h2 class="text-[#1f2025] font-bold text-xl mb-4">LIAR in Bochum buchen</h2>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="/kindergeburtstag/geburtstag-in-bochum/" class="bg-white rounded-lg px-5 py-3 shadow-sm text-[#d7393e] hover:underline font-medium text-sm">🎂 Kindergeburtstag in Bochum</a>
+      <a href="/kinderzauberer/kinderzauberer-in-bochum/" class="bg-white rounded-lg px-5 py-3 shadow-sm text-[#3b55d5] hover:underline font-medium text-sm">🎩 Kinderzauberer in Bochum</a>
+    </div>
+  </div>
+</section>
+
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const answer = btn.nextElementSibling as HTMLElement;
+      const chevron = btn.querySelector('.faq-chevron');
+      const isOpen = !answer?.classList.contains('hidden');
+      if (isOpen) {
+        answer?.classList.add('hidden');
+        chevron?.classList.remove('rotate-180');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        answer?.classList.remove('hidden');
+        chevron?.classList.add('rotate-180');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>

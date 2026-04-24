@@ -1,0 +1,1137 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #d7393e;
+  --color-primary-dark: #b62e32;
+  --color-primary-light: #e04a4f;
+  --color-accent-gold: #ffb546;
+  --color-dark: #14171c;
+  --color-dark-2: #1f2025;
+  --color-gray-light: #f4f4f4;
+  --color-footer-top: #c9d7f0;
+  --font-sans: Poppins, Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1f2025;
+  --nv-site-bg: #ffffff;
+  --nv-primary-accent: #d7393e;
+  --nv-secondary-accent: #3b55d5;
+  --nv-text-color: #1f2025;
+  --nv-text-dark-bg: #ffffff;
+  --nv-dark-bg: #1f2025;
+  --nv-light-bg: #f4f4f4;
+  --nv-c-1: #77b978;
+  --nv-c-2: #f37262;
+
+  --container: 748px;
+  --postwidth: 100%;
+  --primarybtnbg: var(--nv-primary-accent);
+  --secondarybtnbg: var(--nv-secondary-accent);
+  --primarybtnhoverbg: var(--nv-secondary-accent);
+  --secondarybtnhoverbg: var(--nv-primary-accent);
+  --primarybtncolor: #fff;
+  --secondarybtncolor: #1f2025;
+  --primarybtnhovercolor: #1f2025;
+  --secondarybtnhovercolor: #fff;
+  --bodyfontfamily: Poppins;
+  --bodyfontsize: 15px;
+  --bodylineheight: 1.6;
+  --bodyletterspacing: 0px;
+  --bodyfontweight: 400;
+  --headingsfontfamily: Poppins;
+  --h1fontsize: 35px;
+  --h1fontweight: 800;
+  --h2fontsize: 25px;
+  --h2fontweight: 800;
+  --h3fontsize: 18px;
+  --h3fontweight: 800;
+}
+
+@media (min-width: 576px) {
+  :root { --container: 992px; }
+}
+@media (min-width: 960px) {
+  :root { --container: 1140px; }
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Poppins, Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+:focus-visible {
+  outline: 2px solid #d7393e;
+  outline-offset: 2px;
+}
+
+.stars { color: #ffb546; letter-spacing: 0.05em; }
+
+/* ============================================
+   WP CONTENT STYLES (scraped WordPress HTML)
+   ============================================ */
+.wp-content h1, .wp-content h2, .wp-content h3, .wp-content h4 {
+  font-weight: 800;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #1f2025;
+}
+.wp-content h2 { font-size: 1.75rem; }
+.wp-content h3 { font-size: 1.35rem; }
+.wp-content p { margin-bottom: 1rem; line-height: 1.75; color: #374151; max-width: 750px; }
+.wp-content { max-width: 750px; margin-left: auto; margin-right: auto; }
+.wp-content ul, .wp-content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.wp-content ul { list-style-type: disc; }
+.wp-content ol { list-style-type: decimal; }
+.wp-content li { margin-bottom: 0.5rem; line-height: 1.75; color: #374151; }
+.wp-content a { color: #d7393e; text-decoration: underline; }
+.wp-content strong { font-weight: 700; color: inherit; }
+.wp-content img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1rem 0; }
+.wp-content figure { margin: 1.5rem 0; }
+
+.wp-content .has-neve-link-color-color,
+.wp-content .has-link-color { color: #d7393e !important; }
+.wp-content .has-neve-link-color-background-color { background-color: #d7393e !important; color: #fff !important; }
+.wp-content .has-text-color-color { color: #1f2025 !important; }
+
+.wp-content .wp-block-button__link,
+.wp-content .wp-block-button .wp-block-button__link {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+.wp-content .wp-block-button__link:hover { opacity: 0.9; }
+.wp-content .has-neve-link-color-background-color.wp-block-button__link {
+  background-color: #d7393e !important;
+  color: #fff !important;
+}
+
+.wp-content .wp-block-cover { border-radius: 0.5rem; overflow: hidden; }
+
+.wp-content .alignfull {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.wp-content .has-dark-bg,
+.wp-content .has-dark-bg h1,
+.wp-content .has-dark-bg h2,
+.wp-content .has-dark-bg h3,
+.wp-content .has-dark-bg h4,
+.wp-content .has-dark-bg p,
+.wp-content .has-dark-bg li,
+.wp-content .has-dark-bg a,
+.wp-content .has-dark-bg strong { color: #fff !important; }
+
+.wp-content .innerblocks-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.wp-content .top, .wp-content .bottom { display: block; line-height: 0; overflow: hidden; }
+.wp-content .top svg, .wp-content .bottom svg { display: block; width: 100%; height: 80px; }
+.wp-content .rotate { transform: scaleY(-1); }
+
+.wp-content .has-vertical-center .innerblocks-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .wp-content .has-reverse-columns-mobile .innerblocks-wrap { flex-direction: column-reverse; }
+  .wp-content .has-mobile-collapsedRows-layout .innerblocks-wrap { flex-direction: column; }
+}
+
+.wp-content hr, .wp-content .wp-block-separator {
+  border: none;
+  border-top: 2px solid #ededed;
+  margin: 1.5rem 0;
+}
+
+.wp-content .wp-block-columns { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: start; }
+.wp-content .wp-block-column { flex: 1; min-width: 200px; }
+.wp-content .has-text-align-center { text-align: center; }
+.wp-content .has-text-align-right { text-align: right; }
+
+.wp-content h2.has-neve-link-color-color,
+.wp-content h3.has-neve-link-color-color { color: #d7393e !important; }
+
+/* ============================================
+   WP SCRAPED STYLES (complete page sections)
+   ============================================ */
+.wp-scraped .wp-block-group { position: relative; }
+.wp-scraped .wp-block-themeisle-blocks-advanced-columns { position: relative; overflow: hidden; }
+.wp-scraped .wp-block-themeisle-blocks-advanced-columns-overlay {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.wp-scraped .innerblocks-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+/* 1-Spalten Text-Sektionen: gleiche Breite wie 2-Spalten-Sektionen */
+.wp-scraped .has-1-columns > .innerblocks-wrap {
+  max-width: 900px;
+}
+/* ============================================
+   CITY-PAGE DESIGN SYSTEM (basierend auf Menü-Seiten)
+   ============================================ */
+
+/* ── Grundreset: Keine Abstände zwischen WordPress-Containern ── */
+.city-page .nv-content-wrap,
+.city-page .row,
+.city-page .nv-single-page-wrap,
+.city-page .container.single-page-container {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* ── Sektionen: Konsistentes Padding wie Menü-Seiten (py-12) ── */
+.city-page section,
+.city-page .alignfull,
+.city-page .wp-block-themeisle-blocks-advanced-columns {
+  margin: 0 !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+}
+
+/* ── Farbige Sektionen: Mehr Padding (py-14 wie Menü-Seiten) ── */
+.city-page .has-dark-bg,
+.city-page [style*="gradient"] {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+/* ── WordPress Waves: Verstecken (werden per JS durch einheitliche Waves ersetzt) ── */
+.city-page .top,
+.city-page .bottom,
+.city-page .rotate {
+  display: none !important;
+}
+
+/* ── Overlay-Divs: Kein Platz ── */
+.city-page .wp-block-themeisle-blocks-advanced-columns-overlay {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* ── Container-Breiten (konsistent mit Menü-Seiten) ── */
+.city-page .innerblocks-wrap {
+  max-width: 900px !important;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem;
+}
+/* Farbige Sektionen: breiter (wie max-w-4xl auf Menü-Seiten) */
+.city-page .has-dark-bg .innerblocks-wrap,
+.city-page [style*="gradient"] .innerblocks-wrap,
+.city-page .has-1-columns[style*="gradient"] > .innerblocks-wrap,
+.city-page .has-1-columns.has-dark-bg > .innerblocks-wrap {
+  max-width: 1000px !important;
+}
+/* 2-Spalten mit Bild: etwas breiter */
+.city-page .has-2-columns .innerblocks-wrap {
+  max-width: 1000px !important;
+}
+/* Container auf City-Pages: kein max-width Constraint */
+.city-page .container.single-page-container {
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ── Typografie (konsistent mit Menü-Seiten) ── */
+.city-page h2 {
+  text-align: center;
+  width: 100%;
+  margin: 0.75rem 0 0.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 800;
+  color: #1f2025;
+}
+.city-page h3, .city-page h4 {
+  text-align: center;
+  width: 100%;
+  margin: 0.5rem 0 0.25rem;
+}
+.city-page p {
+  margin: 0 0 0.6rem;
+  line-height: 1.75;
+}
+
+/* ── Bilder: Max-Height + object-fit (konsistent mit Menü-Seiten) ── */
+.city-page figure,
+.city-page .wp-block-image {
+  margin: 0.5rem 0;
+}
+
+/* ── Text-Breite begrenzen (wie Menü-Seiten) ── */
+.city-page .wp-block-columns,
+.city-page .wp-block-column,
+.city-page .nv-single-page-wrap > p,
+.city-page .row > p,
+.city-page .wp-block-group__inner-container,
+.city-page > p,
+.city-page > h2,
+.city-page > h3 {
+  max-width: 900px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+/* Alle Spalten-Container: max 900px */
+.city-page .wp-block-themeisle-blocks-advanced-column {
+  max-width: 900px;
+}
+/* ALLE freistehenden Text-Elemente innerhalb city-page begrenzen */
+.city-page p {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Price-Grid ── */
+.city-page .price-grid {
+  margin: 1rem auto 1.5rem;
+}
+
+/* ── Leere Elemente verstecken ── */
+.city-page .nv-content-wrap > .alignfull:empty,
+.city-page .nv-content-wrap section:empty {
+  display: none;
+}
+/* alignfull: volle Breite */
+.wp-scraped .alignfull {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+.wp-scraped .wp-block-themeisle-blocks-advanced-column { padding: 0.25rem 1rem; }
+.wp-scraped h1, .wp-scraped h2, .wp-scraped h3, .wp-scraped h4 {
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+.wp-scraped h2 { font-size: clamp(1.25rem, 3vw, 1.75rem); color: #1f2025; }
+/* City-Pages: Alle H2-Überschriften zentrieren */
+.city-page h2 { text-align: center; }
+.wp-scraped h3 { font-size: clamp(1rem, 2.5vw, 1.35rem); color: #1f2025; }
+.wp-scraped p { margin-bottom: 0.85rem; line-height: 1.75; color: #374151; }
+.wp-scraped ul, .wp-scraped ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.wp-scraped ul { list-style-type: disc; }
+.wp-scraped ol { list-style-type: decimal; }
+.wp-scraped li { margin-bottom: 0.4rem; line-height: 1.75; color: #374151; }
+.wp-scraped a { color: #d7393e; }
+/* CTA-Buttons innerhalb von wp-scraped: weiße Schrift beibehalten */
+.wp-scraped a.text-white,
+.wp-scraped section a[href="/kontakt/"] { color: #ffffff !important; }
+.wp-scraped strong { font-weight: 700; }
+.wp-scraped img { max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; }
+.wp-scraped figure { margin: 1rem 0; text-align: center; }
+.wp-scraped figure img { border-radius: 0.5rem; margin-left: auto; margin-right: auto; }
+.wp-scraped .wp-block-image { text-align: center; }
+.wp-scraped .wp-block-image img { margin: 0 auto; }
+.wp-scraped .wp-block-image.aligncenter { text-align: center; }
+.wp-scraped .wp-block-image.aligncenter img { margin: 0 auto; }
+.wp-scraped .has-text-align-center { text-align: center; }
+.wp-scraped .has-text-align-right { text-align: right; }
+.wp-scraped .has-neve-link-color-color { color: #d7393e !important; }
+.wp-scraped .has-secondary-color { color: #3b55d5 !important; }
+.wp-scraped .has-white-color { color: #fff !important; }
+.wp-scraped .has-neve-link-color-background-color { background-color: #d7393e !important; }
+.wp-scraped .has-secondary-background-color { background-color: #3b55d5 !important; }
+.wp-scraped .wp-block-button__link {
+  display: inline-block;
+  padding: 12px 24px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: opacity 0.2s;
+  color: #fff;
+  background-color: #d7393e;
+}
+.wp-scraped .wp-block-button__link:hover { opacity: 0.85; }
+.wp-scraped .wp-block-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+.wp-scraped .wp-block-separator { border: none; border-top: 2px solid #ededed; margin: 1.5rem 0; }
+.wp-scraped .wp-block-columns { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: start; }
+.wp-scraped .wp-block-column { flex: 1; min-width: 200px; }
+.wp-scraped .is-layout-flex { display: flex; flex-wrap: wrap; gap: 1rem; }
+.wp-scraped .is-layout-grid { display: grid; gap: 1rem; }
+.wp-scraped .top svg, .wp-scraped .bottom svg { display: block; width: 100%; height: 20px; }
+.wp-scraped .top { line-height: 0; overflow: hidden; }
+.wp-scraped .bottom { line-height: 0; overflow: hidden; }
+.wp-scraped .rotate { transform: scaleY(-1); }
+
+/* Themeisle column layouts */
+.wp-scraped .has-2-columns .innerblocks-wrap { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; align-items: start; }
+/* Bild über Text (wenn JS .img-above-text Klasse setzt) */
+.wp-scraped .has-2-columns.img-above-text .innerblocks-wrap {
+  grid-template-columns: 1fr !important;
+  max-width: 900px;
+}
+.wp-scraped .has-2-columns.img-above-text .wp-block-themeisle-blocks-advanced-column:has(figure) {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.wp-scraped .has-2-columns.img-above-text .wp-block-themeisle-blocks-advanced-column:has(figure) img {
+  max-height: 350px;
+  width: auto;
+  margin: 0 auto;
+  display: block;
+}
+.wp-scraped .has-3-columns .innerblocks-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.wp-scraped .has-4-columns .innerblocks-wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+@media (max-width: 768px) {
+  .wp-scraped .has-2-columns .innerblocks-wrap,
+  .wp-scraped .has-3-columns .innerblocks-wrap,
+  .wp-scraped .has-4-columns .innerblocks-wrap { grid-template-columns: 1fr; }
+}
+.wp-scraped .has-vertical-center .innerblocks-wrap { align-items: flex-start; }
+
+/* ── 2-Spalten Bild+Text: Bild-Höhe an Text anpassen ─────── */
+.wp-scraped .has-2-columns .wp-block-themeisle-blocks-advanced-column img {
+  width: 100%;
+  height: auto;
+  max-height: 380px;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 0.5rem;
+}
+/* Wenn Bild allein in Spalte steht: Bild an Texthöhe der Nachbar-Spalte anpassen */
+.wp-scraped .has-2-columns .innerblocks-wrap {
+  align-items: stretch;
+}
+.wp-scraped .has-2-columns .wp-block-themeisle-blocks-advanced-column {
+  display: flex;
+  flex-direction: column;
+}
+/* Bild-Spalte (nur Bild, kein/wenig Text): Bild füllt die volle Höhe */
+.wp-scraped .has-2-columns .wp-block-themeisle-blocks-advanced-column figure,
+.wp-scraped .has-2-columns .wp-block-themeisle-blocks-advanced-column .wp-block-image {
+  flex: 1;
+  display: flex;
+}
+.wp-scraped .has-2-columns .wp-block-themeisle-blocks-advanced-column figure img,
+.wp-scraped .has-2-columns .wp-block-themeisle-blocks-advanced-column .wp-block-image img {
+  flex: 1;
+  max-height: 400px;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/* ── YouTube/Video Embeds: volle Breite mit 16:9 Ratio ────── */
+.wp-scraped iframe[src*="youtube"],
+.wp-scraped iframe[src*="vimeo"],
+.wp-content iframe[src*="youtube"],
+.wp-content iframe[src*="vimeo"] {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border-radius: 0.5rem;
+  border: none;
+}
+.wp-scraped .wp-block-embed,
+.wp-scraped .wp-block-embed__wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+/* Video in farbiger Sektion: kein weißer Rand */
+.wp-scraped .has-dark-bg iframe[src*="youtube"],
+.wp-scraped .has-dark-bg iframe[src*="vimeo"],
+.city-page .has-dark-bg iframe[src*="youtube"],
+.city-page .has-dark-bg iframe[src*="vimeo"] {
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+/* wp-block-embed Video: volle Breite der Spalte nutzen */
+.wp-scraped .wp-block-embed__wrapper,
+.wp-scraped .nv-iframe-embed {
+  width: 100%;
+}
+/* Gutenberg-Columns mit Video: volle Breite, keine schmalen Spalten */
+.wp-scraped .wp-block-columns:has(iframe) {
+  display: block;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.wp-scraped .wp-block-columns:has(iframe) > .wp-block-column:not(:has(iframe)) {
+  display: none;
+}
+.wp-scraped .wp-block-columns:has(iframe) > .wp-block-column:has(iframe) {
+  width: 100%;
+  min-width: 100%;
+}
+.wp-scraped .wp-block-columns .wp-block-column .wp-block-embed {
+  width: 100%;
+}
+.wp-scraped .wp-block-columns .wp-block-column .wp-block-embed iframe {
+  width: 100%;
+}
+
+/* Table styles */
+.wp-scraped table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+.wp-scraped th { background: #1f2025; color: #fff; padding: 0.75rem 1rem; text-align: left; font-weight: 700; }
+.wp-scraped td { padding: 0.65rem 1rem; border-bottom: 1px solid #ededed; color: #374151; }
+.wp-scraped tr:nth-child(even) td { background: #f9f9f9; }
+
+/* Image galleries */
+.wp-scraped .wp-block-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
+.wp-scraped .wp-block-gallery figure { margin: 0; }
+.wp-scraped .wp-block-gallery img { width: 100%; height: 200px; object-fit: cover; }
+
+/* ── wp-block-media-text (Bild + Text nebeneinander) ─────────── */
+.wp-scraped .wp-block-media-text {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+.wp-scraped .wp-block-media-text__media img { width: 100%; height: auto; border-radius: 0.5rem; }
+.wp-scraped .wp-block-media-text.has-media-on-the-right .wp-block-media-text__media { order: 2; }
+.wp-scraped .wp-block-media-text.has-media-on-the-right .wp-block-media-text__content { order: 1; }
+@media (max-width: 768px) {
+  .wp-scraped .wp-block-media-text { grid-template-columns: 1fr; }
+  .wp-scraped .wp-block-media-text.has-media-on-the-right .wp-block-media-text__media { order: 0; }
+}
+
+/* ── Neve Blog Post: Vorschaubild volle Breite ───────────────── */
+.wp-scraped .nv-thumb-wrap { margin-bottom: 1.5rem; }
+.wp-scraped .nv-thumb-wrap img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  display: block;
+}
+/* Blog post: related posts section */
+.wp-scraped .nv-related-posts { margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #ededed; }
+
+/* ── Neve Theme: Container / Page-Layout ─────────────────────── */
+.wp-scraped .container,
+.wp-scraped .single-page-container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
+/* City-Pages: Container darf nicht einschränken, da alignfull volle Breite braucht */
+.city-page .container,
+.city-page .single-page-container { max-width: 100%; padding: 0; background: transparent !important; }
+.city-page .row { background: transparent !important; }
+.wp-scraped .row { display: block; }
+.wp-scraped .col,
+.wp-scraped .nv-single-page-wrap { width: 100%; }
+.wp-scraped .nv-content-wrap { padding: 0; }
+/* City-Pages: Text-Elemente auf einheitliche Breite begrenzen */
+.city-page .wp-block-columns,
+.city-page .wp-block-column,
+.city-page .nv-single-page-wrap > p,
+.city-page .row > p,
+.city-page .wp-block-group__inner-container {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* ── Neve Theme: Seiten-Titel + Breadcrumbs ──────────────────── */
+.wp-scraped .nv-page-title-wrap {
+  padding: 1.25rem 0 0.5rem;
+  border-bottom: 1px solid #ededed;
+  margin-bottom: 0;
+}
+.wp-scraped .nv-page-title { }
+.wp-scraped .nv-page-title-wrap h1 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  color: #1f2025;
+  margin: 0.25rem 0 0;
+  line-height: 1.3;
+}
+.wp-scraped .neve-breadcrumbs-wrapper,
+.wp-scraped .nv--yoast-breadcrumb {
+  font-size: 0.8rem;
+  color: #7c7c7c;
+  margin-bottom: 0.25rem;
+}
+.wp-scraped .neve-breadcrumbs-wrapper a,
+.wp-scraped .nv--yoast-breadcrumb a { color: #d7393e; text-decoration: none; }
+
+/* ── Themeisle 1-Spalten-Blöcke: Leeraum wie Basisregel ─────── */
+.wp-scraped .has-1-columns .innerblocks-wrap { padding: 1rem 1.5rem; }
+.wp-scraped .has-1-columns.has-vertical-center .innerblocks-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
+
+/* ── WPForms ausblenden (brauchen PHP-Backend) ───────────────── */
+.wp-scraped .wpforms-container,
+.wp-scraped .wpforms-form,
+.wp-scraped [class*="wpforms"] { display: none !important; }
+
+/* Cover blocks (hero-style) */
+.wp-scraped .wp-block-cover {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+.wp-scraped .wp-block-cover__inner-container { position: relative; z-index: 2; text-align: center; padding: 2rem; }
+.wp-scraped .wp-block-cover.has-background-dim-50::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+.wp-scraped .wp-block-cover .wp-block-cover__background { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; }
+.wp-scraped .wp-block-cover .wp-block-heading { color: #fff !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+.wp-scraped .wp-block-cover p { color: rgba(255,255,255,0.9); }
+
+/* Accordion/FAQ blocks (allgemein) */
+.wp-scraped details { margin: 0.5rem 0; }
+.wp-scraped summary { cursor: pointer; font-weight: 700; padding: 0.75rem 1rem; background: #f4f4f4; border-radius: 4px; }
+.wp-scraped summary:hover { background: #ededed; }
+
+/* ── City-Page FAQ Details/Summary (Gelsenkirchen-Style Cards) ── */
+.city-page details.city-faq-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  border-left: 4px solid #3b55d5;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.city-page details.city-faq-item:hover {
+  box-shadow: 0 2px 12px rgba(59,85,213,0.12);
+}
+.city-page details.city-faq-item[open] {
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(59,85,213,0.15);
+}
+.city-page summary.city-faq-summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 1rem 1.25rem;
+  background: transparent;
+  border-radius: 0;
+  color: #1f2025;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.city-page summary.city-faq-summary::before {
+  content: '▸';
+  font-size: 1.1rem;
+  color: #3b55d5;
+  transition: transform 0.2s;
+}
+.city-page details.city-faq-item[open] summary.city-faq-summary::before {
+  transform: rotate(90deg);
+}
+.city-page summary.city-faq-summary::-webkit-details-marker {
+  display: none;
+}
+.city-page details.city-faq-item > *:not(summary) {
+  padding: 0 1.25rem 1rem;
+  color: #555;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+/* FAQ in dunklen Sektionen */
+.city-page .has-dark-bg details.city-faq-item {
+  background: rgba(255,255,255,0.1);
+  border-left-color: #ffb546;
+}
+.city-page .has-dark-bg details.city-faq-item[open] {
+  background: rgba(255,255,255,0.15);
+}
+.city-page .has-dark-bg summary.city-faq-summary {
+  color: #fff;
+}
+.city-page .has-dark-bg summary.city-faq-summary::before {
+  color: #ffb546;
+}
+.city-page .has-dark-bg details.city-faq-item > *:not(summary) {
+  color: rgba(255,255,255,0.9);
+}
+
+/* ============================================
+   CITY PAGE STYLES (Geburtstag-in-[Stadt])
+   ============================================ */
+/* Hide duplicate title block from scraped WP content (Hero already shows H1 + breadcrumb) */
+.wp-scraped.city-page .nv-page-title-wrap {
+  display: none;
+}
+/* First H1 in content is also a duplicate — hide it */
+.wp-scraped.city-page .nv-content-wrap > .wp-block-themeisle-blocks-advanced-columns:first-child h1 {
+  display: none;
+}
+
+/* ── Preis-Karten (Grid wie Über-mich Preisstaffelung) ─────── */
+.city-page .price-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem auto 2rem;
+  max-width: 1000px;
+}
+@media (min-width: 768px) {
+  .city-page .price-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.city-page .price-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  border-top: 4px solid #d7393e;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.city-page .price-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+/* Farben per Sibling-Kombinator (ignoriert nicht-card Elemente dazwischen) */
+.city-page .price-grid > .price-card ~ .price-card { border-top-color: #3b55d5; }
+.city-page .price-grid > .price-card ~ .price-card ~ .price-card { border-top-color: #ffb546; }
+.city-page .price-grid > .price-card ~ .price-card ~ .price-card ~ .price-card { border-top-color: #4caf50; }
+.city-page .price-card h3 {
+  color: #d7393e;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+.city-page .price-card .price-amount {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: inherit;
+  margin-bottom: 0.75rem;
+}
+.city-page .price-grid > .price-card:first-child .price-amount { color: #d7393e; }
+.city-page .price-grid > .price-card:nth-child(2) .price-amount { color: #3b55d5; }
+.city-page .price-grid > .price-card:nth-child(3) .price-amount { color: #b8860b; }
+.city-page .price-grid > .price-card ~ .price-card h3 { color: #3b55d5; }
+.city-page .price-grid > .price-card ~ .price-card ~ .price-card h3 { color: #b8860b; }
+.city-page .price-grid > .price-card ~ .price-card ~ .price-card ~ .price-card h3 { color: #388e3c; }
+.city-page .price-card p {
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 0;
+}
+/* Preis-Karten in dunklen Sektionen: Text-Farbe override */
+.city-page .has-dark-bg .price-card h3 { color: #d7393e !important; }
+.city-page .has-dark-bg .price-grid > .price-card ~ .price-card h3 { color: #3b55d5 !important; }
+.city-page .has-dark-bg .price-grid > .price-card ~ .price-card ~ .price-card h3 { color: #b8860b !important; }
+.city-page .has-dark-bg .price-grid > .price-card ~ .price-card ~ .price-card ~ .price-card h3 { color: #388e3c !important; }
+.city-page .has-dark-bg .price-card p { color: #555 !important; }
+.city-page .has-dark-bg .price-card strong { color: #333 !important; }
+
+/* Bottrop: Preissektion weißer Hintergrund, "Warum Eltern" bleibt blau */
+.city-page.city-page.bottrop-page .dark-blue {
+  background: #fff !important;
+}
+.city-page.bottrop-page .dark-blue .has-dark-bg,
+.city-page.bottrop-page .dark-blue h2,
+.city-page.bottrop-page .dark-blue h3,
+.city-page.bottrop-page .dark-blue p,
+.city-page.bottrop-page .dark-blue li,
+.city-page.bottrop-page .dark-blue a,
+.city-page.bottrop-page .dark-blue strong {
+  color: #1f2025 !important;
+}
+/* Preis-Überschrift rot */
+.city-page.bottrop-page .dark-blue h2 { color: #d7393e !important; }
+/* "Warum Eltern" bleibt blau */
+.city-page.bottrop-page .bottrop-warum-blue {
+  background: linear-gradient(135deg, #3b55d5, #2a3fa8, #3b55d5) !important;
+  padding: 3rem 0;
+  border-radius: 1rem;
+  margin-top: 2rem;
+}
+.city-page.bottrop-page .bottrop-warum-blue h2,
+.city-page.bottrop-page .bottrop-warum-blue h3,
+.city-page.bottrop-page .bottrop-warum-blue p,
+.city-page.bottrop-page .bottrop-warum-blue li,
+.city-page.bottrop-page .bottrop-warum-blue a,
+.city-page.bottrop-page .bottrop-warum-blue strong {
+  color: #fff !important;
+}
+
+/* Preis-Grid 2-Spalten Override (z.B. Oberhausen) */
+.city-page .price-grid-2col {
+  grid-template-columns: repeat(2, 1fr) !important;
+}
+
+/* ── Bilder: abgerundete Ecken + Schatten ──────────────────── */
+.city-page img {
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.city-page .wp-block-themeisle-blocks-advanced-columns-overlay ~ .innerblocks-wrap img {
+  border-radius: 12px;
+}
+/* Bilder in 2-Spalten sollen Container füllen (Override von WordPress inline styles) */
+.city-page .wp-block-image img,
+.city-page figure.aligncenter img,
+.city-page .wp-block-themeisle-blocks-advanced-column img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 380px;
+  object-fit: cover;
+  object-position: center 20%;
+}
+/* Figures dürfen nicht durch Grid-Stretch verzerrt werden (Haltern 3-Spalten-Karten etc.) */
+.city-page figure.wp-block-image,
+.city-page .wp-block-image {
+  height: auto !important;
+}
+/* Äußere 1-Spalten-Wrapper: Padding nur reduzieren wenn NICHT alignfull (alignfull bekommt 3.5rem via eigene Regel) */
+.city-page .wp-block-themeisle-blocks-advanced-columns.has-1-columns:not(.alignfull) {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+/* Getauschte Bilder (Gelsenkirchen): gleiche Höhe für konsistenten Look */
+/* Höhere Spezifität nötig, um .wp-block-image img { height: auto } zu überschreiben */
+.city-page .wp-block-image img[data-swap="true"],
+.city-page figure.aligncenter img[data-swap="true"],
+.city-page .wp-block-themeisle-blocks-advanced-column img[data-swap="true"] {
+  height: 380px !important;
+  max-height: none !important;
+  object-fit: cover !important;
+}
+/* Gallery-Thumbnails (160px Icons) korrekt skalieren */
+.city-page .wp-block-gallery img {
+  width: 100% !important;
+  height: 200px !important;
+  object-fit: cover;
+}
+
+/* ── Farbige Sektionen (Blau/Rot Wechsel) ────────────────── */
+/* Klassen werden build-time in stylizeCityContent() hinzugefügt */
+.city-page .dark-blue {
+  background: linear-gradient(135deg, #3b55d5 0%, #2a3fa8 50%, #3b55d5 100%) !important;
+}
+.city-page .dark-red {
+  background: linear-gradient(135deg, #d7393e 0%, #b82e32 50%, #d7393e 100%) !important;
+}
+.city-page .has-dark-bg h2,
+.city-page .has-dark-bg h3,
+.city-page .has-dark-bg p,
+.city-page .has-dark-bg li,
+.city-page .has-dark-bg span,
+.city-page .has-dark-bg a {
+  color: #fff !important;
+}
+.city-page .has-dark-bg a { text-decoration: underline; }
+/* Bold-Text in dunklen Sektionen: Gold-Akzent */
+.city-page .has-dark-bg strong {
+  color: #ffb546 !important;
+}
+/* H2 in dunklen Sektionen: Underline-Akzent */
+.city-page .has-dark-bg h2 {
+  font-size: 1.8rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+.city-page .has-dark-bg h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #ffb546;
+  border-radius: 2px;
+}
+/* SVG Wellen: weiß als Übergang zu hellen Sektionen */
+.city-page .has-dark-bg .top svg,
+.city-page .has-dark-bg .bottom svg {
+  fill: #ffffff;
+}
+.city-page .has-dark-bg .top svg.rotate {
+  fill: #ffffff;
+}
+/* Welle-Höhe kompakt */
+.city-page .top svg, .city-page .bottom svg {
+  height: 20px;
+}
+.city-page .top, .city-page .bottom {
+  max-height: 20px !important;
+  overflow: hidden;
+}
+
+/* ── Stats-Sektion (3-Spalten mit Zahlen) ──────────────────── */
+.city-page .has-3-columns.has-dark-bg .innerblocks-wrap {
+  gap: 1.5rem;
+}
+.city-page .has-3-columns.has-dark-bg .wp-block-themeisle-blocks-advanced-column {
+  background: rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 2rem 1rem;
+  text-align: center;
+  transition: background 0.2s, transform 0.2s;
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
+}
+.city-page .has-3-columns.has-dark-bg .wp-block-themeisle-blocks-advanced-column:hover {
+  background: rgba(255,255,255,0.14);
+}
+/* Emoji-Icons größer */
+.city-page .wp-block-themeisle-blocks-font-awesome-icons {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.city-page .wp-block-themeisle-blocks-font-awesome-icons-container {
+  display: block;
+}
+/* Große Zahlen */
+.city-page .has-dark-bg .wp-block-themeisle-blocks-advanced-heading {
+  display: block;
+  font-weight: 800;
+}
+.city-page .has-3-columns.has-dark-bg .wp-block-themeisle-blocks-advanced-column > .wp-block-themeisle-blocks-advanced-heading:first-of-type {
+  font-size: 2.5rem;
+  color: #ffb546 !important;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+/* Label unter der Zahl */
+.city-page .has-3-columns.has-dark-bg .wp-block-themeisle-blocks-advanced-column > .wp-block-themeisle-blocks-advanced-heading:last-of-type {
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* ── Feature-Highlight Karten (z.B. Oberhausen "Perfekt zugeschnitten") ── */
+.city-page .feature-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+.city-page .feature-highlight-card {
+  background: rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 4px solid #ffb546;
+  transition: background 0.2s, transform 0.2s;
+}
+.city-page .feature-highlight-card:hover {
+  background: rgba(255,255,255,0.18);
+  transform: translateY(-2px);
+}
+.city-page .feature-highlight-card p {
+  margin: 0;
+  text-align: left;
+}
+
+/* ── FAQ-Karten ────────────────────────────────────────────── */
+.city-page .faq-card {
+  background: rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ffb546;
+}
+.city-page .faq-card strong {
+  color: #ffb546 !important;
+  font-size: 1.05rem;
+}
+.city-page .faq-card p {
+  margin-bottom: 0;
+}
+
+/* ── Sektions-Abstände (py-14 = 3.5rem wie Referenz) ─────── */
+.city-page .wp-block-themeisle-blocks-advanced-columns.alignfull {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+.city-page .wp-block-themeisle-blocks-advanced-columns.alignfull.has-dark-bg {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* Helle Sektionen abwechselnd weiß/hellgrau (wie Referenz bg-white / bg-gray-50) */
+.city-page .wp-block-themeisle-blocks-advanced-columns.alignfull:not(.has-dark-bg):nth-child(even) {
+  background: #f9fafb;
+}
+.city-page .wp-block-themeisle-blocks-advanced-columns.alignfull:not(.has-dark-bg):nth-child(odd) {
+  background: #ffffff;
+}
+
+/* ── 2-Spalten-Layouts: bessere Gaps + Zentrierung ─────────── */
+.city-page .has-2-columns .innerblocks-wrap {
+  gap: 2.5rem;
+}
+.city-page .has-2-columns.has-vertical-center .innerblocks-wrap {
+  align-items: stretch;
+}
+/* Text in 2-Spalten-Sektionen linksbündig */
+.city-page .has-2-columns p {
+  text-align: left;
+}
+/* twoOne-Layout: breiterer Text (2fr), schmaleres Bild (1fr) */
+.city-page .has-desktop-twoOne-layout .innerblocks-wrap {
+  grid-template-columns: 2fr 1fr !important;
+}
+.wp-scraped .has-desktop-twoOne-layout .innerblocks-wrap {
+  grid-template-columns: 2fr 1fr;
+}
+/* Überschriften in Vollbreite-Sektionen zentriert */
+.city-page .has-1-columns h2 {
+  text-align: center;
+}
+/* Fließtext in Vollbreite nicht zu breit + zentriert */
+.city-page .has-1-columns p {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+/* Dunkle 1-Spalten-Sektionen: komplett zentriert */
+.city-page .has-1-columns.has-dark-bg .innerblocks-wrap {
+  text-align: center;
+}
+.city-page .has-1-columns.has-dark-bg p {
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Waltrop: Intro-Paragraph volle Breite ─────────────────── */
+.city-page .waltrop-intro-fullwidth {
+  max-width: 1100px;
+  margin: 0 auto 1.5rem;
+  padding: 0 1.5rem;
+}
+.city-page .waltrop-intro-fullwidth p {
+  max-width: 100%;
+  text-align: left;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* ── Waltrop: Pricing als weiße Karte in dunkler Section ──── */
+.city-page .waltrop-pricing-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  margin: 0 auto 2.5rem;
+  max-width: 1000px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.city-page .waltrop-pricing-section h2 {
+  color: #1f2025 !important;
+  text-align: center;
+}
+.city-page .waltrop-pricing-section h2::after {
+  background: #d7393e;
+}
+.city-page .waltrop-pricing-section .price-card h3 {
+  color: #d7393e !important;
+}
+.city-page .waltrop-pricing-section .price-grid > .price-card ~ .price-card h3 {
+  color: #3b55d5 !important;
+}
+.city-page .waltrop-pricing-section .price-grid > .price-card ~ .price-card ~ .price-card h3 {
+  color: #b8860b !important;
+}
+.city-page .waltrop-pricing-section .price-card p {
+  color: #555 !important;
+}
+.city-page .waltrop-pricing-section .price-card strong {
+  color: #333 !important;
+}
+
+/* ── twoOne: Layout-Ratio beibehalten ─────────────────────── */
+
+/* ── Buttons: abgerundet + Hover-Effekt ────────────────────── */
+.city-page .wp-block-button__link {
+  border-radius: 8px;
+  padding: 14px 32px;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  transition: transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(215,57,62,0.3);
+}
+.city-page .wp-block-button__link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(215,57,62,0.4);
+  opacity: 1;
+}
+
+/* ── Typografie-Verfeinerung (Referenz-konform) ──────────── */
+.city-page h2.wp-block-heading {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #d7393e;
+}
+.city-page h3.wp-block-heading {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: #1f2025;
+}
+/* H2 in hellen Sektionen: Rot wie in der Referenz (kindergeburtstag) */
+.city-page .wp-block-themeisle-blocks-advanced-columns:not(.has-dark-bg) h2 {
+  color: #d7393e;
+}
+.city-page p.has-text-align-center {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Abschluss-CTA: Kontaktdaten hervorgehoben ─────────────── */
+.city-page .alignwide {
+  max-width: 750px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* ============================================
+   NAV STYLES
+   ============================================ */
+.nav-link-wp {
+  position: relative;
+  padding-bottom: 4px;
+}
+.nav-link-wp::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background-color: #ffb546;
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+.nav-link-wp:hover::after { transform: scaleX(1); }

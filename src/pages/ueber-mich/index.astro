@@ -1,0 +1,309 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GoogleReviews from '../../components/GoogleReviews.astro';
+import { Image } from 'astro:assets';
+
+import heroImg from '../../assets/images/ueber-mich/ueber-mich-hero.jpg';
+import clownImg from '../../assets/images/ueber-mich/ueber-mich-als-clown.jpg';
+import clownZaubererImg from '../../assets/images/ueber-mich/ueber-mich-als-clown-zauberer.jpg';
+import karteImg from '../../assets/images/home/clown-zauberer-gladbeck-karte.jpg';
+
+const seoTitle = 'Über Clown Zauberer LIAR | Michael Prescler NRW';
+const seoDescription = 'Lernen Sie Clown Zauberer LIAR kennen ✓ Michaël Prescler aus Gladbeck ✓ 15 Jahre Erfahrung ✓ 400+ Shows/Jahr ✓ Französischer Entertainer mit Herz & Humor in NRW';
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Michaël Prescler",
+  "alternateName": "LIAR",
+  "jobTitle": "Professioneller Clown, Zauberer und Entertainer",
+  "url": "https://liar-entertainer.com/ueber-mich/",
+  "image": "https://liar-entertainer.com/wp-content/uploads/2023/08/Clown-Zauberer-mit-Zaubershow.jpg",
+  "sameAs": [
+    "https://www.facebook.com/clownzaubererliar",
+    "https://www.instagram.com/clown_zauberer_liar"
+  ],
+  "worksFor": {
+    "@type": "LocalBusiness",
+    "name": "Clown Zauberer LIAR",
+    "url": "https://liar-entertainer.com"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Beethovenstr. 15",
+    "addressLocality": "Gladbeck",
+    "postalCode": "45966",
+    "addressCountry": "DE"
+  },
+  "knowsAbout": ["Zauberei", "Clownerie", "Kinderzauberei", "Ballonmodellage", "Walk-Act", "Pantomime"]
+};
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords="Clown Zauberer LIAR, Michaël Prescler, Zauberer Gladbeck, Entertainer NRW, Clown Zauberer Vita"
+  canonical="https://liar-entertainer.com/ueber-mich/"
+  breadcrumbs={[{ name: 'Startseite', url: '/' }, { name: 'Über mich', url: '/ueber-mich/' }]}
+  structuredData={personSchema}
+>
+
+  <!-- Page Title -->
+  <section class="bg-white pt-8 pb-0">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-sm text-[#595959] mb-4">
+        <a href="/" class="hover:text-[#d7393e]">Clown</a> »
+        <span>Über mich</span>
+      </p>
+      <h1 class="font-black text-[#1f2025] text-3xl sm:text-5xl mb-6">Über mich</h1>
+    </div>
+  </section>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden" style="min-height: 600px;">
+    <Image
+      src={heroImg}
+      alt="Über mich – Clown Zauberer LIAR aus Gladbeck"
+      class="absolute inset-0 w-full h-full object-cover object-top"
+      style="object-position: 50% 0%"
+      loading="eager"
+      fetchpriority="high"
+      widths={[600, 900, 1200]}
+      sizes="100vw"
+    />
+    <div class="absolute inset-0 bg-black/45"></div>
+    <div class="relative flex items-center justify-center" style="min-height: 600px;">
+      <div class="text-center px-6">
+        <h2 class="text-white font-bold leading-tight mb-4" style="font-size: clamp(1.6rem, 4vw, 3rem); text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">
+          🎭 Über mich –<br />Clown Zauberer LIAR aus Gladbeck
+        </h2>
+        <p class="text-white/90 text-lg font-medium">15+ Jahre Magie, Lachen &amp; unvergessliche Momente</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Über mich – Bild links, Text rechts -->
+  <section class="bg-white py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <!-- Rundes Pantomime-Bild -->
+        <div class="flex justify-center">
+          <Image
+            src={clownImg}
+            alt="Über mich als Clown"
+            class="rounded-full object-cover shadow-lg"
+            style="width: 340px; height: 420px;"
+            loading="eager"
+            widths={[400, 700]}
+            sizes="340px"
+          />
+        </div>
+        <!-- Bio-Text -->
+        <div>
+          <h2 class="font-bold text-[#d7393e] text-2xl sm:text-3xl mb-6">Über mich ?</h2>
+          <div class="space-y-4 text-[#374151] leading-relaxed">
+            <p>
+              <strong>Alter:</strong> 49 / <strong>Geburtsland:</strong> Frankreich
+            </p>
+            <div>
+              <p class="font-semibold text-[#1f2025] mb-2">Bildungsweg:</p>
+              <p>Abitur, Studium Naturwissenschaften und Erziehungswissenschaften, zusätzliche komplette Ausbildung zum Animateur mit Schauspiel, Tanz, Zauberei, Ballonmodellage, Schminken, Stand Up, Comedy, Sportaktivitäten, PR &amp; Management inklusive 3-jähriger Tätigkeit im Bereich Kinderanimation in Frankreich. Eindrücke meiner Arbeit finden Sie in meiner <a href="/galerie/" class="text-[#d7393e] hover:underline">Foto- und Videogalerie</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <GoogleReviews />
+
+  <!-- Nach dem Studium – Text links, Bild rechts -->
+  <section class="bg-white py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <!-- Text -->
+        <div class="order-2 lg:order-1">
+          <h2 class="font-black text-[#1f2025] text-2xl sm:text-3xl mb-4">Nach dem Studium</h2>
+          <hr class="border-[#1f2025] border-2 mb-6 w-2/3" />
+          <div class="space-y-4 text-[#374151] leading-relaxed">
+            <p>
+              4 Jahre Animation in Europa (Spanien, Griechenland u.a.), 5 Jahre Floor Manager im alpincenter Bottrop (Längste Skihalle der Welt) mit Zuständigkeiten auch im Bereich PR, Sales, Vertrieb und Kinderanimation. Aktuelle Geschichten und Erlebnisse teile ich in meinem <a href="/blog/" class="text-[#d7393e] hover:underline">Blog</a>.
+            </p>
+            <p>
+              Seit 2004 wohnhaft in Deutschland und <a href="/zauberer/" class="text-[#d7393e] hover:underline">Zauberer</a> seit 2009. Seit Februar 2005 Jahren Vater eines Sohnes und seit März 2009 eines weiteren und mit Begeisterung zunehmend im Kinderbereich tätig:
+            </p>
+            <ul class="space-y-2 ml-4">
+              <li class="flex items-start gap-2">
+                <span class="text-[#d7393e] flex-shrink-0">–</span>
+                <span>Mitentwicklung von pädagogischen Kinderbewegungsprogrammen (Motorik, Motopädie und Physiotherapie in Prävention) und damit in Kleinkind (Krabbel-)Gruppen und <a href="/zauberer/zaubershow/kindergarten-kita/" class="text-[#d7393e] hover:underline">Kindergärten</a> unterwegs.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#d7393e] flex-shrink-0">–</span>
+                <span>Ballonmodellage, Kinderschminken, Animation, Zauberei in Kindergärten, bei allen möglichen Feierlichkeiten</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Rundes Bild -->
+        <div class="flex justify-center order-1 lg:order-2">
+          <Image
+            src={clownZaubererImg}
+            alt="Über mich als Clown Zauberer"
+            class="rounded-full object-cover shadow-lg"
+            style="width: 380px; height: 470px;"
+            loading="lazy"
+            widths={[400, 700]}
+            sizes="380px"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Was kann ich buchen? -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="font-bold text-[#1f2025] text-2xl sm:text-3xl text-center mb-8">Was kann man bei mir buchen?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Zaubershow -->
+        <div class="bg-white rounded-xl p-8 shadow-sm border-t-4 border-[#d7393e]">
+          <h3 class="font-bold text-[#1f2025] text-xl mb-2">🎩 Zaubershow</h3>
+          <p class="text-[#d7393e] font-bold text-2xl mb-4">150 €</p>
+          <ul class="space-y-2 text-[#374151] text-sm mb-6">
+            <li class="flex items-start gap-2"><span class="text-[#d7393e]">✓</span> 40 Minuten voller Zauber, Lachen und Staunen</li>
+            <li class="flex items-start gap-2"><span class="text-[#d7393e]">✓</span> Bis ca. 12 Kinder – Mindestalter: 4 Jahre</li>
+            <li class="flex items-start gap-2"><span class="text-[#d7393e]">✓</span> Inkl. Material</li>
+            <li class="flex items-start gap-2"><span class="text-[#d7393e]">✓</span> Das Geburtstagskind steht immer im Mittelpunkt</li>
+            <li class="flex items-start gap-2"><span class="text-[#d7393e]">✓</span> zzgl. Fahrtkosten (0,40€/km, Hin- &amp; Rückfahrt) ab Gladbeck</li>
+          </ul>
+          <p class="text-[#374151] text-sm">Direkt ab der ersten Minute nimmt die Show die kleinen Gäste mit auf eine fantasievolle Reise!</p>
+        </div>
+
+        <!-- Ballonmodellage -->
+        <div class="bg-white rounded-xl p-8 shadow-sm border-t-4 border-[#3b55d5]">
+          <h3 class="font-bold text-[#1f2025] text-xl mb-2">🎈 Luftballonmodellage</h3>
+          <p class="text-[#3b55d5] font-bold text-2xl mb-4">+ 20 €</p>
+          <ul class="space-y-2 text-[#374151] text-sm">
+            <li class="flex items-start gap-2"><span class="text-[#3b55d5]">✓</span> Für jedes Kind 1 Ballon</li>
+            <li class="flex items-start gap-2"><span class="text-[#3b55d5]">✓</span> Ca. 15 Minuten</li>
+            <li class="flex items-start gap-2"><span class="text-[#3b55d5]">✓</span> Tolle Erinnerung zum Mitnehmen</li>
+          </ul>
+        </div>
+
+        <!-- Glitzer Tattoos -->
+        <div class="bg-white rounded-xl p-8 shadow-sm border-t-4 border-[#ffb546]">
+          <h3 class="font-bold text-[#1f2025] text-xl mb-2">✨ Glitzer-Tattoos</h3>
+          <p class="text-[#d7393e] font-bold text-2xl mb-4">+ 40 €</p>
+          <ul class="space-y-2 text-[#374151] text-sm">
+            <li class="flex items-start gap-2"><span class="text-[#d7393e]">✓</span> Für jedes Kind 1 Tattoo</li>
+            <li class="flex items-start gap-2"><span class="text-[#d7393e]">✓</span> Ca. 30 Minuten</li>
+            <li class="flex items-start gap-2"><span class="text-[#d7393e]">✓</span> Hautverträglich & langanhaltend</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Sektion -->
+  <!-- Wave oben (weiß → blau) -->
+  <div style="overflow:hidden;line-height:0;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#3b55d5"/>
+    </svg>
+  </div>
+  <section class="py-14 bg-[#3b55d5]">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-white font-extrabold text-xl uppercase tracking-widest mb-6">
+        SCHNELLE EINDRÜCKE
+      </h2>
+      <div class="relative w-full max-w-2xl mx-auto mb-8" style="padding-bottom: 56.25%; position: relative;">
+        <iframe
+          src="https://www.youtube.com/embed/Cop0SqRIX4Y"
+          title="Clown Zauberer für Geburtstag, Feier, Veranstaltung in NRW : die lustigste Zaubershow im Pott!"
+          class="absolute inset-0 w-full h-full rounded-lg"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <h3 class="text-white font-bold text-xl mb-6">
+        Mehr Fotos und Videos in der Galerie
+      </h3>
+      <a
+        href="/galerie/"
+        class="inline-block bg-[#f5a623] hover:bg-[#e69420] text-[#1f2025] font-bold px-10 py-4 rounded-full text-base transition-colors"
+      >
+        Zur Foto- und Videogalerie
+      </a>
+    </div>
+  </section>
+  <!-- Wave unten (blau → weiß) -->
+  <div style="overflow:hidden;line-height:0;background:#3b55d5;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+
+
+  <!-- Wave white → red -->
+  <div style="overflow:hidden;line-height:0;background:#f9fafb;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#d7393e"/>
+    </svg>
+  </div>
+
+  <!-- Einsatzgebiet (red) -->
+  <section class="bg-[#d7393e] py-14 text-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="font-bold text-2xl sm:text-3xl text-center mb-8">📍 Regional und deutschlandweit – Wo findet man mich?</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <p class="text-red-100 mb-6">Ich wohne in Gladbeck und bin in folgende Städte buchbar:</p>
+          <p class="text-red-100 leading-relaxed mb-4">
+            Oberhausen, Gelsenkirchen, Essen, Duisburg, Dorsten, Herten, Herne, Marl, Gladbeck, Mülheim, Düsseldorf, Dortmund, Lünen, Hagen, Moers, Krefeld, Reken, Ahaus, Münster, Köln…
+          </p>
+          <p class="text-red-100 font-medium">
+            🌍 Jedoch kann man mich auch überregional und international (Frankreich, Belgien, Österreich, Schweiz) buchen!
+          </p>
+          <div class="mt-6 space-y-2">
+            <p class="text-white">📱 TEL: <a href="tel:+491721517578" class="hover:underline font-semibold">0172 – 1517578</a></p>
+            <p class="text-white">✉️ Email: <a href="mailto:info@liar-entertainer.com" class="hover:underline">info@liar-entertainer.com</a></p>
+            <p class="text-white">📍 Anschrift: Beethovenstr. 15, 45966 Gladbeck</p>
+          </div>
+        </div>
+        <div>
+          <Image
+            src={karteImg}
+            alt="Wohnort Clown Zauberer LIAR"
+            class="w-full rounded-xl shadow-lg"
+            loading="lazy"
+            widths={[400, 600]}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave red → dark -->
+  <div style="overflow:hidden;line-height:0;background:#d7393e;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#1f2025"/>
+    </svg>
+  </div>
+
+  <!-- CTA -->
+  <section class="bg-[#1f2025] py-14 text-white text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-bold text-2xl sm:text-3xl mb-4">📞 Einfach Kontakt aufnehmen</h2>
+      <p class="text-gray-300 mb-6 leading-relaxed">
+        Sie können mir Ihre Anfrage als Clown unverbindlich senden. Je mehr Angaben ich von Ihnen bekomme, desto besser kann ich Sie beraten. Werfen Sie auch einen Blick in meine <a href="/galerie/" class="text-white hover:underline font-semibold">Foto- und Videogalerie</a> oder lesen Sie aktuelle Geschichten in meinem <a href="/blog/" class="text-white hover:underline font-semibold">Blog</a>.
+      </p>
+      <a href="/kontakt/" class="inline-block bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-10 py-4 rounded transition-colors">
+        Jetzt unverbindlich anfragen
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>

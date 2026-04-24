@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GoogleReviews from '../../components/GoogleReviews.astro';
+import { Image } from 'astro:assets';
+
+import fotogalerieClownZauberer3 from '../../assets/images/galerie/fotogalerie-clown-zauberer-3.jpg';
+import fotogalerieClownZauberer2 from '../../assets/images/galerie/fotogalerie-clown-zauberer-2.jpg';
+import fotogalerieClownZauberer6 from '../../assets/images/galerie/fotogalerie-clown-zauberer-6.jpg';
+import fotogalerieClownZauberer4 from '../../assets/images/galerie/fotogalerie-clown-zauberer-4.jpg';
+import fotogalerieClownZauberer5 from '../../assets/images/galerie/fotogalerie-clown-zauberer-5.jpg';
+import fotogalerieClownZauberer1 from '../../assets/images/galerie/fotogalerie-clown-zauberer-1.jpg';
+import fotogalerieClownZauberer1b from '../../assets/images/galerie/fotogalerie-clown-zauberer-1b.jpeg';
+import fotogalerieClownZauberer17 from '../../assets/images/galerie/fotogalerie-clown-zauberer-17.jpg';
+import fotogalerieClownZauberer16 from '../../assets/images/galerie/fotogalerie-clown-zauberer-16.jpg';
+import fotogalerieClownZauberer9 from '../../assets/images/galerie/fotogalerie-clown-zauberer-9.jpg';
+import fotogalerieClownZauberer7 from '../../assets/images/galerie/fotogalerie-clown-zauberer-7.jpg';
+import fotogalerieClownZauberer10 from '../../assets/images/galerie/fotogalerie-clown-zauberer-10.jpg';
+import fotogalerieClownZauberer12 from '../../assets/images/galerie/fotogalerie-clown-zauberer-12.jpg';
+import fotogalerieClownZauberer13 from '../../assets/images/galerie/fotogalerie-clown-zauberer-13.jpg';
+import fotogalerieClownZauberer8 from '../../assets/images/galerie/fotogalerie-clown-zauberer-8.jpg';
+import fotogalerieClownZauberer15 from '../../assets/images/galerie/fotogalerie-clown-zauberer-15.jpg';
+import fotogalerieClownZauberer14 from '../../assets/images/galerie/fotogalerie-clown-zauberer-14.jpg';
+import tischZaubererNrw from '../../assets/images/galerie/tisch-zauberer-nrw.jpg';
+import closeUpZaubereiMuelheim from '../../assets/images/galerie/close-up-zauberei-muelheim.jpg';
+import closeUpZaubereiDortmund from '../../assets/images/galerie/close-up-zauberei-dortmund.jpg';
+import tischZaubererMuelheim from '../../assets/images/galerie/tisch-zauberer-muelheim.jpg';
+import buehnenZaubererEssen from '../../assets/images/galerie/buehnen-zauberer-essen.jpg';
+import buehnenZaubereiGelsenkirchen from '../../assets/images/galerie/buehnen-zauberei-gelsenkirchen.jpg';
+import buehnenZauberei from '../../assets/images/galerie/buehnen-zauberei.jpg';
+import standUpZauberei from '../../assets/images/galerie/stand-up-zauberei.jpg';
+import tischZaubererNrwBuehne from '../../assets/images/galerie/tisch-zauberer-nrw-buehne.png';
+import zaubererFirmenfeier from '../../assets/images/galerie/zauberer-firmenfeier.jpg';
+import zaubererGladbeck from '../../assets/images/galerie/zauberer-gladbeck.jpg';
+import weihnachtsmarktKray from '../../assets/images/galerie/weihnachtsmarkt-kray.jpg';
+import wazMagicDinner from '../../assets/images/galerie/waz-magic-dinner.jpg';
+import stadtspiegelJanuar2012 from '../../assets/images/galerie/stadtspiegel-januar-2012.jpg';
+import stadtspiegelJuli2014 from '../../assets/images/galerie/stadtspiegel-juli-2014.jpg';
+import zauberhafteWelt from '../../assets/images/galerie/zauberhafte-welt.jpg';
+import bottropBewegDich2013 from '../../assets/images/galerie/bottrop-beweg-dich-2013.jpg';
+import kitaSpielenMachtSchlau from '../../assets/images/galerie/kita-spielen-macht-schlau.jpg';
+import stadtpicknick20151 from '../../assets/images/galerie/stadtpicknick-2015-1.jpg';
+import stadtpicknick20152 from '../../assets/images/galerie/stadtpicknick-2015-2.jpg';
+
+const photoImages = [
+  { src: fotogalerieClownZauberer3, alt: '' },
+  { src: fotogalerieClownZauberer2, alt: '' },
+  { src: fotogalerieClownZauberer6, alt: '' },
+  { src: fotogalerieClownZauberer4, alt: '' },
+  { src: fotogalerieClownZauberer5, alt: '' },
+  { src: fotogalerieClownZauberer1, alt: '' },
+  { src: fotogalerieClownZauberer1b, alt: '' },
+  { src: fotogalerieClownZauberer17, alt: 'Clown Zauberer Liar verblüffte die Kids mit Zaubertricks.' },
+  { src: fotogalerieClownZauberer16, alt: 'Kinderkarneval in Capelle' },
+  { src: fotogalerieClownZauberer9, alt: '' },
+  { src: fotogalerieClownZauberer7, alt: '' },
+  { src: fotogalerieClownZauberer10, alt: '' },
+  { src: fotogalerieClownZauberer12, alt: '' },
+  { src: fotogalerieClownZauberer13, alt: '' },
+  { src: fotogalerieClownZauberer8, alt: '' },
+  { src: fotogalerieClownZauberer15, alt: '' },
+  { src: fotogalerieClownZauberer14, alt: '' },
+  { src: tischZaubererNrw, alt: 'Tisch-Zauberer-NRW' },
+  { src: closeUpZaubereiMuelheim, alt: 'Close-Up-Zauberei-Muelheim' },
+  { src: closeUpZaubereiDortmund, alt: 'Close Up Zauberei Dortmund' },
+  { src: tischZaubererMuelheim, alt: 'Tisch Zauberer Mülheim' },
+  { src: buehnenZaubererEssen, alt: 'Bühnen Zauberer Essen' },
+  { src: buehnenZaubereiGelsenkirchen, alt: 'Bühnen Zauberei Gelsenkirchen' },
+  { src: buehnenZauberei, alt: 'Bühnen Zauberei Oberhausen' },
+  { src: standUpZauberei, alt: 'Stand up Zauberei' },
+  { src: tischZaubererNrwBuehne, alt: 'Bühnen Zauberer NRW' },
+  { src: zaubererFirmenfeier, alt: 'Zauberer Firmenfeier' },
+];
+
+const presseImages = [
+  { src: zaubererGladbeck, alt: 'Zauberer Gladbeck Zeitungsartikel' },
+  { src: weihnachtsmarktKray, alt: 'Weihnachtsmarkt Kray Zeitungsartikel' },
+  { src: wazMagicDinner, alt: 'WAZ Magic Dinner Zeitungsartikel' },
+  { src: stadtspiegelJanuar2012, alt: 'Stadtspiegel Januar 2012' },
+  { src: stadtspiegelJuli2014, alt: 'Stadtspiegel Juli 2014' },
+  { src: zauberhafteWelt, alt: 'Zauberhafte Welt Zeitungsartikel' },
+  { src: bottropBewegDich2013, alt: 'Bottrop Beweg Dich 2013' },
+  { src: kitaSpielenMachtSchlau, alt: 'Kita – Spielen macht schlau' },
+  { src: stadtpicknick20151, alt: 'Stadtpicknick 2015' },
+  { src: stadtpicknick20152, alt: 'Stadtpicknick 2015' },
+];
+
+const referenzen = [
+  { name: 'OPEL Champions League UEFA', detail: '' },
+  { name: 'AWO Essen', detail: '' },
+  { name: 'IKEA', detail: '' },
+  { name: 'IHK Dortmund', detail: '' },
+  { name: 'Schalke 04', detail: '' },
+  { name: 'Sparkasse Mülheim an der Ruhr', detail: '' },
+  { name: 'Sparkasse Gladbeck', detail: '' },
+  { name: 'Sparkasse Essen', detail: '' },
+  { name: 'AWO Gelsenkirchen', detail: '' },
+  { name: 'Stadt Mülheim', detail: '' },
+  { name: 'Stadt Essen', detail: '' },
+  { name: 'Stadt Gelsenkirchen', detail: '' },
+  { name: 'Weihnachtsmarkt Dortmund', detail: 'Zaubershow für Kinder' },
+  { name: 'Modehaus Mensing', detail: 'Walk Act Close-up Zauberer' },
+  { name: 'VKJ in Essen', detail: '' },
+  { name: 'Juk Haus Ahlen', detail: 'Zaubershow und Workshop für Kinder' },
+  { name: 'Kulturamt Gladbeck', detail: 'WalkAct Strassenfest und Bühnenshow' },
+  { name: 'Techniker Krankenkasse', detail: 'Kinderschminken und Kindershow' },
+  { name: 'Kinderklinik Marienhospital, Bottrop', detail: 'Zaubershow und Ballonmodellage' },
+  { name: 'Sparkasse, Bottrop', detail: 'Walk-Act mit Ballonmodellage' },
+  { name: 'Metro', detail: 'Galazauberei, Walkact' },
+  { name: 'Tuffi', detail: 'Galazauberei' },
+  { name: 'ADAC', detail: 'Walk-Act mit Ballonmodellage' },
+  { name: 'Van der Valk Hotelkette seit 2008', detail: 'Kinderentertainment/Brunch' },
+  { name: 'Alpincenter Bottrop 2004 bis 2009', detail: 'Floormanager und Kinderentertainment' },
+  { name: 'VFL-Bochum', detail: '' },
+  { name: 'Kinderschutzbund, Bottrop', detail: '' },
+  { name: 'Kinderschutzbund, Essen', detail: '' },
+  { name: 'Hits4Kids Event-Serien 2008, 2009', detail: 'Walk-Act mit Ballonmodellage' },
+  { name: 'Babymesse 2009', detail: 'Walk-Act mit Ballonmodellage und Kinderzaubershow' },
+  { name: 'St-Gobain Essen', detail: '' },
+  { name: 'Stadtmarketing Bottrop', detail: 'Walk-Act mit Ballonmodellage und Kinderzaubershow' },
+  { name: 'Kinderwelt Recklinghausen', detail: 'Walk-Act mit Ballonmodellage und Kinderzaubershow' },
+  { name: 'Feldschlösschen Essen', detail: 'Close-up Zauberei und Zaubershow für Erwachsene' },
+  { name: 'Kindergärten', detail: 'Schnee-Leo-Bewegungsparcour, Zauberei, Animation' },
+  { name: 'Grundschulen', detail: 'Schnee-Leo-Bewegungsparcour, Festunterstützung, Workshops Zauberei und anderes' },
+];
+---
+
+<BaseLayout
+  title="Galerie | Clown Zauberer LIAR — Fotos & Videos"
+  description="Galerie von Clown Zauberer LIAR ✓ Fotos & Videos von Zaubershow, Clownshow & Events in NRW ✓ Presseartikel & Referenzen ✓ 400+ begeisterte Kunden!"
+  keywords="Clown Zauberer Fotos, Zaubershow Video, Clown NRW Galerie, Zauberer Presse, Clown Zauberer LIAR Referenzen"
+  canonical="https://liar-entertainer.com/galerie/"
+  breadcrumbs={[{ name: 'Startseite', url: '/' }, { name: 'Galerie', url: '/galerie/' }]}
+>
+  <section class="py-12 bg-[#f4f4f4]">
+    <div class="max-w-[960px] mx-auto px-4">
+      <h1 class="text-[#1f2025] font-extrabold text-3xl text-center mb-3">Fotos – Videos – Presse Referenzen</h1>
+      <p class="text-[#595959] text-center mb-10">
+        Impressionen aus Auftritten von Clown Zauberer LIAR in NRW
+      </p>
+
+      <GoogleReviews />
+
+      <!-- Videos -->
+      <h2 class="text-[#1f2025] font-bold text-2xl text-center mb-6">Videos</h2>
+      <p class="text-[#374151] text-center leading-relaxed mb-8">
+        Ein Bild sagt mehr als tausend Worte, noch mehr erzählt Ihnen ein Video. Die nachfolgenden Imagefilme vermitteln Ihnen einen guten Eindruck von meiner Arbeit mit Kindern. Natürlich haben Sie die Möglichkeit in meine kleine Fotogalerie zu stöbern. Viel Spaß!!!
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div>
+          <h3 class="text-[#1f2025] font-bold text-xl text-center mb-4">Neues Video</h3>
+          <div class="relative w-full" style="padding-bottom: 56.25%;">
+            <iframe
+              src="https://www.youtube.com/embed/Cop0SqRIX4Y"
+              title="Clown Zauberer für Geburtstag, Feier, Veranstaltung in NRW : die lustigste Zaubershow im Pott!"
+              class="absolute inset-0 w-full h-full rounded-lg"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-[#1f2025] font-bold text-xl text-center mb-4">Vintage</h3>
+          <div class="relative w-full" style="padding-bottom: 56.25%;">
+            <iframe
+              src="https://www.youtube.com/embed/2n54fC-04lo"
+              title="---VINTAGE--- Clown Zauberer LIAR, die lustigste Zaubershow NRW. ---VINTAGE---"
+              class="absolute inset-0 w-full h-full rounded-lg"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fotos -->
+      <h2 class="text-[#1f2025] font-bold text-2xl text-center mb-6">📸 Fotos</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {photoImages.map((img, i) => (
+          <div class="aspect-square overflow-hidden bg-gray-200 rounded-lg">
+            <Image
+              src={img.src}
+              alt={img.alt}
+              widths={[150, 300, 450]}
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-300"
+              loading={i < 4 ? 'eager' : 'lazy'}
+              width={300}
+              height={300}
+            />
+          </div>
+        ))}
+      </div>
+
+      <!-- Presse / Zeitungsartikel -->
+      <h2 class="text-[#1f2025] font-bold text-2xl text-center mt-16 mb-6">📰 Presse & Zeitungsartikel</h2>
+      <p class="text-[#374151] text-center leading-relaxed mb-8">
+        Berichte und Artikel aus lokalen Zeitungen über Auftritte und Events von Clown Zauberer LIAR.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {presseImages.map((img) => (
+          <div class="aspect-square overflow-hidden bg-gray-200 rounded-lg">
+            <Image
+              src={img.src}
+              alt={img.alt}
+              widths={[150, 300, 450]}
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+              width={300}
+              height={300}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave Trenner -->
+  <div class="relative">
+    <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full block" preserveAspectRatio="none" style="height: 40px;">
+      <path d="M0 60L60 50C120 40 240 20 360 15C480 10 600 20 720 25C840 30 960 30 1080 25C1200 20 1320 10 1380 5L1440 0V60H0Z" fill="#c9d7f0"/>
+    </svg>
+  </div>
+
+  <!-- Referenzen -->
+  <section class="bg-[#c9d7f0] py-14">
+    <div class="max-w-[960px] mx-auto px-4">
+      <h2 class="text-[#1f2025] font-bold text-2xl text-center mb-3">⭐ Referenzen</h2>
+      <p class="text-[#374151] text-center leading-relaxed mb-10">
+        Eine Auswahl an Kunden und Partnern, für die Clown Zauberer LIAR bereits aufgetreten ist.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {referenzen.map((ref) => (
+          <div class="bg-white/70 rounded-lg px-4 py-3 text-center">
+            <p class="font-semibold text-[#1f2025] text-sm">{ref.name}</p>
+            {ref.detail && (
+              <p class="text-[#6b7280] text-xs mt-1">({ref.detail})</p>
+            )}
+          </div>
+        ))}
+      </div>
+      <p class="text-[#374151] text-center text-sm mt-6 italic">…und viele andere mehr!</p>
+    </div>
+  </section>
+
+  <!-- Wave Trenner zurück -->
+  <div class="relative">
+    <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full block" preserveAspectRatio="none" style="height: 40px;">
+      <path d="M0 0L60 10C120 20 240 40 360 45C480 50 600 40 720 35C840 30 960 30 1080 35C1200 40 1320 50 1380 55L1440 60V0H0Z" fill="#c9d7f0"/>
+    </svg>
+  </div>
+
+  <!-- CTA -->
+  <section class="bg-[#f4f4f4] py-12">
+    <div class="max-w-[960px] mx-auto px-4 text-center">
+      <p class="text-[#374151] mb-4">Möchten Sie Clown Zauberer LIAR für Ihr Event buchen?</p>
+      <a
+        href="/kontakt/"
+        class="inline-flex items-center gap-2 bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-8 py-3 rounded transition-colors"
+      >
+        Jetzt anfragen
+      </a>
+      <div class="mt-8 flex flex-wrap justify-center gap-4 text-sm">
+        <a href="/kindergeburtstag/" class="text-[#d7393e] hover:underline">🎂 Kindergeburtstag-Preise</a>
+        <a href="/zauberer/zaubershow/" class="text-[#d7393e] hover:underline">🎩 Zaubershow</a>
+        <a href="/clown/clownshow/" class="text-[#d7393e] hover:underline">🤡 Clownshow</a>
+        <a href="/ueber-mich/" class="text-[#d7393e] hover:underline">👤 Über mich</a>
+        <a href="/blog/" class="text-[#d7393e] hover:underline">📝 Blog</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

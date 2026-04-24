@@ -1,0 +1,246 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+export interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  canonical?: string;
+  ogImage?: string;
+  structuredData?: object | object[];
+  noindex?: boolean;
+  breadcrumbs?: BreadcrumbItem[];
+  heroPreload?: string;
+}
+
+const {
+  title,
+  description = 'Clown Zauberer mit TOP Bewertungen in NRW buchen: die lustigste Clown- und Zaubershow für Ihr Event! Lustig! Magisch! Preisfreundlich!',
+  keywords,
+  canonical = Astro.url.href,
+  ogImage = 'https://liar-entertainer.com/wp-content/uploads/2023/08/Clown-Zauberer-mit-Zaubershow.jpg',
+  structuredData,
+  noindex = false,
+  breadcrumbs,
+  heroPreload,
+} = Astro.props;
+
+const breadcrumbSchema = breadcrumbs && breadcrumbs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": item.url.startsWith('http') ? item.url : `https://liar-entertainer.com${item.url}`
+  }))
+} : null;
+
+const canonicalUrl = canonical.startsWith('http')
+  ? canonical
+  : `https://liar-entertainer.com${canonical}`;
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Clown Zauberer LIAR",
+  "description": "Professioneller Clown, Zauberer und Entertainer in NRW",
+  "url": "https://liar-entertainer.com",
+  "telephone": "+491721517578",
+  "email": "info@liar-entertainer.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Beethovenstr. 15",
+    "addressLocality": "Gladbeck",
+    "postalCode": "45966",
+    "addressCountry": "DE"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 51.5658,
+    "longitude": 6.9857
+  },
+  "priceRange": "€€",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "400",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "areaServed": [
+    {"@type": "City", "name": "Gladbeck"},
+    {"@type": "City", "name": "Oberhausen"},
+    {"@type": "City", "name": "Essen"},
+    {"@type": "City", "name": "Duisburg"},
+    {"@type": "City", "name": "Gelsenkirchen"},
+    {"@type": "City", "name": "Dortmund"},
+    {"@type": "City", "name": "Bochum"},
+    {"@type": "City", "name": "Düsseldorf"},
+    {"@type": "City", "name": "Köln"},
+    {"@type": "City", "name": "Bottrop"},
+    {"@type": "City", "name": "Mülheim an der Ruhr"},
+    {"@type": "City", "name": "Herne"},
+    {"@type": "City", "name": "Recklinghausen"},
+    {"@type": "State", "name": "Nordrhein-Westfalen"}
+  ],
+  "knowsAbout": ["Clownerie", "Zauberei", "Zaubershow", "Clown Zauberer", "Kindergeburtstag"],
+  "review": [
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "Fabienne Bockting"},
+      "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+      "reviewBody": "Wir durften am Freitag, auf dem Kindergeburtstag meiner jetzt vierjährigen Tochter, in strahlende Kinderaugen schauen. Der Clown Zauberer LIAR hat dies vollbracht. Aber nicht nur die Kinder haben gelacht, auch uns Erwachsenen sind einige Tränen vor Lachen übers Gesicht gerollt. Meine Familie und ich können IHN nur empfehlen!!"
+    },
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "Thomas Richter"},
+      "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+      "reviewBody": "Top Entertainer! Die Show war lustig, interaktiv und kindgerecht. Unser Sohn redet heute noch davon. Klare Empfehlung für jeden Kindergeburtstag!"
+    },
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "Christina Wagner"},
+      "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+      "reviewBody": "Wir sind absolut begeistert! Die Zaubershow war kindgerecht, lustig und spannend zugleich. Michael ist ein echter Profi mit Herz. Danke für den tollen Tag!"
+    },
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "Sandra Müller"},
+      "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+      "reviewBody": "Michael hat den 6. Geburtstag meines Sohnes zu einem unvergesslichen Erlebnis gemacht. Die Kinder waren von Anfang bis Ende begeistert. Sehr professionell und unglaublich witzig!"
+    },
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "Oliver Klein"},
+      "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+      "reviewBody": "Michael hat auf dem Geburtstag meiner Tochter eine fantastische Show abgeliefert. Lustig, spannend und mit ganz viel Charme. Wir buchen ihn garantiert wieder!"
+    }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Search Console Verification -->
+    <!-- Füge deinen echten Code hier ein: Google Search Console → Einstellungen → Inhaberschaft bestätigen → HTML-Tag -->
+    <!-- <meta name="google-site-verification" content="DEIN_CODE_HIER" /> -->
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    {noindex ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />}
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Clown Zauberer LIAR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Preconnect: DNS + TCP frühzeitig aufbauen (spart ~100-300ms pro Domain) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://liar-entertainer.com" />
+    <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+    <link rel="dns-prefetch" href="https://maps.gstatic.com" />
+
+    <!-- Hero Image Preload für LCP-Optimierung -->
+    {heroPreload && <link rel="preload" as="image" href={heroPreload} fetchpriority="high" />}
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#d7393e" />
+
+    <!-- Critical CSS für sofortiges Rendering (Above-the-fold) -->
+    <style is:inline>
+      *{box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:hidden}body{margin:0;background:#fff;color:#1f2025;font-family:Poppins,Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.6;overflow-x:hidden!important;overflow-y:auto!important}header{width:100%;z-index:50}img{max-width:100%;height:auto}a{color:inherit;text-decoration:none}.relative{position:relative}.absolute{position:absolute}.inset-0{inset:0}.overflow-hidden{overflow:hidden}.w-full{width:100%}.h-full{height:100%}.object-cover{object-fit:cover}.text-white{color:#fff}.text-center{text-center}.font-extrabold{font-weight:800}.bg-white{background:#fff}.flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}
+    </style>
+
+    <!-- Fonts – async loading for performance (nicht render-blocking) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    {/* Google Analytics — DEAKTIVIERT bis echte Mess-ID eingetragen wird.
+        Wenn du eine GA4 Mess-ID hast (G-XXXXXXX), entkommentiere folgenden Block:
+        <script async src="https://www.googletagmanager.com/gtag/js?id=DEINE-ID"></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'DEINE-ID');
+        </script>
+    */}
+
+    <!-- Structured Data: LocalBusiness (global) -->
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+
+    <!-- BreadcrumbList structured data -->
+    {breadcrumbSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
+
+    <!-- Page-specific structured data -->
+    {structuredData && (
+      Array.isArray(structuredData)
+        ? structuredData.map((sd) => (
+            <script type="application/ld+json" set:html={JSON.stringify(sd)} />
+          ))
+        : <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Minimal JS: sticky nav + mobile menu handled inline in Header -->
+  </body>
+</html>

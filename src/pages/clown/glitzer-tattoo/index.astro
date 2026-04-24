@@ -1,0 +1,277 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GoogleReviews from '../../../components/GoogleReviews.astro';
+import { Image } from 'astro:assets';
+import glitzerTattooHeroImg from '../../../assets/images/clown/glitzer-tattoo-hero.jpeg';
+import glitzerTattoosImg from '../../../assets/images/clown/glitzer-tattoos.jpg';
+import fotogalerieClown10Img from '../../../assets/images/galerie/fotogalerie-clown-zauberer-10.jpg';
+
+const seoTitle = 'Glitzer Tattoos Kindergeburtstag | NRW | Ab 40€ mit Zaubershow';
+const seoDescription = 'Glitzer Tattoos NRW ✓ Hautverträglich & langanhaltend ✓ Über 100 Motive für Kindergeburtstage & Events ✓ 4-8 Tage Funkelspaß ✓ Jetzt anfragen!';
+
+const vorteile = [
+  { title: 'Kein Schmieren', text: 'Im Gegensatz zu Kinderschminken bleibt alles sauber' },
+  { title: 'Lange Haltbarkeit', text: '4-8 Tage Funkelspaß (wasser- und wischfest)' },
+  { title: 'Für jeden geeignet', text: 'Auch für empfindliche Kinderhaut' },
+  { title: 'Schnell fertig', text: 'In 2-3 Minuten ist das Tattoo aufgetragen' },
+  { title: 'Sieht immer toll aus', text: 'Jedes Motiv gelingt perfekt' },
+  { title: 'Leicht entfernbar', text: 'Mit etwas Babyöl rückstandslos entfernbar' },
+];
+
+const motive = [
+  {
+    title: '👧 Beliebte Mädchen-Motive',
+    items: ['🦄 Einhorn', '🦋 Schmetterling', '🌸 Blumen', '👸 Krone', '✨ Sterne', '🌈 Regenbogen', '💖 Herz', '🧚 Fee', '🐱 Katze'],
+  },
+  {
+    title: '👦 Beliebte Jungs-Motive',
+    items: ['🦖 Dinosaurier', '⚽ Fußball', '🚗 Auto', '🏴‍☠️ Pirat', '🦈 Hai', '🚀 Rakete', '⚡ Blitz', '🦁 Löwe'],
+  },
+  {
+    title: '🎃 Saisonale Motive',
+    items: ['🎃 Halloween (Kürbis, Fledermaus, Geist)', '🎄 Weihnachten (Schneeflocke, Rentier)', '🐰 Ostern (Hase, Ei, Küken)', '⚽ Fußball-EM/WM (Flaggen, Pokale)'],
+  },
+];
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords="Glitzer Tattoo Kindergeburtstag, Glitzer Tattoos NRW, Glitzer Tattoo buchen, Kinderschminken Alternative"
+  canonical="https://liar-entertainer.com/clown/glitzer-tattoo/"
+>
+
+  <!-- Page Title -->
+  <section class="bg-white pt-8 pb-0">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-sm text-[#595959] mb-4">
+        <a href="/" class="hover:text-[#d7393e]">Clown</a> »
+        <a href="/" class="hover:text-[#d7393e]">Clown Zauberer LIAR</a> »
+        <span>Glitzer Tattoo</span>
+      </p>
+      <h1 class="font-black text-[#1f2025] text-3xl sm:text-5xl mb-6">Glitzer Tattoo</h1>
+    </div>
+  </section>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden" style="min-height: 600px;">
+    <Image
+      src={glitzerTattooHeroImg}
+      alt="Glitzer Tattoos für Kindergeburtstag & Events in NRW"
+      class="absolute inset-0 w-full h-full object-cover object-top"
+      style="object-position: 50% 0%"
+      loading="eager"
+      fetchpriority="high"
+      widths={[600, 900, 1200]}
+      sizes="100vw"
+    />
+    <div class="absolute inset-0 bg-black/45"></div>
+    <div class="relative flex items-center justify-center" style="min-height: 600px;">
+      <div class="text-center px-6">
+        <h2 class="text-white font-bold leading-tight mb-4" style="font-size: clamp(1.6rem, 4vw, 3rem); text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">
+          ✨ Glitzer Tattoos für Kindergeburtstag<br />&amp; Events in NRW
+        </h2>
+        <p class="text-white/90 text-lg font-medium">Der Klassiker für Kindergeburtstage – Hautverträglich &amp; Langanhaltend</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro / Highlights -->
+  <section class="bg-white py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-[#374151] leading-relaxed mb-6">
+            Sie suchen Glitzer Tattoos für Ihren <a href="/kindergeburtstag/" class="text-[#d7393e] hover:underline">Kindergeburtstag</a> oder Ihr Event? Clown Liar bringt über 100 hautverträgliche Glitzer-Motive direkt zu Ihnen! Ob Einhorn, Superheld oder Schmetterling – in nur 2–3 Minuten zaubern wir funkelnde Tattoos, die 4–8 Tage halten und Kinderaugen zum Leuchten bringen.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3"><span class="text-[#d7393e] font-bold mt-0.5">✨</span><span class="text-[#374151]">Hautverträglich &amp; dermatologisch getestet</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#d7393e] font-bold mt-0.5">🎨</span><span class="text-[#374151]">Über 100 verschiedene tolle Motive</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#d7393e] font-bold mt-0.5">⚡</span><span class="text-[#374151]">Schnell &amp; sauber (2–3 Min. pro Tattoo)</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#d7393e] font-bold mt-0.5">💧</span><span class="text-[#374151]">Wasserfest &amp; wischfest (hält 4–8 Tage)</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#d7393e] font-bold mt-0.5">👦👧</span><span class="text-[#374151]">Für Jungs &amp; Mädchen (3–12 Jahre)</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#d7393e] font-bold mt-0.5">📍</span><span class="text-[#374151]">In ganz NRW buchbar</span></li>
+          </ul>
+        </div>
+        <div class="flex justify-center">
+          <Image
+            src={glitzerTattoosImg}
+            alt="Glitzer Tattoos für Kindergeburtstag & Events in NRW"
+            class="rounded-full object-cover shadow-lg"
+            style="width: 340px; height: 340px;"
+            loading="lazy"
+            widths={[400, 800]}
+            sizes="340px"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <GoogleReviews />
+
+  <!-- Was sind Glitzer Tattoos? -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="font-bold text-[#1f2025] text-2xl sm:text-3xl text-center mb-8">Was sind Glitzer Tattoos?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          <p class="text-[#374151] leading-relaxed mb-6">
+            Glitzer Tattoos sind temporäre Körperkunst, die mit hautfreundlichem Spezialkleber und funkelndem Glitzer aufgetragen werden. Sie sind der absolute Hit auf jedem Kindergeburtstag, Straßenfest oder Event! Besonders beliebt als Ergänzung zu meiner <a href="/clown/clownshow/" class="text-[#d7393e] hover:underline">Clownshow</a> oder in Kombination mit <a href="/clown/ballonmodellage/" class="text-[#d7393e] hover:underline">Ballonmodellage</a>.
+          </p>
+          <h3 class="font-bold text-[#1f2025] mb-4">Warum Glitzer Tattoos so beliebt sind:</h3>
+          <div class="space-y-3">
+            {vorteile.map((v) => (
+              <div class="flex items-start gap-3">
+                <span class="text-green-500 font-bold mt-0.5 flex-shrink-0">✅</span>
+                <p class="text-[#374151] text-sm"><strong>{v.title}</strong> – {v.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <Image
+            src={fotogalerieClown10Img}
+            alt="Glitzer Tattoo bei Clown LIAR"
+            class="rounded-full object-cover shadow-lg"
+            style="width: 340px; height: 340px;"
+            loading="lazy"
+            widths={[400, 800]}
+            sizes="340px"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Sektion -->
+  <!-- Wave oben (weiß → blau) -->
+  <div style="overflow:hidden;line-height:0;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#3b55d5"/>
+    </svg>
+  </div>
+  <section class="py-14 bg-[#3b55d5]">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-white font-extrabold text-xl uppercase tracking-widest mb-6">
+        SCHNELLE EINDRÜCKE
+      </h2>
+      <div class="relative w-full max-w-2xl mx-auto mb-8" style="padding-bottom: 56.25%; position: relative;">
+        <iframe
+          src="https://www.youtube.com/embed/Cop0SqRIX4Y"
+          title="Clown Zauberer für Geburtstag, Feier, Veranstaltung in NRW : die lustigste Zaubershow im Pott!"
+          class="absolute inset-0 w-full h-full rounded-lg"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <h3 class="text-white font-bold text-xl mb-6">
+        Mehr Fotos und Videos in der Galerie
+      </h3>
+      <a
+        href="/galerie/"
+        class="inline-block bg-[#f5a623] hover:bg-[#e69420] text-[#1f2025] font-bold px-10 py-4 rounded-full text-base transition-colors"
+      >
+        Zur Foto- und Videogalerie
+      </a>
+    </div>
+  </section>
+  <!-- Wave unten (blau → weiß) -->
+  <div style="overflow:hidden;line-height:0;background:#3b55d5;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- Motive -->
+  <section class="bg-white py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="font-bold text-[#1f2025] text-2xl sm:text-3xl text-center mb-2">🎨 Unsere Glitzer Tattoo Motive</h2>
+      <p class="text-center text-[#374151] mb-8">Unsere Motivauswahl ist riesig! Jedes Kind darf sich sein Lieblingsmotiv aussuchen.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {motive.map((cat) => (
+          <div class="bg-gray-50 rounded-xl p-6">
+            <h3 class="font-bold text-[#1f2025] mb-4">{cat.title}</h3>
+            <div class="flex flex-wrap gap-2">
+              {cat.items.map((item) => (
+                <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-sm text-[#374151]">{item}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="mt-6 bg-[#fff3e0] rounded-xl p-4 text-center">
+        <p class="text-[#374151]">💡 <strong>Tipp:</strong> Sie haben ein spezielles Motto (z.B. Prinzessinnen-Party, Dino-Geburtstag)? Ich bringe passende Motive mit!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave white → red -->
+  <div style="overflow:hidden;line-height:0;background:white;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#d7393e"/>
+    </svg>
+  </div>
+
+  <!-- Vorteile vs Kinderschminken (red bg) -->
+  <section class="bg-[#d7393e] py-14 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="font-bold text-2xl sm:text-3xl mb-4">Glitzer Tattoos vs. Kinderschminken</h2>
+      <p class="text-red-100 mb-8">Warum Glitzer Tattoos besser sind als Kinderschminken</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm bg-white/10 rounded-xl overflow-hidden">
+          <thead>
+            <tr class="bg-white/20">
+              <th class="p-3 text-left">Kriterium</th>
+              <th class="p-3 text-center">Glitzer Tattoos ✨</th>
+              <th class="p-3 text-center">Kinderschminken</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/10">
+            {[
+              ['Haltbarkeit', '4–8 Tage', 'Wenige Stunden'],
+              ['Wischfest', '✅ Ja', '❌ Nein'],
+              ['Wasserfest', '✅ Ja', '❌ Nein'],
+              ['Schnelligkeit', '2–3 Min.', '5–10 Min.'],
+              ['Schmiert nicht', '✅', '❌ Schmiert oft'],
+              ['Für sensible Haut', '✅', '⚠️ Manchmal problematisch'],
+              ['Entfernung', 'Einfach mit Öl', 'Abwaschen'],
+            ].map(([k, g, s]) => (
+              <tr>
+                <td class="p-3 text-left text-red-100">{k}</td>
+                <td class="p-3 text-center font-medium">{g}</td>
+                <td class="p-3 text-center text-red-200">{s}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave red → white -->
+  <div style="overflow:hidden;line-height:0;background:#d7393e;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- CTA -->
+  <section class="bg-white py-12 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="font-bold text-[#1f2025] text-xl mb-4">Jetzt Glitzer Tattoos buchen!</h2>
+      <p class="text-[#374151] mb-6 leading-relaxed">
+        Perfekt für Kindergeburtstag, Straßenfest oder Event – ab 3 Jahren funkeln Kinderaugen mit tollen Glitzer-Motiven! Kombinieren Sie Glitzer Tattoos mit meiner <a href="/clown/clownshow/" class="text-[#d7393e] hover:underline font-semibold">Clownshow</a> und <a href="/clown/ballonmodellage/" class="text-[#d7393e] hover:underline font-semibold">Ballonmodellage</a> zum kompletten Kinderpaket.
+      </p>
+      <div class="space-y-2 text-[#374151] mb-6">
+        <p>📱 Telefon &amp; WhatsApp: <a href="tel:+491721517578" class="text-[#d7393e] hover:underline font-semibold">0172-1517578</a></p>
+        <p>✉️ E-Mail: <a href="mailto:info@liar-entertainer.com" class="text-[#d7393e] hover:underline">info@liar-entertainer.com</a></p>
+      </div>
+      <a href="/kontakt/" class="inline-block bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-8 py-3 rounded transition-colors">
+        Jetzt unverbindlich anfragen
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>

@@ -1,0 +1,152 @@
+---
+import { Image } from 'astro:assets';
+import logoImg from '../assets/images/general/logo-clown-nrw.png';
+
+const currentYear = new Date().getFullYear();
+
+const colleagues = [
+  { href: 'https://www.magic-olli.de/', label: 'Magic Olli' },
+  { href: 'https://www.zauberer-berlin.de/', label: 'Zauberer Berlin' },
+  { href: 'https://www.zauberer-duesseldorf.com/', label: 'Zauberer Düsseldorf' },
+  { href: 'https://www.zauberer-bremen.de/', label: 'Zauberer in Bremen' },
+  { href: 'https://www.zauberer-koeln.com/', label: 'Zauberer Köln' },
+  { href: 'https://www.zauberer-koeln-umgebung.de/', label: 'Zauberer Köln und Umgebung' },
+  { href: 'https://www.zauberer-schweiz.ch/', label: 'Zauberer Schweiz' },
+  { href: 'https://www.kinderzauberer-hamburg.de/', label: 'Kinderzauberer Hamburg' },
+];
+
+const newsItems = [
+  {
+    href: '/blog/fruehlings-und-sommerfeste-im-kindergarten-ideen-fuer-unvergessliche-events/',
+    label: '🌸 Frühlings- und Sommerfeste im Kindergarten: Ideen für unvergessliche Events',
+  },
+  {
+    href: '/blog/5-gruende-warum-zauberei-zum-karneval-gehoert/',
+    label: '5 Gründe, warum Zauberei zum Karneval gehört 🎭 ✨',
+  },
+  {
+    href: '/blog/zaubershow-im-kindergarten-so-wird-der-besuch-zum-highlight/',
+    label: 'Zaubershow im Kindergarten: So wird der Besuch zum Highlight ✨ 🎩',
+  },
+  {
+    href: '/blog/warum-ein-clown-zauberer-der-perfekte-entertainer-fuer-ihre-karnevalfeier-ist/',
+    label: 'Warum ein Clown Zauberer der perfekte Entertainer für Ihre Karnevalfeier ist ?🎭🎉',
+  },
+  {
+    href: '/blog/10-tipps-fuer-den-perfekten-kindergeburtstag/',
+    label: '🎉 10 Tipps für den perfekten Kindergeburtstag 🎂',
+  },
+  {
+    href: '/blog/was-ist-ein-clown/',
+    label: 'Was ist ein Clown ?',
+  },
+  {
+    href: '/blog/was-kostet-ein-clown-fuer-ein-kindergeburtstag/',
+    label: 'Was kostet ein Clown für ein Kindergeburtstag?',
+  },
+];
+---
+
+<footer>
+  <!-- Footer Top – 3 columns matching original -->
+  <div class="bg-[#c9d7f0] text-[#040222]">
+    <div class="max-w-6xl mx-auto px-4 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Column 1: ANDERE KOLLEGEN -->
+        <div>
+          <h3 class="font-bold text-sm uppercase tracking-wide mb-4">ANDERE KOLLEGEN</h3>
+          <ul class="space-y-2">
+            {colleagues.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-[#040222] hover:text-[#d7393e] text-sm transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Column 2: NEWS CLOWN ZAUBERER -->
+        <div>
+          <h3 class="font-bold text-sm uppercase tracking-wide mb-4">NEWS CLOWN ZAUBERER</h3>
+          <ul class="space-y-3">
+            {newsItems.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  rel="nofollow"
+                  class="text-[#040222] hover:text-[#d7393e] text-sm transition-colors leading-snug block"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Column 3: INFOS -->
+        <div>
+          <h3 class="font-bold text-sm uppercase tracking-wide mb-4">INFOS</h3>
+          <div class="space-y-1 text-sm">
+            <p class="font-bold text-[#040222]">Clown Zauberer LIAR</p>
+            <p class="text-[#040222]">Michaël Prescler</p>
+            <p class="text-[#040222]">Tel: 0172-1517578</p>
+            <p>
+              <a
+                href="mailto:info@liar-entertainer.com"
+                class="text-[#040222] hover:text-[#d7393e] transition-colors"
+              >
+                Email: info@liar-entertainer.com
+              </a>
+            </p>
+          </div>
+          <div class="mt-5">
+            <h4 class="font-bold text-sm uppercase tracking-wide mb-3">Hauptseiten</h4>
+            <ul class="space-y-1.5 text-sm">
+              <li><a href="/clown/clownshow/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Clownshow</a></li>
+              <li><a href="/zauberer/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Zauberer</a></li>
+              <li><a href="/kinderzauberer/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Kinderzauberer</a></li>
+              <li><a href="/kindergeburtstag/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Kindergeburtstag</a></li>
+              <li><a href="/zauberer/zaubershow/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Zaubershow</a></li>
+              <li><a href="/galerie/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Galerie</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="bg-white border-t border-[#efefef]">
+    <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <Image
+          src={logoImg}
+          alt="LOGO Clown Zauberer LIAR"
+          width={50}
+          height={34}
+          class="w-[50px] h-auto"
+          loading="lazy"
+        />
+        <p class="text-[#595959] text-sm">
+          © {currentYear} Clown Zauberer LIAR – Alle Rechte vorbehalten
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-4 text-sm">
+        <a href="/kontakt/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Kontakt</a>
+        <a href="/galerie/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Galerie</a>
+        <a href="/ueber-mich/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Über mich</a>
+        <a href="/impressum/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Impressum</a>
+        <a href="/datenschutzerklaerung-2/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Datenschutz</a>
+        <a href="/agbs/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">AGB</a>
+      </div>
+    </div>
+  </div>
+</footer>

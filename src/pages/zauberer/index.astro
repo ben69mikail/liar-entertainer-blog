@@ -1,0 +1,287 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GoogleReviews from '../../components/GoogleReviews.astro';
+import { Image } from 'astro:assets';
+import heroImg from '../../assets/images/zauberer/zauberer-nrw.png';
+import tischZaubererImg from '../../assets/images/zauberer/tisch-zauberer.jpg';
+import buehneFeuerImg from '../../assets/images/zauberer/tisch-zauberer-nrw-buehne.png';
+import kindergeburtstagImg from '../../assets/images/zauberer/kindergeburtstag.jpg';
+import karteImg from '../../assets/images/kinderzauberer/clown-zauberer-gladbeck.jpg';
+
+const seoTitle = 'Zauberer NRW | Zaubershow für Events | LIAR';
+const seoDescription = 'Französischer Zauberer LIAR in NRW ✓ Professionelle Zaubershow für Kindergeburtstag, Hochzeit & Firmenevent ✓ Tischzauber & Bühnenzauberei ✓ 400+ Top-Bewertungen!';
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Zauberer in NRW",
+  "description": "Professioneller Zauberer LIAR in NRW – Close-up, Bühnenshow und Kinderzaubershow für Kindergeburtstag, Hochzeit und Firmenevent",
+  "url": "https://liar-entertainer.com/zauberer/",
+  "serviceType": ["Zauberer", "Bühnenzauberer", "Tischzauberer", "Kinderzauberer"],
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Clown Zauberer LIAR",
+    "url": "https://liar-entertainer.com",
+    "telephone": "+491721517578",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "400",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  },
+  "areaServed": { "@type": "State", "name": "Nordrhein-Westfalen" }
+};
+
+const formats = [
+  {
+    icon: '🎩',
+    img: tischZaubererImg,
+    imgAlt: 'Eindruck von Tisch Zauberer',
+    title: 'Close-up Zauberei / Tischzauberer',
+    subtitle: 'Magie zum Greifen nah – direkt vor Ihren Augen',
+    description: 'Als Close-up Zauberer bewege ich mich zwischen Ihren Gästen und präsentiere verblüffende Tricks mit Karten, Münzen und Alltagsgegenständen. Die Magie geschieht in unmittelbarer Nähe, sodass jede Täuschung nahezu unmöglich erscheint.',
+    events: ['Hochzeiten (während Sektempfang oder Dinner)', 'Firmenfeiern & Gala-Events', 'Geburtstagsfeiern für Erwachsene', 'Networking-Events & Messen'],
+    advantages: ['Keine Bühne erforderlich', 'Flexibel während der Veranstaltung einsetzbar', 'Persönliche Interaktion mit jedem Gast', 'Schafft Gesprächsstoff und lockert die Atmosphäre'],
+    extra: 'Dauer: 2-4 Stunden (je nach Gästezahl) | Gruppengröße: 20-200 Personen',
+    href: '/zauberer/tisch-zauberer/',
+  },
+  {
+    icon: '🎭',
+    img: buehneFeuerImg,
+    imgAlt: 'Feuertrick mit Zauberer LIAR auf einer Bühne',
+    title: 'Bühnenzauberer / Stand-up Show',
+    subtitle: 'Fesselnde Show für Ihr gesamtes Publikum',
+    description: 'Eine professionelle Bühnenshow, die Ihr Publikum in eine Welt voller Illusionen entführt. Mit spektakulären Tricks, Humor und Charme schaffe ich ein Erlebnis, das alle Altersgruppen begeistert.',
+    events: ['Betriebsfeiern & Weihnachtsfeiern', 'Stadtfeste & öffentliche Events', 'Schulveranstaltungen & Abschlussfeiern', 'Private Feiern mit größerer Gästezahl'],
+    advantages: ['Kompakte Show (20-45 Minuten)', 'Für 10-150 Personen optimiert', 'Interaktive Einbindung des Publikums', 'Minimal 2×2 Meter Fläche ausreichend'],
+    extra: 'Technische Anforderungen: Mikrofon (ab 50 Personen) | Aufbauzeit: Nur 5 Minuten',
+    href: '/zauberer/buehnen-zauberer/',
+  },
+  {
+    icon: '🎪',
+    img: kindergeburtstagImg,
+    imgAlt: 'Einsatz von Zauberer LIAR bei Kindergeburtstag',
+    title: 'Kinderzauberer & Kinderanimation',
+    subtitle: 'Zaubershow, die Kinderaugen zum Leuchten bringt',
+    description: 'Als Kinderzauberer verbinde ich professionelle Zaubertricks mit lustiger Clownerie. Die Kinder werden aktiv eingebunden, stehen im Mittelpunkt und erleben eine Show, die sie nie vergessen werden.',
+    events: ['Kindergeburtstage (ab 4 Jahren)', 'Kinderfeste in Kindergärten & Schulen', 'Kommunion, Taufe & Familienfeiern', 'Sommerfeste & Tag der offenen Tür'],
+    advantages: ['ZAUBERSHOW (30-45 Min.) – Professionelle Mischung aus Magie & Comedy', 'Altersgerechte Tricks mit Wow-Effekt', 'Jedes Kind wird aktiv eingebunden', 'BALLONMODELLAGE auf Wunsch', 'GLITZER-TATTOOS auf Wunsch'],
+    href: '/kinderzauberer/',
+  },
+];
+
+const whyUs = [
+  { title: 'Über 400 TOP-Bewertungen auf Google', desc: 'Zufriedene Kunden in ganz NRW und darüber hinaus' },
+  { title: 'Professionelle Erfahrung seit 2009', desc: 'Hunderte erfolgreiche Auftritte bei Events jeder Größe' },
+  { title: 'Französisches Flair mit NRW-Bodenständigkeit', desc: 'Charmant, sympathisch und authentisch' },
+  { title: 'Flexible & unkomplizierte Buchung', desc: 'Auch kurzfristige Termine oft möglich' },
+  { title: 'Minimaler Aufwand für Sie', desc: 'Nur 2×2 Meter Platz nötig, 10 Minuten Aufbauzeit' },
+  { title: 'Mehrsprachig', desc: 'Shows auf Deutsch und Französisch möglich' },
+  { title: 'Vollständig versichert', desc: 'Haftpflichtversicherung für professionelle Events' },
+];
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords="Zauberer NRW, Zauberer buchen, Zauberer Kindergeburtstag, Kinderzauberer NRW, Zaubershow NRW, Zauberer Hochzeit, Close-up Zauberer, Bühnenzauberer"
+  canonical="https://liar-entertainer.com/zauberer/"
+  breadcrumbs={[
+    { name: 'Startseite', url: '/' },
+    { name: 'Zauberer', url: '/zauberer/' },
+  ]}
+  structuredData={serviceSchema}
+>
+
+  <!-- Page Title -->
+  <section class="bg-white pt-8 pb-0">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-sm text-[#595959] mb-4">
+        <a href="/" class="hover:text-[#d7393e]">Clown</a> »
+        <a href="/" class="hover:text-[#d7393e]">Clown Zauberer LIAR</a> »
+        <span>Zauberer</span>
+      </p>
+      <h1 class="font-black text-[#1f2025] text-2xl sm:text-4xl lg:text-5xl mb-6">Zauberer in NRW – Zaubershow für Kindergeburtstag &amp; Events</h1>
+    </div>
+  </section>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden" style="min-height: 600px;">
+    <Image
+      src={heroImg}
+      alt="Zauberer NRW für Kindergeburtstag und Hochzeit – TOP Bewertet"
+      class="absolute inset-0 w-full h-full object-cover object-top"
+      style="object-position: 41% 25%"
+      loading="eager"
+      fetchpriority="high"
+      widths={[600, 900, 1200]}
+      sizes="100vw"
+    />
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative flex items-center justify-center" style="min-height: 600px;">
+      <div class="text-center px-6">
+        <h2 class="text-white font-bold leading-tight mb-4" style="font-size: clamp(1.8rem, 4.5vw, 3rem); text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">
+          Der Zauberer in NRW<br />mit TOP Bewertungen
+        </h2>
+        <p class="text-white/90 text-base mb-2">Über 300 begeisterte 5-Sterne-Bewertungen auf Google</p>
+        <p class="text-white/80 text-sm">Professionelle Zauberkunst mit französischem Charme</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro + Formats Overview -->
+  <section class="bg-white py-12">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <p class="text-[#374151] leading-relaxed mb-4">
+        Ob <a href="/kindergeburtstag/" class="text-[#d7393e] hover:underline">Kindergeburtstag</a>, Hochzeit oder Firmenevent – als Clown Zauberer LIAR erleben Sie Magie, die begeistert und in Erinnerung bleibt. Als <a href="/kinderzauberer/" class="text-[#d7393e] hover:underline">Kinderzauberer</a> bringe ich Kinderaugen zum Leuchten, als <a href="/zauberer/buehnen-zauberer/" class="text-[#d7393e] hover:underline">Bühnenzauberer</a> fessle ich Ihr Publikum, und als <a href="/zauberer/tisch-zauberer/" class="text-[#d7393e] hover:underline">Tischzauberer</a> verzaubere ich Ihre Gäste aus nächster Nähe.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 text-sm text-[#374151]">
+        <span class="bg-gray-100 px-4 py-2 rounded-full">✓ Clown Zauberer: Close-up, Bühne, Kinderzauberei</span>
+        <span class="bg-gray-100 px-4 py-2 rounded-full">✓ Kurzfristige Buchungen möglich</span>
+        <span class="bg-gray-100 px-4 py-2 rounded-full">✓ Einsatz in ganz NRW & darüber hinaus</span>
+      </div>
+    </div>
+  </section>
+
+  <GoogleReviews />
+
+  <!-- Format Cards -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-center font-bold text-[#595959] text-sm uppercase tracking-widest mb-4">ZAUBEREI-FORMATE</h2>
+      <h3 class="text-center font-bold text-[#1f2025] text-2xl sm:text-3xl mb-10">Welche Art von Zaubershow passt zu Ihrem Event?</h3>
+      <p class="text-center text-[#374151] mb-12">Tauchen Sie ein in die faszinierende Welt der Magie und buchen Sie den Zauberer aus Frankreich. Ob <a href="/zauberer/zaubershow/" class="text-[#d7393e] hover:underline">Zaubershow</a> für Kinder oder elegante <a href="/clown/clownshow/" class="text-[#d7393e] hover:underline">Clownshow</a> – lassen Sie sich von niveauvoller Kunst und unvergleichlichem Charme verzaubern.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {formats.map((format) => (
+          <div class="bg-white rounded-xl overflow-hidden flex flex-col">
+            {format.img && <Image src={format.img} alt={format.imgAlt} class="w-full h-52 object-cover object-top" loading="lazy" widths={[400, 800]} sizes="(max-width: 768px) 100vw, 33vw" />}
+            <div class="p-7 flex flex-col flex-1">
+            <div class="text-4xl mb-4">{format.icon}</div>
+            <h3 class="font-bold text-[#1f2025] text-xl mb-2">{format.title}</h3>
+            <p class="text-[#d7393e] font-medium text-sm mb-4">{format.subtitle}</p>
+            <p class="text-[#374151] text-sm mb-4 leading-relaxed">{format.description}</p>
+            <div class="mb-4">
+              <p class="font-semibold text-[#1f2025] text-sm mb-2">Perfekt geeignet für:</p>
+              <ul class="text-[#374151] text-sm space-y-1">
+                {format.events.map(e => <li>• {e}</li>)}
+              </ul>
+            </div>
+            <div class="mb-4">
+              <p class="font-semibold text-[#1f2025] text-sm mb-2">Ihre Vorteile:</p>
+              <ul class="text-[#374151] text-sm space-y-1">
+                {format.advantages.map(a => <li>✓ {a}</li>)}
+              </ul>
+            </div>
+            {format.extra && <p class="text-[#595959] text-xs italic mb-4">{format.extra}</p>}
+            <div class="mt-auto">
+              <a href={format.href} class="inline-block bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-6 py-2 rounded text-sm transition-colors">
+                Mehr erfahren
+              </a>
+            </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: white → red -->
+  <div style="overflow:hidden;line-height:0;background:#f9fafb;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#d7393e"/>
+    </svg>
+  </div>
+
+  <!-- Red: Why LIAR -->
+  <section class="bg-[#d7393e] py-14 text-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-center font-bold text-sm uppercase tracking-widest text-red-100 mb-2">WARUM ZAUBERER LIAR?</p>
+      <h2 class="text-center font-bold text-2xl sm:text-3xl mb-10">🎯 Das macht mich aus</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {whyUs.map((item) => (
+          <div class="bg-white/15 rounded-xl p-5">
+            <p class="font-bold mb-1">✓ {item.title}</p>
+            <p class="text-red-100 text-sm">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: red → white -->
+  <div style="overflow:hidden;line-height:0;background:#d7393e;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- Booking Process -->
+  <section class="bg-white py-14">
+    <div class="max-w-4xl mx-auto px-4">
+      <p class="text-center font-bold text-sm uppercase tracking-widest text-[#595959] mb-2">SO FUNKTIONIERT DIE BUCHUNG</p>
+      <h2 class="text-center font-bold text-[#1f2025] text-2xl sm:text-3xl mb-10">In 3 einfachen Schritten zu Ihrer Zaubershow</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div>
+          <div class="w-16 h-16 bg-[#d7393e] text-white rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">1</div>
+          <h3 class="font-bold text-[#1f2025] mb-2">Anfrage stellen</h3>
+          <p class="text-[#374151] text-sm">Kontaktieren Sie mich per Telefon (0172-1517578), E-Mail oder Kontaktformular mit Ihrem Wunschtermin und Event-Details.</p>
+        </div>
+        <div>
+          <div class="w-16 h-16 bg-[#d7393e] text-white rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">2</div>
+          <h3 class="font-bold text-[#1f2025] mb-2">Angebot erhalten</h3>
+          <p class="text-[#374151] text-sm">Sie erhalten innerhalb von 24 Stunden ein individuelles, unverbindliches Angebot basierend auf Ihrer Veranstaltung.</p>
+        </div>
+        <div>
+          <div class="w-16 h-16 bg-[#d7393e] text-white rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">3</div>
+          <h3 class="font-bold text-[#1f2025] mb-2">Show erleben</h3>
+          <p class="text-[#374151] text-sm">Nach der Buchungsbestätigung kümmere ich mich um alles – Sie lehnen sich zurück und genießen die Show!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Einsatzgebiet -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-[#d7393e] font-bold text-2xl text-center mb-8">Regional und deutschlandweit</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+        <div>
+          <p class="font-bold text-[#1f2025] mb-2">Haupteinsatzgebiete:</p>
+          <p class="text-[#374151] mb-4 leading-relaxed text-sm">Oberhausen | Gelsenkirchen | Essen | Duisburg | Dorsten | Herten | Herne | Marl | Gladbeck | Mülheim | Dinslaken | Dortmund | Bochum | Bottrop | Recklinghausen</p>
+          <p class="font-bold text-[#1f2025] mb-2">Weitere Städte in NRW:</p>
+          <p class="text-[#374151] mb-4 leading-relaxed text-sm">Düsseldorf | Köln | Münster | Bielefeld | Bonn | Aachen | Krefeld | Moers | Lünen | Hagen | Hamm | Solingen | Wuppertal | Leverkusen | Neuss | Paderborn</p>
+          <p class="text-[#374151] text-sm">🌍 <strong>Überregional &amp; International:</strong> Auf Anfrage auch außerhalb von NRW buchbar – inklusive Belgien, Frankreich, Österreich und Schweiz!</p>
+        </div>
+        <div>
+          <Image
+            src={karteImg}
+            alt="Einsatzgebiet Zauberer LIAR für Kindergeburtstag und Events in NRW – Karte"
+            class="rounded-lg w-full h-auto"
+            loading="lazy"
+            widths={[400, 800]}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="bg-white py-10 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <p class="font-bold text-[#1f2025] text-lg mb-2">Clown Zauberer LIAR</p>
+      <p class="text-[#374151] mb-2">Anschrift : Beethovenstr. 15, 45966 Gladbeck</p>
+      <p class="text-[#374151] mb-6">
+        TEL : <a href="tel:+491721517578" class="hover:text-[#d7393e] transition-colors">0172 – 1517578</a>
+        {' '}// Email :
+        <a href="mailto:info@liar-entertainer.com" class="hover:text-[#d7393e] transition-colors">info@liar-entertainer.com</a>
+      </p>
+      <a href="/kontakt/" class="inline-block bg-[#d7393e] hover:bg-[#b62e32] text-white font-bold px-8 py-3 rounded transition-colors">
+        Jetzt unverbindlich anfragen
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>

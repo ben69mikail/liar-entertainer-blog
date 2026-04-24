@@ -1,0 +1,675 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import { Image, getImage } from 'astro:assets';
+
+import heroImg from '../assets/images/home/clown-zauberer-hero.jpg';
+const heroOptimized = await getImage({ src: heroImg, width: 1200, format: 'webp' });
+import portraitImg from '../assets/images/home/clown-zauberer-liar-portrait.jpg';
+import michaelImg from '../assets/images/home/michael-prescler-portrait.jpg';
+import clownerieImg from '../assets/images/home/clownerie-und-zauberei.jpg';
+import zaubershowImg from '../assets/images/shows/zaubershow.jpg';
+import ballonImg from '../assets/images/shows/ballonmodellage.jpg';
+import glitzerImg from '../assets/images/shows/glitzer-tattoos.jpg';
+import karteImg from '../assets/images/home/clown-zauberer-gladbeck-karte.jpg';
+
+const title = 'Clown Zauberer NRW | Kindergeburtstag & Events | LIAR';
+const description = 'Clown Zauberer LIAR in NRW ✓ Zaubershow & Clownshow ✓ Kindergeburtstag ab 150€ ✓ 400+ Top-Bewertungen ✓ Ballonmodellage & Glitzer-Tattoos ✓ Jetzt buchen!';
+const ogImage = 'https://liar-entertainer.com/wp-content/uploads/2024/01/Clown-Zauberer-LIAR-2.jpg';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Was kostet ein Clown für Kindergeburtstag?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Eine professionelle Clown-Show von LIAR beginnt ab 150€. Der genaue Preis hängt von der gewünschten Leistung, Dauer und Anfahrt ab."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "In welchen Städten ist Clown LIAR buchbar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Clown LIAR ist in ganz NRW buchbar, insbesondere in Gladbeck, Oberhausen, Essen, Gelsenkirchen, Dortmund, Bochum, Duisburg und weiteren Städten."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie lange dauert eine Clown Zaubershow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die Standard-Zaubershow dauert ca. 40 Minuten und ist speziell auf Kinder von 3-12 Jahren zugeschnitten."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Ist Clown LIAR ein \"gruseliger\" Clown?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein! Clown LIAR tritt bewusst ohne Schminke, ohne rote Nase und ohne \"komische Haare\" auf. Sein Clown-Charakter ist freundlich, bunt und einladend. Selbst schüchterne Kinder tauen schnell auf."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kann ich Clown LIAR auch für Erwachsenen-Events buchen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja! Neben Kindergeburtstagen bietet Clown Zauberer LIAR auch Close-up Zauberei für Hochzeiten, Firmenfeiern und Gala-Events an. Die Tischzauberei funktioniert ohne Bühne direkt an den Tischen Ihrer Gäste."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie weit im Voraus sollte ich buchen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Eine Anfrage mindestens 2-4 Wochen im Voraus wird empfohlen, besonders an Wochenenden. Kurzfristige Buchungen sind aber oft auch möglich – einfach unter 0172-1517578 anrufen!"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Brauche ich eine Bühne oder spezielle Technik?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein! Es werden nur 2×2 Meter Platz benötigt. Die Show funktioniert im Wohnzimmer, Garten, Turnhalle oder auf einer Bühne. Alles Nötige wird mitgebracht."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Für welches Alter ist die Show geeignet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die Shows sind für Kinder von 3 bis 12 Jahren konzipiert. Das Programm wird immer an die Altersgruppe angepasst: einfacher und kürzer für Kindergartenkinder, anspruchsvoller für Grundschulkinder."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was passiert bei schlechtem Wetter (Outdoor-Event)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die Show ist flexibel und funktioniert drinnen wie draußen. Falls ein Outdoor-Event wegen Regen ins Haus verlegt werden muss, ist das kein Problem – es werden nur 2×2 Meter Platz benötigt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Hat Clown LIAR eine Versicherung und ein Führungszeugnis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, Clown Zauberer LIAR ist vollständig haftpflichtversichert und verfügt über ein aktuelles polizeiliches Führungszeugnis, das auf Anfrage vorgelegt wird."
+      }
+    }
+  ]
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Michaël Prescler",
+  "alternateName": "Clown Zauberer LIAR",
+  "jobTitle": "Professioneller Clown & Zauberer",
+  "description": "Professioneller Kinderzauberer und Clown mit über 15 Jahren Erfahrung und pädagogischer Ausbildung in NRW",
+  "knowsAbout": ["Zauberei", "Clownerie", "Kinderunterhaltung", "Ballonmodellage", "Close-up Magie"],
+  "knowsLanguage": ["de", "fr"],
+  "worksFor": {
+    "@type": "LocalBusiness",
+    "name": "Clown Zauberer LIAR",
+    "url": "https://liar-entertainer.com"
+  },
+  "url": "https://liar-entertainer.com"
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords="Clown Kindergeburtstag NRW, Zauberer Kindergeburtstag, Clown Zauberer NRW, Zaubershow Kinder, Kinderzauberer NRW, Clown buchen NRW, Kindergeburtstag Zauberer"
+  canonical="https://liar-entertainer.com/"
+  ogImage={ogImage}
+  structuredData={[faqSchema, personSchema]}
+  heroPreload={heroOptimized.src}
+>
+
+  <style>
+    /* Startseite: Content-Texte auf 17px */
+    section p:not([class*="text-xs"]):not([class*="text-sm"]):not([class*="uppercase"]),
+    section li,
+    section dd { font-size: 17px; }
+  </style>
+
+  <!-- ═══════════════════════════════════════
+       HERO IMAGE – full width, no overlay
+  ════════════════════════════════════════ -->
+  <section class="w-full overflow-hidden">
+    <Image
+      src={heroImg}
+      alt="Clown Zauberer LIAR bei einer Zaubershow"
+      class="w-full object-cover"
+      style="max-height:720px; width:100%; object-position:52% 0%;"
+      loading="eager"
+      fetchpriority="high"
+      widths={[600, 900, 1200]}
+      sizes="100vw"
+      quality={70}
+    />
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       INTRO – H1 + lead paragraph (centered)
+  ════════════════════════════════════════ -->
+  <section class="py-14 bg-white">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h1 class="text-[#1f2025] font-extrabold text-3xl sm:text-5xl lg:text-6xl leading-tight mb-8">
+        Clown Zauberer in NRW – Zaubershow & Kindergeburtstag
+      </h1>
+      <p class="text-[#374151] text-[17px] sm:text-lg leading-relaxed">
+        Sie suchen einen Clown, der Kinderaugen zum Leuchten bringt? Clown Zauberer Liar sorgt seit
+        über 15 Jahren für unvergessliche Momente auf <a href="/kindergeburtstag/" class="text-[#d7393e] hover:underline">Kindergeburtstagen</a>, Straßenfesten und
+        Firmenevents in ganz NRW. Als erfahrener <a href="/kinderzauberer/" class="text-[#d7393e] hover:underline font-semibold">Kinderzauberer</a> und
+        <a href="/clown/clownshow/" class="text-[#d7393e] hover:underline font-semibold">Clown</a> verbindet er professionelle
+        <a href="/zauberer/" class="text-[#d7393e] hover:underline font-semibold">Zauberei</a>
+        mit Interaktion — jede Veranstaltung wird zum Highlight!
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       WAS MACHT CLOWN LIAR SO BESONDERS?
+  ════════════════════════════════════════ -->
+  <section class="py-10 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="text-[#d7393e] font-extrabold text-2xl sm:text-3xl mb-8">
+        Was macht Clown Liar so besonders?
+      </h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div class="space-y-5">
+          <p class="text-[#374151] leading-relaxed">
+            Als professioneller Clown und Kinderzauberer bringe ich nicht nur Kinder, sondern auch Erwachsene zum Lachen.
+            Meine Show kombiniert klassische Clownerie mit modernen Entertainment-&nbsp;Elementen –
+            individuell abgestimmt auf Ihr Event und die Altersgruppe. Ob beim <a href="/kindergeburtstag/" class="text-[#d7393e] hover:underline">Kindergeburtstag</a> oder auf der großen Bühne.
+          </p>
+          <p class="text-[#374151] leading-relaxed">
+            <span class="text-lg mr-1">✨</span>
+            <a href="/zauberer/zaubershow/" class="text-[#d7393e] hover:underline font-semibold">Zaubershow</a>
+            : Verblüffende Zaubertricks, bei denen die Kinder aktiv mitmachen und selbst zu
+            kleinen Zauberern werden. Staunen und Lachen in perfekter Balance!
+          </p>
+          <p class="text-[#374151] leading-relaxed">
+            <span class="text-lg mr-1">🎭</span>
+            Walk-Act : Lustige Improvisation, witzige Gags und interaktive Clownerie, die garantiert
+            für Lacher sorgt. Jeder Pantomime- oder Clown-Auftritt wird auf Ihre Gäste abgestimmt.
+          </p>
+          <p class="text-[#374151] leading-relaxed">
+            <span class="text-lg mr-1">🎈</span>
+            Extras : Ballonmodellage, Glitzer Tattoos, Close-up… Ihr Clown Zauberer bringt alles
+            mit, was Ihr Event unvergesslich macht.
+          </p>
+        </div>
+        <div class="flex justify-center lg:justify-end">
+          <Image
+            src={portraitImg}
+            alt="Clown Zauberer LIAR bringt Kinder auf dem Geburtstag zum Lachen"
+            class="rounded-full object-cover object-[20%]"
+            style="width:320px;height:320px;"
+            loading="lazy"
+            width={320}
+            height={320}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Google Reviews (dynamisch) -->
+  <GoogleReviews />
+
+  <!-- ═══════════════════════════════════════
+       LERNEN SIE CLOWN LIAR KENNEN
+  ════════════════════════════════════════ -->
+  <section class="py-12 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="text-[#1f2025] font-extrabold text-2xl sm:text-3xl mb-8">
+        Lernen Sie Clown Liar kennen – Ihr Entertainer mit Herz &amp; Humor
+      </h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div>
+          <p class="text-[#374151] leading-relaxed mb-4">
+            Hallo, ich bin Liar – professioneller Clown, Zauberer und Entertainer aus
+            Nordrhein-Westfalen und seit über einem Jahrzehnt bringe ich Kinderherzen zum
+            Hüpfen und Erwachsene zum Schmunzeln. <a href="/ueber-mich/" class="text-[#d7393e] hover:underline">Erfahren Sie mehr über mich und meinen Werdegang</a>.
+          </p>
+          <p class="text-[#374151] leading-relaxed">
+            Meine Mission? Jeden Moment zu etwas Besonderem machen! Daher ist es mir als
+            Clown wichtig, dass sich jedes Kind gesehen und einbezogen fühlt. Deshalb sind
+            meine Shows interaktiv, warmherzig und voller Überraschungen. In meinem <a href="/blog/" class="text-[#d7393e] hover:underline">Blog</a> erzähle ich regelmäßig von solchen besonderen Momenten.
+          </p>
+        </div>
+        <div class="flex justify-center">
+          <Image
+            src={michaelImg}
+            alt="Foto von Michael Prescler – Clown Zauberer LIAR"
+            class="rounded-full object-cover object-[20%]"
+            style="width:280px;height:280px;"
+            loading="lazy"
+            width={280}
+            height={280}
+            quality={70}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       WAVE → RED STATS SECTION
+  ════════════════════════════════════════ -->
+  <div style="overflow:hidden;line-height:0;background:white;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#d7393e"/>
+    </svg>
+  </div>
+
+  <section class="bg-[#d7393e] py-10 text-white text-center">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-transparent border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">🪄</div>
+          <div class="text-4xl font-extrabold">400</div>
+          <div class="text-sm mt-1">Shows im Jahr</div>
+        </div>
+        <div class="bg-transparent border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">😊</div>
+          <div class="text-4xl font-extrabold">110.000</div>
+          <div class="text-sm mt-1">Lachende Kinder</div>
+        </div>
+        <div class="bg-transparent border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">🪄</div>
+          <div class="text-4xl font-extrabold">15</div>
+          <div class="text-sm mt-1">Jahre Erfahrung</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="overflow:hidden;line-height:0;background:#d7393e;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       QUALIFIKATIONEN + WAS MICH AUSZEICHNET
+  ════════════════════════════════════════ -->
+  <section class="pt-4 pb-12 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div>
+          <p class="font-bold text-[#1f2025] text-lg mb-4">Meine Qualifikationen:</p>
+          <div class="space-y-3">
+            {[
+              'Über 15 Jahre Erfahrung als Clown & 30 Jahre als Entertainer',
+              'über 400 erfolgreiche Auftritte in NRW und deutschlandweit im Jahr',
+              'pädagogische Ausbildung',
+              'Spezialisiert auf Kinder von 3–12 Jahren',
+              'Versichert und polizeiliches Führungszeugnis(auf Anfrage)',
+            ].map((item) => (
+              <p class="text-[#374151] leading-relaxed flex items-start gap-2">
+                <span class="text-green-600 flex-shrink-0 mt-0.5">✅</span>
+                <span>{item}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <Image
+            src={clownerieImg}
+            alt="Clownerie und Zauberei auf einem Kindergeburtstag in NRW"
+            class="rounded-full object-cover object-[20%]"
+            style="width:260px;height:260px;"
+            loading="lazy"
+            width={260}
+            height={260}
+          />
+        </div>
+      </div>
+
+      <!-- Was mich als Clown auszeichnet -->
+      <div class="mt-14 text-center max-w-2xl mx-auto">
+        <p class="font-bold text-[#1f2025] text-lg mb-4">** Was mich als Clown auszeichnet **</p>
+        <p class="text-[#374151] leading-relaxed">
+          Ich bin kein „gruseliger" Clown – ganz im Gegenteil : keine Schminke, keine
+          „komischen Haare" und keine rote Nase! Mein Clown-Charakter ist freundlich,
+          trotzdem bunt und lädt Kinder zum Mitmachen ein. Selbst schüchterne Kinder
+          tauen schnell auf, wenn Clown Liar die Bühne betritt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       WAVE → BLUE SERVICES SECTION
+  ════════════════════════════════════════ -->
+  <div style="overflow:hidden;line-height:0;background:white;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#3b55d5"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       DAS BIETET CLOWN ZAUBERER LIAR
+  ════════════════════════════════════════ -->
+  <section class="bg-[#3b55d5] pt-6 pb-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-white font-extrabold text-2xl sm:text-3xl text-center mb-12">
+        Das bietet Clown Zauberer Liar für Ihr Event
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+
+        <!-- Zaubershow -->
+        <div class="text-center text-white">
+          <a href="/zauberer/zaubershow/">
+            <Image
+              src={zaubershowImg}
+              alt="Clown Zauberer LIAR verzaubert Kinder bei einer Zaubershow in NRW"
+              class="rounded-full object-cover object-[20%] mx-auto hover:opacity-90 transition-opacity"
+              style="width:220px;height:220px;"
+              loading="lazy"
+              width={220}
+              height={220}
+            />
+          </a>
+          <h3 class="font-extrabold text-xl mt-5 mb-3 tracking-wide">ZAUBERSHOW</h3>
+          <p class="text-white/90 text-sm leading-relaxed mb-3">
+            Clown trifft Zauberer – Die magischste Show in NRW! Wenn der Clown zum Zauberer wird,
+            passieren unglaubliche Dinge! Meine Zaubershow ist speziell für Kinder konzipiert und
+            verbindet Comedy mit verblüffender Magie.
+          </p>
+          <div class="text-white/80 text-sm space-y-1.5 text-left">
+            <p>✅ <strong>Interaktive Zaubertricks</strong> – Kinder werden zu Co-Zauberern und erleben Magie hautnah</p>
+            <p>✅ <strong>Altersgerechte Magie</strong> – Von einfachen Tricks für die Kleinen bis zu verblüffenden Illusionen für ältere Kinder</p>
+            <p>✅ <strong>Comedy-Magie</strong> – Der Clown zaubert nicht perfekt – und genau das macht es so lustig!</p>
+            <p>✅ <strong>Große Finale</strong> – Ein spektakulärer Abschlusszauber, den niemand vergisst</p>
+          </div>
+          <p class="text-white/90 text-xs mt-3"><strong>Dauer:</strong> ca. 40 Minuten</p>
+          <a href="/zauberer/zaubershow/" class="inline-block mt-4 text-white hover:underline text-sm font-semibold">
+            Mehr erfahren →
+          </a>
+        </div>
+
+        <!-- Ballonmodellage -->
+        <div class="text-center text-white">
+          <a href="/clown/ballonmodellage/">
+            <Image
+              src={ballonImg}
+              alt="Clown LIAR formt Ballontiere bei Ballonmodellage auf Kindergeburtstag"
+              class="rounded-full object-cover object-[20%] mx-auto hover:opacity-90 transition-opacity"
+              style="width:220px;height:220px;"
+              loading="lazy"
+              width={220}
+              height={220}
+            />
+          </a>
+          <h3 class="font-extrabold text-xl mt-5 mb-3 tracking-wide">BALLONMODELLAGE</h3>
+          <p class="text-white/90 text-sm leading-relaxed mb-3">
+            Bunte Ballontiere vom Clown – Jedes Kind bekommt sein Wunschtier! Welches Kind liebt
+            nicht Ballontiere? Als erfahrener Clown und Ballonkünstler forme ich im Handumdrehen
+            die schönsten Figuren:
+          </p>
+          <div class="text-white/80 text-sm space-y-1.5 text-left">
+            <p>✅ Klassiker: Hund, Katze, Herz, Schwert, Blume</p>
+            <p>✅ Spezial-Figuren: Wikinger Helm, Dinosaurier, Kronen, Marienkäfer</p>
+            <p>✅ Individuelle Wünsche werden erfüllt!</p>
+          </div>
+          <p class="text-white/90 text-xs mt-3"><strong>Dauer:</strong> Je nach Kinderzahl (ca. 1-2 Minuten pro Figur)</p>
+          <a href="/clown/ballonmodellage/" class="inline-block mt-4 text-white hover:underline text-sm font-semibold">
+            Mehr erfahren →
+          </a>
+        </div>
+
+        <!-- Glitzer Tattoos -->
+        <div class="text-center text-white">
+          <a href="/clown/glitzer-tattoo/">
+            <Image
+              src={glitzerImg}
+              alt="Glitzer Tattoos von Clown Zauberer LIAR auf einem Kinderfest in NRW"
+              class="rounded-full object-cover object-[20%] mx-auto hover:opacity-90 transition-opacity"
+              style="width:220px;height:220px;"
+              loading="lazy"
+              width={220}
+              height={220}
+            />
+          </a>
+          <h3 class="font-extrabold text-xl mt-5 mb-3 tracking-wide">GLITZER TATTOOS</h3>
+          <p class="text-white/90 text-sm leading-relaxed mb-3">
+            Funkel-Glamour vom Clown – Temporäre Tattoos mit WOW-Effekt! Glitzer Tattoos sind
+            der Hit auf jeder Party! Als Clown bringe ich eine große Auswahl an glitzernden
+            Motiven mit, die Kinderaugen leuchten lassen:
+          </p>
+          <div class="text-white/80 text-sm space-y-1.5 text-left">
+            <p>✅ <strong>Hautverträglich &amp; sicher</strong> – Dermatologisch getestet, keine Allergene</p>
+            <p>✅ <strong>Riesige Motivauswahl</strong></p>
+            <p>✅ <strong>Schnell &amp; sauber</strong> – In 2-3 Minuten fertig, kein Rumschmieren</p>
+            <p>✅ <strong>Hält mehrere Tage</strong> – Wasserfest und wischfest</p>
+            <p>✅ <strong>Für Jungs &amp; Mädchen</strong> – Superhelden, Tiere, Blumen, Sterne u.v.m.</p>
+          </div>
+          <p class="text-white/90 text-xs mt-3"><strong>Dauer:</strong> Ca. 2-3 Minuten pro Tattoo</p>
+          <a href="/clown/glitzer-tattoo/" class="inline-block mt-4 text-white hover:underline text-sm font-semibold">
+            Mehr erfahren →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div style="overflow:hidden;line-height:0;background:#3b55d5;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       EINSATZGEBIET
+  ════════════════════════════════════════ -->
+  <section class="pt-4 pb-14 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <p class="text-[#d7393e] font-bold text-sm uppercase tracking-widest mb-1">Einsatzgebiet</p>
+      <h2 class="text-[#1f2025] font-extrabold text-xl uppercase mb-6">REGIONAL UND DEUTSCHLANDWEIT</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div>
+          <p class="text-[#374151] leading-relaxed mb-5">
+            Als mobiler Clown Zauberer bin ich in folgenden Städten und Regionen
+            regelmäßig unterwegs und für Buchungen verfügbar.
+          </p>
+          <p class="text-[#374151] leading-relaxed mb-3">
+            <strong>Haupteinsatzgebiete :</strong> Oberhausen | Gelsenkirchen | Essen |
+            Duisburg | Dorsten | Herten | Herne | Marl | Gladbeck | Mülheim | Dinslaken |
+            Dortmund | <a href="/clown/clownshow/clown-in-bochum/" class="text-[#d7393e] hover:underline">Bochum</a>
+            | Bottrop | Recklinghausen
+          </p>
+          <p class="text-[#374151] leading-relaxed mb-3">
+            <strong>Weitere Städte in NRW:</strong> Düsseldorf | Köln | Münster | Bielefeld |
+            Bonn | Aachen | Krefeld | Moers | Lünen | Hagen | Hamm | Solingen | Wuppertal |
+            Leverkusen | Neuss | Paderborn
+          </p>
+          <p class="text-[#374151] leading-relaxed">
+            <strong>Überregional &amp; International:</strong> Auf Anfrage bin ich auch
+            außerhalb von NRW buchbar – inklusive Belgien, Frankreich, Österreich und Schweiz!
+          </p>
+        </div>
+        <div>
+          <Image
+            src={karteImg}
+            alt="Einsatzgebiet Clown Zauberer und Kinderzauberer LIAR in NRW – Karte"
+            class="w-full rounded"
+            loading="lazy"
+            widths={[400, 600]}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SCHNELLE EINDRÜCKE
+  ════════════════════════════════════════ -->
+  <!-- Wave oben (weiß → blau) -->
+  <div style="overflow:hidden;line-height:0;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#3b55d5"/>
+    </svg>
+  </div>
+  <section class="py-14 bg-[#3b55d5]">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-white font-extrabold text-xl uppercase tracking-widest mb-6">
+        SCHNELLE EINDRÜCKE
+      </h2>
+      <!-- YouTube Video -->
+      <div class="relative w-full max-w-2xl mx-auto mb-8" style="padding-bottom: 56.25%; position: relative;">
+        <iframe
+          src="https://www.youtube.com/embed/Cop0SqRIX4Y"
+          title="Clown Zauberer für Geburtstag, Feier, Veranstaltung in NRW : die lustigste Zaubershow im Pott!"
+          class="absolute inset-0 w-full h-full rounded-lg"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <p class="text-white leading-relaxed mb-8">
+        Foto- und Videogalerien sind eine bereichernde und erfüllende Erfahrung: wir öffnen uns
+        eine Welt der Emotionen! Sie regen uns an, unser Verständnis für die Welt und die Menschen
+        um uns herum zu vertiefen. Fotos und Videos haben die Kraft, Emotionen in uns hervorzurufen
+        und erzeugen eine emotionale Verbindung und eine Galerie kann uns dazu bringen, uns mit den
+        dargestellten Momenten und Geschichten zu verbinden…oder einfach spontane Eindrücke
+        festzuhalten! Viel Spaß beim Stöbern! Schauen Sie auch in meinem <a href="/blog/" class="text-white hover:underline font-semibold">Blog</a> vorbei, wo ich regelmäßig über aktuelle Auftritte und Neuigkeiten berichte.
+      </p>
+      <h3 class="text-white font-bold text-xl mb-6">
+        Mehr Fotos und Videos in der Galerie
+      </h3>
+      <a
+        href="/galerie/"
+        class="inline-block bg-[#f5a623] hover:bg-[#e69420] text-[#1f2025] font-bold px-10 py-4 rounded-full text-base transition-colors"
+      >
+        Zur Foto- und Videogalerie
+      </a>
+    </div>
+  </section>
+  <!-- Wave unten (blau → weiß) -->
+  <div style="overflow:hidden;line-height:0;background:#3b55d5;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FAQ SECTION
+  ════════════════════════════════════════ -->
+  <section class="py-14 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-center text-2xl font-extrabold mb-8">Häufig gestellte Fragen</h2>
+      <div class="space-y-4">
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Was kostet ein Clown für Kindergeburtstag?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Eine professionelle Clown-Show von LIAR beginnt ab 150€. Der genaue Preis hängt von der gewünschten Leistung, Dauer und Anfahrt ab.</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">In welchen Städten ist Clown LIAR buchbar?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Clown LIAR ist in ganz NRW buchbar, insbesondere in Gladbeck, Oberhausen, Essen, Gelsenkirchen, Dortmund, Bochum, Duisburg und weiteren Städten.</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Wie lange dauert eine Clown Zaubershow?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Die Standard-Zaubershow dauert ca. 40 Minuten und ist speziell auf Kinder von 3-12 Jahren zugeschnitten.</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Ist Clown LIAR ein "gruseliger" Clown?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Nein! Clown LIAR tritt bewusst ohne Schminke, ohne rote Nase und ohne "komische Haare" auf. Sein Clown-Charakter ist freundlich, bunt und einladend. Selbst schüchterne Kinder tauen schnell auf.</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Kann ich Clown LIAR auch für Erwachsenen-Events buchen?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Ja! Neben Kindergeburtstagen bietet Clown Zauberer LIAR auch Close-up Zauberei für Hochzeiten, Firmenfeiern und Gala-Events an. Die Tischzauberei funktioniert ohne Bühne direkt an den Tischen Ihrer Gäste.</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Wie weit im Voraus sollte ich buchen?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Eine Anfrage mindestens 2-4 Wochen im Voraus wird empfohlen, besonders an Wochenenden. Kurzfristige Buchungen sind aber oft auch möglich – einfach unter 0172-1517578 anrufen!</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Brauche ich eine Bühne oder spezielle Technik?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Nein! Es werden nur 2×2 Meter Platz benötigt. Die Show funktioniert im Wohnzimmer, Garten, Turnhalle oder auf einer Bühne. Alles Nötige wird mitgebracht.</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Für welches Alter ist die Show geeignet?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Die Shows sind für Kinder von 3 bis 12 Jahren konzipiert. Das Programm wird immer an die Altersgruppe angepasst: einfacher und kürzer für Kindergartenkinder, anspruchsvoller für Grundschulkinder.</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Was passiert bei schlechtem Wetter (Outdoor-Event)?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Die Show ist flexibel und funktioniert drinnen wie draußen. Falls ein Outdoor-Event wegen Regen ins Haus verlegt werden muss, ist das kein Problem – es werden nur 2×2 Meter Platz benötigt.</p>
+        </details>
+        <details class="bg-[#f9fafb] rounded-xl p-4 group">
+          <summary class="font-bold cursor-pointer text-[#1f2025]">Hat Clown LIAR eine Versicherung und ein Führungszeugnis?</summary>
+          <p class="mt-3 text-[#374151] text-[17px] leading-relaxed">Ja, Clown Zauberer LIAR ist vollständig haftpflichtversichert und verfügt über ein aktuelles polizeiliches Führungszeugnis, das auf Anfrage vorgelegt wird.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CONTACT SECTION (before footer)
+  ════════════════════════════════════════ -->
+  <section class="py-12 bg-white border-t border-gray-200">
+    <div class="max-w-xl mx-auto px-4 text-center">
+      <p class="font-bold text-[#1f2025] text-xl mb-4">Clown Zauberer LIAR</p>
+      <p class="text-[#374151] mb-2">
+        Anschrift : Beethovenstr. 15, 45966 Gladbeck
+      </p>
+      <p class="text-[#374151] mb-6">
+        TEL : 0172 – 1517578 // Email : info@liar-entertainer.com
+      </p>
+      <div class="flex justify-center gap-4">
+        <!-- Facebook -->
+        <a
+          href="https://www.facebook.com/clownzaubererliar"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+          class="w-12 h-12 rounded-full bg-[#1877f2] flex items-center justify-center hover:opacity-90 transition-opacity"
+        >
+          <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+        <!-- Google -->
+        <a
+          href="https://maps.app.goo.gl/rzqqvTG1WyXAxJf17"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Google"
+          class="w-12 h-12 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:opacity-90 transition-opacity"
+        >
+          <svg class="w-6 h-6" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+        </a>
+        <!-- Instagram -->
+        <a
+          href="https://www.instagram.com/clown_zauberer_liar"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          class="w-12 h-12 rounded-full flex items-center justify-center hover:opacity-90 transition-opacity"
+          style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);"
+        >
+          <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
