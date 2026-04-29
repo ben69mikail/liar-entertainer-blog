@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import logoImg from '../assets/images/general/logo-clown-nrw.png';
+import { getAllBlogPosts } from '../utils/allPosts';
 
 const currentYear = new Date().getFullYear();
 
@@ -15,36 +16,12 @@ const colleagues = [
   { href: 'https://www.kinderzauberer-hamburg.de/', label: 'Kinderzauberer Hamburg' },
 ];
 
-const newsItems = [
-  {
-    href: '/blog/fruehlings-und-sommerfeste-im-kindergarten-ideen-fuer-unvergessliche-events/',
-    label: '🌸 Frühlings- und Sommerfeste im Kindergarten: Ideen für unvergessliche Events',
-  },
-  {
-    href: '/blog/5-gruende-warum-zauberei-zum-karneval-gehoert/',
-    label: '5 Gründe, warum Zauberei zum Karneval gehört 🎭 ✨',
-  },
-  {
-    href: '/blog/zaubershow-im-kindergarten-so-wird-der-besuch-zum-highlight/',
-    label: 'Zaubershow im Kindergarten: So wird der Besuch zum Highlight ✨ 🎩',
-  },
-  {
-    href: '/blog/warum-ein-clown-zauberer-der-perfekte-entertainer-fuer-ihre-karnevalfeier-ist/',
-    label: 'Warum ein Clown Zauberer der perfekte Entertainer für Ihre Karnevalfeier ist ?🎭🎉',
-  },
-  {
-    href: '/blog/10-tipps-fuer-den-perfekten-kindergeburtstag/',
-    label: '🎉 10 Tipps für den perfekten Kindergeburtstag 🎂',
-  },
-  {
-    href: '/blog/was-ist-ein-clown/',
-    label: 'Was ist ein Clown ?',
-  },
-  {
-    href: '/blog/was-kostet-ein-clown-fuer-ein-kindergeburtstag/',
-    label: 'Was kostet ein Clown für ein Kindergeburtstag?',
-  },
-];
+// Footer-News: dynamisch die neuesten 7 Blog-Artikel (Legacy + Content-Collection gemerget)
+const allPosts = await getAllBlogPosts();
+const newsItems = allPosts.slice(0, 7).map((p) => ({
+  href: p.href,
+  label: p.title,
+}));
 ---
 
 <footer>
