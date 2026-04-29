@@ -23,12 +23,14 @@ const dateLabel = new Date(entry.data.publishDate).toLocaleDateString('de-DE', {
 });
 const canonical = `https://liar-entertainer.com/blog/${entry.id}/`;
 const desc = entry.data.description ?? entry.data.title;
+const ogImage = entry.data.heroImage ?? undefined;
 ---
 
 <BaseLayout
   title={`${entry.data.title} | Clown Zauberer LIAR`}
   description={desc}
   canonical={canonical}
+  ogImage={ogImage}
 >
   <article class="max-w-[800px] mx-auto px-4 py-12">
     <header class="mb-8">
