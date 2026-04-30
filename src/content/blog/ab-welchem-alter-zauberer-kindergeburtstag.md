@@ -4,7 +4,7 @@ description: "Zauberer Alter Kindergeburtstag – wann lohnt sich eine Zaubersho
 publishDate: 2026-05-04
 heroImage: "https://liar-entertainer.com/blog-images/ab-welchem-alter-zauberer-kindergeburtstag/cover.jpg"
 heroImageAlt: "Ab welchem Alter macht ein Zauberer Sinn? Der Alters-Ratgeber Cover"
-categories: ["B", "Alter / C", "Vergleich"]
+categories: ["Alter", "Vergleich"]
 tags: ["zauberer-alter-kindergeburtstag"]
 author: "Michaël Prescler"
 draft: false

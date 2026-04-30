@@ -4,7 +4,7 @@ description: "Muttertag und Kindergeburtstag kombinieren in NRW - praktische Tip
 publishDate: 2026-05-04
 heroImage: "https://liar-entertainer.com/blog-images/muttertag-familiengeburtstag-kombinieren/cover.jpg"
 heroImageAlt: "Muttertag & Familiengeburtstag kombinieren - was zusammen funktioniert Cover"
-categories: ["F", "Saisonal / G", "Probleme"]
+categories: ["Saisonal", "Probleme"]
 tags: ["muttertag-kindergeburtstag-kombinieren"]
 author: "Michaël Prescler"
 draft: false
