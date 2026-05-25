@@ -154,23 +154,112 @@ const videoSchema = {
     section p:not([class*="text-xs"]):not([class*="text-sm"]):not([class*="uppercase"]),
     section li,
     section dd { font-size: 17px; }
+
+    /* CTA Button Hover: scale + shadow */
+    .btn-primary {
+      display: inline-block;
+      background: #f5a623;
+      color: #1f2025;
+      font-weight: 800;
+      padding: 1rem 2.5rem;
+      border-radius: 9999px;
+      font-size: 1.125rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 20px rgba(245,166,35,0.4);
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background: #e69420;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 28px rgba(245,166,35,0.55);
+    }
+    .btn-secondary {
+      display: inline-block;
+      border: 2px solid #d7393e;
+      color: #d7393e;
+      font-weight: 800;
+      padding: 1rem 2.5rem;
+      border-radius: 9999px;
+      font-size: 1.125rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-secondary:hover {
+      background: #d7393e;
+      color: white;
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    /* FAQ Chevron */
+    details summary { list-style: none; }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::after {
+      content: '＋';
+      float: right;
+      font-size: 1.2rem;
+      color: #d7393e;
+      transition: transform 0.2s;
+    }
+    details[open] summary::after {
+      content: '－';
+    }
+
+    /* Service Card hover */
+    .service-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 1.5rem;
+      padding: 2rem 1.5rem;
+      transition: all 0.25s ease;
+    }
+    .service-card:hover {
+      background: rgba(255,255,255,0.13);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+
+    /* Portrait image hover */
+    .portrait-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .portrait-hover:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    }
   </style>
 
   <!-- ═══════════════════════════════════════
-       HERO IMAGE – full width, no overlay
+       HERO IMAGE – full width + gradient overlay
   ════════════════════════════════════════ -->
-  <section class="w-full overflow-hidden">
+  <section class="w-full overflow-hidden relative">
     <Image
       src={heroImg}
-      alt="Clown Zauberer LIAR bei einer Zaubershow"
+      alt="Clown Zauberer LIAR bei einer Zaubershow für Kindergeburtstag in NRW"
       class="w-full object-cover"
-      style="max-height:720px; width:100%; object-position:52% 0%;"
+      style="max-height:720px; width:100%; object-position:52% 0%; display:block;"
       loading="eager"
       fetchpriority="high"
       widths={[600, 900, 1200]}
       sizes="100vw"
       quality={70}
     />
+    <!-- Gradient overlay: transparent oben, dunkel unten für sanften Übergang -->
+    <div
+      class="absolute inset-0 pointer-events-none"
+      style="background: linear-gradient(to bottom, transparent 55%, rgba(31,32,37,0.55) 100%);"
+    ></div>
+    <!-- Hero Badge: Vertrauen sofort sichtbar -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 flex-wrap justify-center px-4">
+      <span class="bg-[#f5a623] text-[#1f2025] font-bold text-sm px-4 py-2 rounded-full shadow-lg whitespace-nowrap">
+        ⭐ 400+ Top-Bewertungen
+      </span>
+      <span class="bg-white/90 text-[#1f2025] font-bold text-sm px-4 py-2 rounded-full shadow-lg whitespace-nowrap">
+        🎭 Clown & Zauberer seit 2009
+      </span>
+      <span class="bg-[#d7393e] text-white font-bold text-sm px-4 py-2 rounded-full shadow-lg whitespace-nowrap">
+        💶 Ab 150€ buchen
+      </span>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════
@@ -190,19 +279,16 @@ const videoSchema = {
         mit Interaktion — jede Veranstaltung wird zum Highlight!
       </p>
       <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a
-          href="tel:+491721517578"
-          class="inline-block bg-[#f5a623] hover:bg-[#e69420] text-[#1f2025] font-bold px-10 py-4 rounded-full text-lg transition-colors shadow-lg"
-        >
+        <a href="tel:+491721517578" class="btn-primary">
           📞 Jetzt anfragen
         </a>
-        <a
-          href="/kontakt/"
-          class="inline-block border-2 border-[#d7393e] text-[#d7393e] hover:bg-[#d7393e] hover:text-white font-bold px-10 py-4 rounded-full text-lg transition-colors"
-        >
+        <a href="/kontakt/" class="btn-secondary">
           Verfügbarkeit prüfen
         </a>
       </div>
+      <p class="mt-4 text-sm text-gray-500">
+        Preise ab <strong class="text-[#d7393e]">150€</strong> · Kostenlose Anfrage · Antwort meist innerhalb 24h
+      </p>
     </div>
   </section>
 
@@ -242,7 +328,7 @@ const videoSchema = {
           <Image
             src={portraitImg}
             alt="Clown Zauberer LIAR bringt Kinder auf dem Geburtstag zum Lachen"
-            class="rounded-full object-cover object-[20%]"
+            class="rounded-full object-cover object-[20%] portrait-hover"
             style="width:320px;height:320px;"
             loading="lazy"
             width={320}
@@ -281,7 +367,7 @@ const videoSchema = {
           <Image
             src={michaelImg}
             alt="Foto von Michael Prescler – Clown Zauberer LIAR"
-            class="rounded-full object-cover object-[20%]"
+            class="rounded-full object-cover object-[20%] portrait-hover"
             style="width:280px;height:280px;"
             loading="lazy"
             width={280}
@@ -306,19 +392,19 @@ const videoSchema = {
     <div class="max-w-5xl mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-transparent border border-white/30 rounded-xl p-6">
-          <div class="text-3xl mb-2">🪄</div>
+          <div class="text-3xl mb-2">🎪</div>
           <div class="text-4xl font-extrabold">400</div>
-          <div class="text-sm mt-1">Shows im Jahr</div>
+          <div class="text-sm mt-1 uppercase tracking-wide opacity-90">Shows im Jahr</div>
         </div>
         <div class="bg-transparent border border-white/30 rounded-xl p-6">
           <div class="text-3xl mb-2">😊</div>
           <div class="text-4xl font-extrabold">110.000</div>
-          <div class="text-sm mt-1">Lachende Kinder</div>
+          <div class="text-sm mt-1 uppercase tracking-wide opacity-90">Lachende Kinder</div>
         </div>
         <div class="bg-transparent border border-white/30 rounded-xl p-6">
           <div class="text-3xl mb-2">🪄</div>
-          <div class="text-4xl font-extrabold">15</div>
-          <div class="text-sm mt-1">Jahre Erfahrung</div>
+          <div class="text-4xl font-extrabold">15+</div>
+          <div class="text-sm mt-1 uppercase tracking-wide opacity-90">Jahre Erfahrung</div>
         </div>
       </div>
     </div>
@@ -337,7 +423,7 @@ const videoSchema = {
     <div class="max-w-5xl mx-auto px-4">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         <div>
-          <p class="font-bold text-[#1f2025] text-lg mb-4">Meine Qualifikationen:</p>
+          <h3 class="font-extrabold text-[#1f2025] text-xl mb-4">Meine Qualifikationen:</h3>
           <div class="space-y-3">
             {[
               'Über 15 Jahre Erfahrung als Clown & 30 Jahre als Entertainer',
@@ -367,14 +453,17 @@ const videoSchema = {
       </div>
 
       <!-- Was mich als Clown auszeichnet -->
-      <div class="mt-14 text-center max-w-2xl mx-auto">
-        <p class="font-bold text-[#1f2025] text-lg mb-4">** Was mich als Clown auszeichnet **</p>
+      <div class="mt-14 text-center max-w-2xl mx-auto bg-[#f9fafb] rounded-2xl p-8 border border-gray-100">
+        <h3 class="font-extrabold text-[#d7393e] text-xl mb-4">Was mich als Clown auszeichnet</h3>
         <p class="text-[#374151] leading-relaxed">
-          Ich bin kein „gruseliger" Clown – ganz im Gegenteil : keine Schminke, keine
+          Ich bin kein „gruseliger" Clown – ganz im Gegenteil: keine Schminke, keine
           „komischen Haare" und keine rote Nase! Mein Clown-Charakter ist freundlich,
           trotzdem bunt und lädt Kinder zum Mitmachen ein. Selbst schüchterne Kinder
           tauen schnell auf, wenn Clown Liar die Bühne betritt.
         </p>
+        <a href="/ueber-mich/" class="btn-secondary mt-6" style="font-size:1rem; padding: 0.75rem 2rem;">
+          Mehr über mich erfahren
+        </a>
       </div>
     </div>
   </section>
@@ -399,12 +488,12 @@ const videoSchema = {
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
 
         <!-- Zaubershow -->
-        <div class="text-center text-white">
+        <div class="service-card text-center text-white">
           <a href="/zauberer/zaubershow/">
             <Image
               src={zaubershowImg}
               alt="Clown Zauberer LIAR verzaubert Kinder bei einer Zaubershow in NRW"
-              class="rounded-full object-cover object-[20%] mx-auto hover:opacity-90 transition-opacity"
+              class="rounded-full object-cover object-[20%] mx-auto portrait-hover"
               style="width:220px;height:220px;"
               loading="lazy"
               width={220}
@@ -413,29 +502,29 @@ const videoSchema = {
           </a>
           <h3 class="font-extrabold text-xl mt-5 mb-3 tracking-wide">ZAUBERSHOW</h3>
           <p class="text-white/90 text-sm leading-relaxed mb-3">
-            Clown trifft Zauberer – Die magischste Show in NRW! Wenn der Clown zum Zauberer wird,
-            passieren unglaubliche Dinge! Meine Zaubershow ist speziell für Kinder konzipiert und
-            verbindet Comedy mit verblüffender Magie.
+            Clown trifft Zauberer – Die magischste Show in NRW! Meine Zaubershow ist speziell für
+            Kinder konzipiert und verbindet Comedy mit verblüffender Magie.
           </p>
-          <div class="text-white/80 text-sm space-y-1.5 text-left">
-            <p>✅ <strong>Interaktive Zaubertricks</strong> – Kinder werden zu Co-Zauberern und erleben Magie hautnah</p>
-            <p>✅ <strong>Altersgerechte Magie</strong> – Von einfachen Tricks für die Kleinen bis zu verblüffenden Illusionen für ältere Kinder</p>
-            <p>✅ <strong>Comedy-Magie</strong> – Der Clown zaubert nicht perfekt – und genau das macht es so lustig!</p>
-            <p>✅ <strong>Große Finale</strong> – Ein spektakulärer Abschlusszauber, den niemand vergisst</p>
+          <div class="text-white/80 text-sm space-y-1.5 text-left mb-4">
+            <p>✅ <strong>Interaktive Zaubertricks</strong> – Kinder werden zu Co-Zauberern</p>
+            <p>✅ <strong>Altersgerechte Magie</strong> – Von 3 bis 12 Jahren</p>
+            <p>✅ <strong>Comedy-Magie</strong> – Lachen und Staunen garantiert</p>
+            <p>✅ <strong>Großes Finale</strong> – den niemand vergisst</p>
           </div>
-          <p class="text-white/90 text-xs mt-3"><strong>Dauer:</strong> ca. 40 Minuten</p>
-          <a href="/zauberer/zaubershow/" class="inline-block mt-4 text-white hover:underline text-sm font-semibold">
-            Mehr erfahren →
+          <p class="text-white/70 text-xs mb-4">⏱ Dauer: ca. 40 Minuten</p>
+          <a href="/zauberer/zaubershow/"
+             class="inline-block bg-[#f5a623] hover:bg-[#e69420] text-[#1f2025] font-bold px-6 py-2.5 rounded-full text-sm transition-all hover:scale-105">
+            Zur Zaubershow →
           </a>
         </div>
 
         <!-- Ballonmodellage -->
-        <div class="text-center text-white">
+        <div class="service-card text-center text-white">
           <a href="/clown/ballonmodellage/">
             <Image
               src={ballonImg}
               alt="Clown LIAR formt Ballontiere bei Ballonmodellage auf Kindergeburtstag"
-              class="rounded-full object-cover object-[20%] mx-auto hover:opacity-90 transition-opacity"
+              class="rounded-full object-cover object-[20%] mx-auto portrait-hover"
               style="width:220px;height:220px;"
               loading="lazy"
               width={220}
@@ -444,28 +533,28 @@ const videoSchema = {
           </a>
           <h3 class="font-extrabold text-xl mt-5 mb-3 tracking-wide">BALLONMODELLAGE</h3>
           <p class="text-white/90 text-sm leading-relaxed mb-3">
-            Bunte Ballontiere vom Clown – Jedes Kind bekommt sein Wunschtier! Welches Kind liebt
-            nicht Ballontiere? Als erfahrener Clown und Ballonkünstler forme ich im Handumdrehen
-            die schönsten Figuren:
+            Bunte Ballontiere vom Clown – Jedes Kind bekommt sein Wunschtier! Im Handumdrehen
+            entstehen die schönsten Figuren:
           </p>
-          <div class="text-white/80 text-sm space-y-1.5 text-left">
+          <div class="text-white/80 text-sm space-y-1.5 text-left mb-4">
             <p>✅ Klassiker: Hund, Katze, Herz, Schwert, Blume</p>
-            <p>✅ Spezial-Figuren: Wikinger Helm, Dinosaurier, Kronen, Marienkäfer</p>
+            <p>✅ Spezial-Figuren: Dinosaurier, Kronen, Marienkäfer</p>
             <p>✅ Individuelle Wünsche werden erfüllt!</p>
           </div>
-          <p class="text-white/90 text-xs mt-3"><strong>Dauer:</strong> Je nach Kinderzahl (ca. 1-2 Minuten pro Figur)</p>
-          <a href="/clown/ballonmodellage/" class="inline-block mt-4 text-white hover:underline text-sm font-semibold">
-            Mehr erfahren →
+          <p class="text-white/70 text-xs mb-4">⏱ Ca. 1–2 Minuten pro Figur</p>
+          <a href="/clown/ballonmodellage/"
+             class="inline-block bg-[#f5a623] hover:bg-[#e69420] text-[#1f2025] font-bold px-6 py-2.5 rounded-full text-sm transition-all hover:scale-105">
+            Zur Ballonmodellage →
           </a>
         </div>
 
         <!-- Glitzer Tattoos -->
-        <div class="text-center text-white">
+        <div class="service-card text-center text-white">
           <a href="/clown/glitzer-tattoo/">
             <Image
               src={glitzerImg}
               alt="Glitzer Tattoos von Clown Zauberer LIAR auf einem Kinderfest in NRW"
-              class="rounded-full object-cover object-[20%] mx-auto hover:opacity-90 transition-opacity"
+              class="rounded-full object-cover object-[20%] mx-auto portrait-hover"
               style="width:220px;height:220px;"
               loading="lazy"
               width={220}
@@ -474,20 +563,18 @@ const videoSchema = {
           </a>
           <h3 class="font-extrabold text-xl mt-5 mb-3 tracking-wide">GLITZER TATTOOS</h3>
           <p class="text-white/90 text-sm leading-relaxed mb-3">
-            Funkel-Glamour vom Clown – Temporäre Tattoos mit WOW-Effekt! Glitzer Tattoos sind
-            der Hit auf jeder Party! Als Clown bringe ich eine große Auswahl an glitzernden
-            Motiven mit, die Kinderaugen leuchten lassen:
+            Funkel-Glamour vom Clown – Temporäre Tattoos mit WOW-Effekt! Eine riesige Auswahl
+            an glitzernden Motiven lässt Kinderaugen leuchten.
           </p>
-          <div class="text-white/80 text-sm space-y-1.5 text-left">
-            <p>✅ <strong>Hautverträglich &amp; sicher</strong> – Dermatologisch getestet, keine Allergene</p>
-            <p>✅ <strong>Riesige Motivauswahl</strong></p>
-            <p>✅ <strong>Schnell &amp; sauber</strong> – In 2-3 Minuten fertig, kein Rumschmieren</p>
+          <div class="text-white/80 text-sm space-y-1.5 text-left mb-4">
+            <p>✅ <strong>Hautverträglich &amp; sicher</strong> – Dermatologisch getestet</p>
+            <p>✅ <strong>Riesige Motivauswahl</strong> – Superhelden, Tiere, Blumen</p>
             <p>✅ <strong>Hält mehrere Tage</strong> – Wasserfest und wischfest</p>
-            <p>✅ <strong>Für Jungs &amp; Mädchen</strong> – Superhelden, Tiere, Blumen, Sterne u.v.m.</p>
           </div>
-          <p class="text-white/90 text-xs mt-3"><strong>Dauer:</strong> Ca. 2-3 Minuten pro Tattoo</p>
-          <a href="/clown/glitzer-tattoo/" class="inline-block mt-4 text-white hover:underline text-sm font-semibold">
-            Mehr erfahren →
+          <p class="text-white/70 text-xs mb-4">⏱ Ca. 2–3 Minuten pro Tattoo</p>
+          <a href="/clown/glitzer-tattoo/"
+             class="inline-block bg-[#f5a623] hover:bg-[#e69420] text-[#1f2025] font-bold px-6 py-2.5 rounded-full text-sm transition-all hover:scale-105">
+            Zu den Glitzer-Tattoos →
           </a>
         </div>
 
@@ -648,14 +735,28 @@ const videoSchema = {
   <!-- ═══════════════════════════════════════
        CONTACT SECTION (before footer)
   ════════════════════════════════════════ -->
-  <section class="py-12 bg-white border-t border-gray-200">
-    <div class="max-w-xl mx-auto px-4 text-center">
-      <p class="font-bold text-[#1f2025] text-xl mb-4">Clown Zauberer LIAR</p>
-      <p class="text-[#374151] mb-2">
-        Anschrift : Beethovenstr. 15, 45966 Gladbeck
+  <section class="py-14 bg-[#f9fafb] border-t border-gray-100">
+    <div class="max-w-2xl mx-auto px-4 text-center">
+      <h2 class="font-extrabold text-[#1f2025] text-2xl sm:text-3xl mb-3">
+        Bereit für unvergessliche Magie?
+      </h2>
+      <p class="text-[#374151] mb-6 text-lg">
+        Kontaktieren Sie Clown Zauberer LIAR jetzt – kostenlose Anfrage, schnelle Antwort.
       </p>
-      <p class="text-[#374151] mb-6">
-        TEL : 0172 – 1517578 // Email : info@liar-entertainer.com
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+        <a href="tel:+491721517578" class="btn-primary">
+          📞 0172 – 1517578
+        </a>
+        <a href="/kontakt/" class="btn-secondary">
+          Anfrage senden
+        </a>
+      </div>
+      <p class="font-bold text-[#1f2025] text-base mb-1">Clown Zauberer LIAR</p>
+      <p class="text-[#374151] text-sm mb-1">
+        Beethovenstr. 15, 45966 Gladbeck
+      </p>
+      <p class="text-[#374151] text-sm mb-6">
+        info@liar-entertainer.com
       </p>
       <div class="flex justify-center gap-4">
         <!-- Facebook -->
