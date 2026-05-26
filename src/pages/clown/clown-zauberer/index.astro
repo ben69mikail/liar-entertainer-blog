@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GoogleReviews from '../../../components/GoogleReviews.astro';
+
+const seoTitle = 'Clown Zauberer buchen NRW | Clown & Zauberer LIAR';
+const seoDescription = 'Clown Zauberer LIAR buchen ✓ Professioneller Clown & Zauberer für Kindergeburtstag, Kinderfeste & Events in NRW ✓ 17 Jahre Erfahrung ✓ 354+ Bewertungen ✓ Jetzt anfragen!';
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Clown Zauberer LIAR – Clown & Zauberer in NRW",
+  "description": "Professioneller Clown und Zauberer für Kindergeburtstag, Kinderfeste und Events in NRW. Comedy, Magie und Ballonmodellage aus einer Hand.",
+  "url": "https://liar-entertainer.com/clown/clown-zauberer/",
+  "serviceType": ["Clownshow", "Zaubershow", "Kinderunterhaltung"],
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Clown Zauberer LIAR",
+    "url": "https://liar-entertainer.com",
+    "telephone": "+491721517578"
+  },
+  "areaServed": { "@type": "State", "name": "Nordrhein-Westfalen" },
+  "offers": {
+    "@type": "Offer",
+    "price": "150",
+    "priceCurrency": "EUR",
+    "description": "Clown Zauberer Show ab 150€"
+  }
+};
+
+const faqItems = [
+  {
+    question: 'Was ist der Unterschied zwischen einem Clown und einem Zauberer?',
+    answer: 'Ein Clown setzt auf Comedy, Slapstick und Lachen – perfekt für jüngere Kinder (3–7 Jahre). Ein Zauberer betont Staunen und Magie – ideal für ältere Kinder (7–12 Jahre). Clown Zauberer LIAR kombiniert BEIDES: Sie bekommen das Beste aus beiden Welten in einer Show!',
+  },
+  {
+    question: 'Wie lange dauert eine Clown-Zauberer-Show?',
+    answer: 'Die Show ist ab 30 Minuten buchbar. Für Kindergeburtstage empfehle ich 40–50 Minuten. Für Kita-Feste und größere Veranstaltungen sind auch 60 Minuten möglich. Wir passen die Dauer flexibel an Ihren Anlass an!',
+  },
+  {
+    question: 'Ab welchem Alter ist die Show geeignet?',
+    answer: 'Die Show ist ab 3 Jahren geeignet und macht Kindern bis 12 Jahre Spaß. Die Inhalte werden dabei altersgerecht angepasst: Für Jüngere mehr Clownerie und Ballontiere, für Ältere mehr Magie und anspruchsvollere Tricks.',
+  },
+  {
+    question: 'Was kostet ein Clown Zauberer für einen Kindergeburtstag?',
+    answer: 'Die Gage hängt von Showdauer, Anfahrt und Art des Events ab. Für Kindergeburtstage gibt es feste Pakete ab 150€. Einfach unverbindlich anfragen – ich erstelle gerne ein individuelles Angebot!',
+  },
+  {
+    question: 'Muss ich etwas vorbereiten oder mitbringen?',
+    answer: 'Nein! Ich bringe alles mit – Requisiten, Kostüm, Ballons, alles. Ich brauche nur 2×2 Meter Platz und einen Stromanschluss (normale Haushaltssteckdose). Der Aufbau dauert 10–15 Minuten. Sie müssen sich um nichts kümmern!',
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    },
+  })),
+};
+
+const structuredData = [serviceSchema, faqSchema];
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords="Clown Zauberer NRW, Clown buchen Kindergeburtstag, Clown Zauberer buchen, Kinderunterhaltung NRW, Clown und Zauberer"
+  canonical="https://liar-entertainer.com/clown/clown-zauberer/"
+  structuredData={structuredData}
+  breadcrumbs={[
+    { name: 'Startseite', url: '/' },
+    { name: 'Clown', url: '/clown/clownshow/' },
+    { name: 'Clown Zauberer', url: '/clown/clown-zauberer/' }
+  ]}
+>
+
+  <!-- Breadcrumb + Titel -->
+  <section class="bg-white pt-8 pb-0">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-sm text-[#595959] mb-4">
+        <a href="/" class="hover:text-[#d7393e]">Startseite</a> »
+        <a href="/clown/clownshow/" class="hover:text-[#d7393e]">Clown</a> »
+        <span>Clown Zauberer</span>
+      </p>
+      <h1 class="font-black text-[#1f2025] text-2xl sm:text-4xl lg:text-5xl mb-6">
+        Clown Zauberer in NRW – Comedy & Magie für Kinder
+      </h1>
+    </div>
+  </section>
+
+  <!-- Hero Banner -->
+  <section class="bg-[#1f2025] py-16 text-white text-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background: radial-gradient(circle at 30% 50%, #d7393e 0%, transparent 60%), radial-gradient(circle at 70% 50%, #3b55d5 0%, transparent 60%);"></div>
+    <div class="relative max-w-4xl mx-auto px-4">
+      <div class="text-6xl mb-4">🤡🪄</div>
+      <h2 class="font-bold text-2xl sm:text-4xl mb-4">Das Beste aus zwei Welten:<br />Clown UND Zauberer in einer Person!</h2>
+      <p class="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
+        Lachen, Staunen, Mitmachen – Clown Zauberer LIAR vereint Comedy und Magie für ein unvergessliches Kindererlebnis in ganz NRW.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <span class="inline-block bg-white/15 border border-white/30 text-white font-bold text-sm px-4 py-2 rounded-full">⭐ 354+ Bewertungen</span>
+        <span class="inline-block bg-white/15 border border-white/30 text-white font-bold text-sm px-4 py-2 rounded-full">🎪 Seit 2009</span>
+        <span class="inline-block bg-white/15 border border-white/30 text-white font-bold text-sm px-4 py-2 rounded-full">💶 Ab 150€</span>
+        <span class="inline-block bg-white/15 border border-white/30 text-white font-bold text-sm px-4 py-2 rounded-full">📍 Ganz NRW</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="bg-white py-14">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <p class="text-[#374151] leading-relaxed mb-4">
+        Als <strong>Clown Zauberer LIAR</strong> bin ich seit 2009 in Nordrhein-Westfalen unterwegs und bringe das Besondere: die Kombination aus <a href="/clown/clownshow/" class="text-[#d7393e] hover:underline">Clownshow</a> und <a href="/zauberer/zaubershow/" class="text-[#d7393e] hover:underline">Zaubershow</a>. Statt sich zwischen Lachen und Staunen entscheiden zu müssen, bekommen Sie beides in einer Show!
+      </p>
+      <p class="text-[#374151] leading-relaxed mb-4">
+        Mit pädagogischer Ausbildung, erweitertem Führungszeugnis und über 354 Fünf-Sterne-Bewertungen auf Google bin ich eine der gefragtesten Kinderunterhaltungen im Ruhrgebiet. Von Gladbeck aus fahre ich zu Ihrem <a href="/kindergeburtstag/" class="text-[#d7393e] hover:underline">Kindergeburtstag</a>, Kita-Fest, Schulfest oder Firmenevent in ganz NRW.
+      </p>
+      <p class="text-[#374151] leading-relaxed">
+        Das Schöne an der Kombination: Jüngere Kinder lieben die Clownerie und Ballontiere, ältere Kinder staunen über die echten Zaubertricks – und alle haben gemeinsam Spaß. Die Show passt sich dem Publikum an!
+      </p>
+    </div>
+  </section>
+
+  <!-- Google Bewertungen -->
+  <GoogleReviews />
+
+  <!-- Was biete ich an? -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="font-black text-[#1f2025] text-2xl sm:text-3xl mb-10 text-center uppercase">
+        Was ich als Clown Zauberer mitbringe
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+          <div class="text-4xl mb-4">🤡</div>
+          <h3 class="font-bold text-[#d7393e] text-lg mb-3">Clown Comedy</h3>
+          <p class="text-[#374151] text-sm leading-relaxed">
+            Slapstick, witzige Missgeschicke und Clown-Gags, die Kinder zum Lachen bringen. Interaktiv, fröhlich und direkt auf das Alter abgestimmt.
+          </p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+          <div class="text-4xl mb-4">🪄</div>
+          <h3 class="font-bold text-[#3b55d5] text-lg mb-3">Zauberei & Magie</h3>
+          <p class="text-[#374151] text-sm leading-relaxed">
+            Echte Zaubertricks, bei denen Kinder staunen dürfen. Die Kinder zaubern selbst mit – das ist der magischste Moment der Show!
+          </p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+          <div class="text-4xl mb-4">🎈</div>
+          <h3 class="font-bold text-[#1f2025] text-lg mb-3">Ballonmodellage</h3>
+          <p class="text-[#374151] text-sm leading-relaxed">
+            Als Abschluss jeder Show bekommt jedes Kind ein individuelles <a href="/clown/ballonmodellage/" class="text-[#d7393e] hover:underline">Ballontier</a> – Hund, Schwert, Blume, Herz – was das Herz begehrt!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave white → red -->
+  <div style="overflow:hidden;line-height:0;background:white;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#d7393e"/>
+    </svg>
+  </div>
+
+  <!-- Stats -->
+  <section class="bg-[#d7393e] py-10 text-white text-center">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">🏆</div>
+          <div class="text-4xl font-extrabold">17+</div>
+          <div class="text-sm mt-1">Jahre Erfahrung</div>
+        </div>
+        <div class="border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">⭐</div>
+          <div class="text-4xl font-extrabold">354+</div>
+          <div class="text-sm mt-1">Google-Bewertungen (Ø 5,0)</div>
+        </div>
+        <div class="border border-white/30 rounded-xl p-6">
+          <div class="text-3xl mb-2">💶</div>
+          <div class="text-4xl font-extrabold">ab 150€</div>
+          <div class="text-sm mt-1">für Kindergeburtstage</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave red → white -->
+  <div style="overflow:hidden;line-height:0;background:#d7393e;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- Für welche Anlässe -->
+  <section class="bg-white py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="font-black text-[#1f2025] text-2xl sm:text-3xl mb-10 text-center uppercase">
+        Für welche Anlässe bin ich buchbar?
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[
+          { icon: '🎂', title: 'Kindergeburtstag', text: 'Zuhause, im Garten oder in der Partylocation – die perfekte Geburtstagsüberraschung.' },
+          { icon: '🏫', title: 'Kita & Schulfest', text: 'Für 20 bis 200 Kinder – die Show skaliert mit der Gruppe.' },
+          { icon: '🎭', title: 'Karneval & Fasching', text: 'Närrische Unterhaltung für Kindergartenkarnevals und Schulfeiern.' },
+          { icon: '☀️', title: 'Sommerfest', text: 'Open-Air oder drinnen – der Spaß funktioniert bei jedem Wetter.' },
+          { icon: '🏢', title: 'Firmenevent', text: 'Family-Days, Betriebsfeste und Events mit Kinderprogramm.' },
+          { icon: '🎪', title: 'Stadtfeste', text: 'Walk-Act oder Bühnenshow – auch für große Veranstaltungen buchbar.' },
+        ].map(item => (
+          <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">{item.icon}</div>
+            <h3 class="font-bold text-[#1f2025] text-base mb-2">{item.title}</h3>
+            <p class="text-[#374151] text-sm leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-3xl mx-auto px-4">
+      <p class="text-center text-sm font-bold text-[#d7393e] uppercase tracking-widest mb-2">HÄUFIGE FRAGEN</p>
+      <h2 class="text-center font-black text-[#1f2025] text-2xl sm:text-3xl mb-10 uppercase">Ihre Fragen – meine Antworten</h2>
+      <div class="space-y-3" id="faq-list">
+        {faqItems.map((item) => (
+          <div class="faq-item bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <button
+              class="faq-btn w-full text-left px-6 py-4 font-semibold text-[#1f2025] flex items-center justify-between gap-4"
+              aria-expanded="false"
+            >
+              <span>{item.question}</span>
+              <svg class="w-5 h-5 flex-shrink-0 transition-transform faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="faq-answer hidden px-6 pb-5 text-[#374151] leading-relaxed">
+              {item.answer}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-white py-14 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-black text-[#1f2025] text-2xl sm:text-3xl mb-2 uppercase">Jetzt anfragen</h2>
+      <p class="font-bold text-[#1f2025] text-xl mb-6">Clown Zauberer LIAR für Ihren nächsten Anlass buchen!</p>
+      <p class="text-[#374151] leading-relaxed mb-6">
+        Ich freue mich auf Ihre Anfrage und erstelle Ihnen gerne ein unverbindliches Angebot für Ihren Kindergeburtstag, Ihr Fest oder Ihre Veranstaltung in NRW.
+      </p>
+      <div class="space-y-1 text-[#374151] mb-6">
+        <p>Telefon / WhatsApp: <a href="tel:+491721517578" class="text-[#d7393e] hover:underline font-semibold">0172–1517578</a></p>
+        <p>E-Mail: <a href="mailto:info@liar-entertainer.com" class="text-[#d7393e] hover:underline">info@liar-entertainer.com</a></p>
+        <p class="text-sm text-[#595959]">Beethovenstr. 15, 45966 Gladbeck</p>
+      </div>
+      <a href="/kontakt/" class="inline-block bg-[#d7393e] hover:bg-[#b62e32] text-white font-extrabold px-10 py-4 rounded-full transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+        Jetzt unverbindlich anfragen
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const answer = btn.nextElementSibling as HTMLElement;
+      const chevron = btn.querySelector('.faq-chevron');
+      const isOpen = !answer?.classList.contains('hidden');
+      if (isOpen) {
+        answer?.classList.add('hidden');
+        chevron?.classList.remove('rotate-180');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        answer?.classList.remove('hidden');
+        chevron?.classList.add('rotate-180');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
