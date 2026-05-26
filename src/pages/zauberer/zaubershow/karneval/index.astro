@@ -1,0 +1,272 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import GoogleReviews from '../../../../components/GoogleReviews.astro';
+
+const seoTitle = 'Kinderkarneval NRW | Clown & Zauberer für Karneval | LIAR';
+const seoDescription = 'Kinderkarneval in NRW ✓ Clown Zauberer LIAR für Karnevalsfeier, Kinderkarneval & Schulfasching ✓ Lustige Show ab 150€ ✓ 354+ Bewertungen ✓ Jetzt anfragen!';
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Kinderkarneval – Clown & Zauberer für Karneval in NRW",
+  "description": "Professionelle Unterhaltung für Kinderkarneval, Schulfasching und Karnevalsfeiern in NRW. Clownshow, Zaubershow und Ballonmodellage für die Karnevalssaison.",
+  "url": "https://liar-entertainer.com/zauberer/zaubershow/karneval/",
+  "serviceType": ["Karnevalsshow", "Kinderunterhaltung", "Clownshow"],
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Clown Zauberer LIAR",
+    "url": "https://liar-entertainer.com",
+    "telephone": "+491721517578"
+  },
+  "areaServed": { "@type": "State", "name": "Nordrhein-Westfalen" },
+  "offers": {
+    "@type": "Offer",
+    "price": "150",
+    "priceCurrency": "EUR",
+    "description": "Karnevalsshow ab 150€"
+  }
+};
+
+const faqItems = [
+  {
+    question: 'Wie früh sollte ich für Karneval buchen?',
+    answer: 'Für die Karnevalssaison (Januar–März) empfehle ich eine Buchung ab Oktober/November. Die Termine für Kindergartenkarnevals, Schulkarnevals und Kinderparties sind besonders begehrt und oft schnell vergeben. Frühbucher sichern sich den Wunschtermin!',
+  },
+  {
+    question: 'Welche Show passt zum Kinderkarneval?',
+    answer: 'Für Kinderkarneval biete ich eine speziell angepasste Karnevalsshow an: mit jecken Clown-Gags, Zaubertricks im Karnevalsstil und Ballontieren in karnevalistischen Formen. Die Show kombiniert das Närrische der Session mit meiner bewährten Kinder-Entertainment-Erfahrung!',
+  },
+  {
+    question: 'Tritt LIAR auch in Kostüm auf?',
+    answer: 'Aber natürlich! Als Clown Zauberer bin ich ohnehin kostümiert und passe mein Auftreten für die Karnevalssaison entsprechend an. Auch die Show hat karnevalistische Elemente – Helau und Alaaf!',
+  },
+  {
+    question: 'Für welche Altersgruppen ist die Karnevalsshow geeignet?',
+    answer: 'Die Karnevalsshow ist für Kinder ab 3 Jahren geeignet. Für Kindergartenkinder (3-6 Jahre) liegt der Fokus auf lustiger Clownerie und einfachen Mitmach-Elementen. Für Schulkinder (6-12 Jahre) kommen anspruchsvollere Zaubertricks und komplexere Comedy-Einlagen dazu.',
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    },
+  })),
+};
+
+const structuredData = [serviceSchema, faqSchema];
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords="Kinderkarneval NRW, Clown Karneval, Zauberer Karneval NRW, Karnevalsshow Kinder, Schulfasching NRW"
+  canonical="https://liar-entertainer.com/zauberer/zaubershow/karneval/"
+  structuredData={structuredData}
+  breadcrumbs={[
+    { name: 'Startseite', url: '/' },
+    { name: 'Zauberer', url: '/zauberer/zaubershow/' },
+    { name: 'Zaubershow', url: '/zauberer/zaubershow/' },
+    { name: 'Karneval', url: '/zauberer/zaubershow/karneval/' }
+  ]}
+>
+
+  <!-- Breadcrumb + Titel -->
+  <section class="bg-white pt-8 pb-0">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-sm text-[#595959] mb-4">
+        <a href="/" class="hover:text-[#d7393e]">Startseite</a> »
+        <a href="/zauberer/zaubershow/" class="hover:text-[#d7393e]">Zaubershow</a> »
+        <span>Karneval</span>
+      </p>
+      <h1 class="font-black text-[#1f2025] text-2xl sm:text-4xl lg:text-5xl mb-6">
+        Kinderkarneval NRW – Jecke Show mit Clown & Zauberer LIAR
+      </h1>
+    </div>
+  </section>
+
+  <!-- Hero Banner (karnevalistisch) -->
+  <section class="py-16 text-white text-center relative overflow-hidden" style="background: linear-gradient(135deg, #d7393e 0%, #8B1A1A 40%, #3b55d5 100%);">
+    <div class="absolute inset-0 opacity-20" style="background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.05) 20px, rgba(255,255,255,0.05) 40px);"></div>
+    <div class="relative max-w-4xl mx-auto px-4">
+      <div class="text-6xl mb-4">🎭🎪🎈</div>
+      <h2 class="font-bold text-2xl sm:text-4xl mb-4">
+        Helau! Alaaf!<br />Jecke Kindershow für die Karnevalssaison!
+      </h2>
+      <p class="text-white/85 text-lg mb-8 max-w-2xl mx-auto">
+        Clown Zauberer LIAR bringt die närrische Zeit zum Strahlen – mit Karnevalsshow, Zaubertricks und Ballontieren für Kindergärten, Schulen und Kinderparties in NRW.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <span class="inline-block bg-white/15 border border-white/30 text-white font-bold text-sm px-4 py-2 rounded-full">🎭 Karnevalskostüm inklusive</span>
+        <span class="inline-block bg-white/15 border border-white/30 text-white font-bold text-sm px-4 py-2 rounded-full">⭐ 354+ Bewertungen</span>
+        <span class="inline-block bg-white/15 border border-white/30 text-white font-bold text-sm px-4 py-2 rounded-full">💶 Ab 150€</span>
+        <span class="inline-block bg-white/15 border border-white/30 text-white font-bold text-sm px-4 py-2 rounded-full">📍 Ganz NRW</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="bg-white py-14">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <p class="text-[#374151] leading-relaxed mb-4">
+        Karneval und Kinder – das ist eine unvergessliche Kombination! Als <strong>Clown Zauberer LIAR</strong> bringe ich die jecke Karnevalsstimmung direkt zu Ihrem Kinderkarneval, Kindergartenfest, Schulfasching oder Ihrer Kinderparty in der Session.
+      </p>
+      <p class="text-[#374151] leading-relaxed mb-4">
+        Seit 2009 unterhalt ich Kinder in ganz Nordrhein-Westfalen – besonders in der Karnevalshochburg Ruhrgebiet weiß ich, wie man jecke Stimmung erzeugt! Die Show verbindet karnevalistische Elemente mit meiner bewährten <a href="/clown/clownshow/" class="text-[#d7393e] hover:underline">Clownshow</a> und <a href="/zauberer/zaubershow/" class="text-[#d7393e] hover:underline">Zaubershow</a> – ein Erlebnis, das Kinder das ganze Jahr nicht vergessen.
+      </p>
+      <p class="text-[#374151] leading-relaxed">
+        Ob <strong>Kindergartenkarneval, Schulfasching</strong> oder <strong>private Karnevalparty</strong> – ich komme zu Ihnen und sorge für Helau-Stimmung in NRW!
+      </p>
+    </div>
+  </section>
+
+  <!-- Google Bewertungen -->
+  <GoogleReviews />
+
+  <!-- Was biete ich an? -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="font-black text-[#1f2025] text-2xl sm:text-3xl mb-10 text-center uppercase">
+        Die Karnevalsshow im Überblick
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+          <div class="text-4xl mb-4">🤡</div>
+          <h3 class="font-bold text-[#d7393e] text-lg mb-3">Jecke Clownshow</h3>
+          <p class="text-[#374151] text-sm leading-relaxed">
+            Comedy und Slapstick im Karnevalsstil – mit lustigen Gags, Missgeschicken und viel Interaktion. Perfekt für die ausgelassene Karnevalsstimmung!
+          </p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+          <div class="text-4xl mb-4">🪄</div>
+          <h3 class="font-bold text-[#3b55d5] text-lg mb-3">Zaubertricks</h3>
+          <p class="text-[#374151] text-sm leading-relaxed">
+            Echte Magie für die Karnevalssaison – Tricks, bei denen auch der jecken Kinder staunen und selbst mitmengen können!
+          </p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+          <div class="text-4xl mb-4">🎈</div>
+          <h3 class="font-bold text-[#1f2025] text-lg mb-3">Ballonmodellage</h3>
+          <p class="text-[#374151] text-sm leading-relaxed">
+            Als Abschluss bekommt jedes Kind ein <a href="/clown/ballonmodellage/" class="text-[#d7393e] hover:underline">Ballontier</a> – karnevalistisch oder nach Wunsch. Ein tolles Souvenir für die Session!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave white → red -->
+  <div style="overflow:hidden;line-height:0;background:white;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,0 Q720,60 1440,0 L1440,60 L0,60 Z" fill="#d7393e"/>
+    </svg>
+  </div>
+
+  <!-- Für wen? -->
+  <section class="bg-[#d7393e] py-14 text-white">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="font-black text-2xl sm:text-3xl mb-10 uppercase">Für wen ist die Karnevalsshow?</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { icon: '🏫', title: 'Kindergarten & Kita', text: 'Karnevalsfeiern mit 20–100 Kindern – die Show skaliert!' },
+          { icon: '🏫', title: 'Grundschule', text: 'Schulfasching und Karnevalsfeiern für Schulkinder ab 6 Jahren.' },
+          { icon: '🎂', title: 'Private Kinderparty', text: 'Karnevalsmotto-Geburtstag oder Kinderparty in der Session.' },
+          { icon: '🏢', title: 'Vereinskarneval', text: 'Kinderprogramm beim Vereinskarneval oder Familienfest.' },
+        ].map(item => (
+          <div class="bg-white/15 border border-white/25 rounded-xl p-5 text-left">
+            <div class="text-3xl mb-3">{item.icon}</div>
+            <h3 class="font-bold text-white text-base mb-2">{item.title}</h3>
+            <p class="text-white/80 text-sm leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave red → white -->
+  <div style="overflow:hidden;line-height:0;background:#d7393e;display:block;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,60 Q720,0 1440,60 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+
+  <!-- Wichtig: Früh buchen -->
+  <section class="bg-white py-14">
+    <div class="max-w-3xl mx-auto px-4">
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 rounded-xl p-6 text-center">
+        <div class="text-4xl mb-3">⚠️</div>
+        <h2 class="font-black text-[#1f2025] text-xl mb-3">Karnevalstermine früh buchen!</h2>
+        <p class="text-[#374151] leading-relaxed">
+          Die Karnevalssaison ist die beliebteste Zeit für Kinderunterhaltung in NRW. Termine für Januar, Februar und März sind oft bereits ab Oktober/November ausgebucht. <strong>Jetzt anfragen und Ihren Wunschtermin sichern!</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-gray-50 py-14">
+    <div class="max-w-3xl mx-auto px-4">
+      <p class="text-center text-sm font-bold text-[#d7393e] uppercase tracking-widest mb-2">HÄUFIGE FRAGEN</p>
+      <h2 class="text-center font-black text-[#1f2025] text-2xl sm:text-3xl mb-10 uppercase">Ihre Fragen zur Karnevalsshow</h2>
+      <div class="space-y-3" id="faq-list">
+        {faqItems.map((item) => (
+          <div class="faq-item bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <button
+              class="faq-btn w-full text-left px-6 py-4 font-semibold text-[#1f2025] flex items-center justify-between gap-4"
+              aria-expanded="false"
+            >
+              <span>{item.question}</span>
+              <svg class="w-5 h-5 flex-shrink-0 transition-transform faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="faq-answer hidden px-6 pb-5 text-[#374151] leading-relaxed">
+              {item.answer}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-white py-14 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-black text-[#1f2025] text-2xl sm:text-3xl mb-2 uppercase">Jetzt Karnevalsshow buchen</h2>
+      <p class="font-bold text-[#1f2025] text-xl mb-6">Helau! Sichern Sie jetzt Ihren Karnevalstermin!</p>
+      <div class="space-y-1 text-[#374151] mb-6">
+        <p>Telefon / WhatsApp: <a href="tel:+491721517578" class="text-[#d7393e] hover:underline font-semibold">0172–1517578</a></p>
+        <p>E-Mail: <a href="mailto:info@liar-entertainer.com" class="text-[#d7393e] hover:underline">info@liar-entertainer.com</a></p>
+        <p class="text-sm text-[#595959]">Beethovenstr. 15, 45966 Gladbeck</p>
+      </div>
+      <a href="/kontakt/" class="inline-block bg-[#d7393e] hover:bg-[#b62e32] text-white font-extrabold px-10 py-4 rounded-full transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+        Jetzt unverbindlich anfragen
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const answer = btn.nextElementSibling as HTMLElement;
+      const chevron = btn.querySelector('.faq-chevron');
+      const isOpen = !answer?.classList.contains('hidden');
+      if (isOpen) {
+        answer?.classList.add('hidden');
+        chevron?.classList.remove('rotate-180');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        answer?.classList.remove('hidden');
+        chevron?.classList.add('rotate-180');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
