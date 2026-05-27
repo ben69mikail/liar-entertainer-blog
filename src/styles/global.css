@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./design-tokens.css";
 
 @theme {
   --color-primary: #d7393e;
@@ -1135,3 +1136,157 @@ body {
   transition: transform 0.2s ease;
 }
 .nav-link-wp:hover::after { transform: scaleX(1); }
+
+/* ============================================
+   GLOBAL BUTTON STYLES
+   ============================================ */
+
+/* Skip to content — accessibility */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 10000;
+  background: var(--color-red, #d7393e);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid #ffb546;
+  outline-offset: 2px;
+}
+
+/* Primary CTA button — gold, pill-shaped */
+.btn-primary {
+  display: inline-block;
+  background: var(--color-gold, #ffb546);
+  color: var(--color-dark, #1f2025);
+  font-weight: 800;
+  padding: 1rem 2.5rem;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.4);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  line-height: 1.4;
+}
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--color-gold-dark, #e69420);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(245, 166, 35, 0.55);
+}
+
+/* Secondary button — red outline, pill-shaped */
+.btn-secondary {
+  display: inline-block;
+  border: 2px solid var(--color-red, #d7393e);
+  color: var(--color-red, #d7393e);
+  font-weight: 800;
+  padding: 1rem 2.5rem;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  line-height: 1.4;
+}
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  background: var(--color-red, #d7393e);
+  color: #fff;
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Small variant */
+.btn-primary--sm,
+.btn-secondary--sm {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* ============================================
+   GLOBAL CARD STYLES
+   ============================================ */
+
+.card-base {
+  background: #fff;
+  border-radius: var(--card-radius, 0.75rem);
+  padding: var(--card-padding, 2rem);
+  box-shadow: var(--shadow-md, 0 4px 6px rgba(0,0,0,0.07));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-base:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg, 0 10px 15px rgba(0,0,0,0.1));
+}
+
+/* Service card — dark glass style used on homepage */
+.service-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 1.5rem;
+  padding: 2rem 1.5rem;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.service-card:hover {
+  background: rgba(255,255,255,0.13);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+
+/* Portrait image hover */
+.portrait-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.portrait-hover:hover {
+  transform: scale(1.04);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+
+/* ============================================
+   ACTIVE NAV STATE
+   ============================================ */
+.nav-link-wp[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+.nav-link-wp[aria-current="page"] {
+  color: var(--color-gold, #ffb546);
+}
+
+/* ============================================
+   MOBILE IMPROVEMENTS
+   ============================================ */
+
+/* Prevent overflow on very small screens (360px) */
+@media (max-width: 400px) {
+  .btn-primary, .btn-secondary {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+  }
+  /* Force single col grid at tiny screens */
+  .grid-cols-3-xs-fix {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Smooth image loading */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Section spacing consistency */
+.section-gap {
+  padding-top: var(--section-py, 3.5rem);
+  padding-bottom: var(--section-py, 3.5rem);
+}

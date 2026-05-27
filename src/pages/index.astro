@@ -155,41 +155,6 @@ const videoSchema = {
     section li,
     section dd { font-size: 17px; }
 
-    /* CTA Button Hover: scale + shadow */
-    .btn-primary {
-      display: inline-block;
-      background: #f5a623;
-      color: #1f2025;
-      font-weight: 800;
-      padding: 1rem 2.5rem;
-      border-radius: 9999px;
-      font-size: 1.125rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 20px rgba(245,166,35,0.4);
-      text-decoration: none;
-    }
-    .btn-primary:hover {
-      background: #e69420;
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 8px 28px rgba(245,166,35,0.55);
-    }
-    .btn-secondary {
-      display: inline-block;
-      border: 2px solid #d7393e;
-      color: #d7393e;
-      font-weight: 800;
-      padding: 1rem 2.5rem;
-      border-radius: 9999px;
-      font-size: 1.125rem;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-    .btn-secondary:hover {
-      background: #d7393e;
-      color: white;
-      transform: translateY(-2px) scale(1.03);
-    }
-
     /* FAQ Chevron */
     details summary { list-style: none; }
     details summary::-webkit-details-marker { display: none; }
@@ -204,28 +169,7 @@ const videoSchema = {
       content: '－';
     }
 
-    /* Service Card hover */
-    .service-card {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 1.5rem;
-      padding: 2rem 1.5rem;
-      transition: all 0.25s ease;
-    }
-    .service-card:hover {
-      background: rgba(255,255,255,0.13);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-    }
-
-    /* Portrait image hover */
-    .portrait-hover {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .portrait-hover:hover {
-      transform: scale(1.04);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.18);
-    }
+    /* Service cards + portrait hover → now in global.css */
   </style>
 
   <!-- ═══════════════════════════════════════
