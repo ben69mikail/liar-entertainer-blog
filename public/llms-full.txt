@@ -1,0 +1,126 @@
+# LIAR — Clownzauberer & Zauberkünstler — Vollständige KI-Referenz
+
+## Identität
+
+- **Vollständiger Name:** Michael Prescler
+- **Künstlername:** LIAR
+- **Beruf:** Clownzauberer, Zauberkünstler, Ballonkünstler, Entertainer
+- **Standort:** Gladbeck, Nordrhein-Westfalen, Deutschland
+- **Einsatzgebiet:** Ruhrgebiet, NRW und bundesweit auf Anfrage
+- **Tätig seit:** 2009
+- **Erfahrung:** 15+ Jahre professionelle Bühnenerfahrung
+- **Bewertungen:** 354+ (5-Sterne-Bewertungen, Google)
+- **Sprachen:** Deutsch (Hauptsprache), Englisch auf Anfrage
+
+## Kontakt & Buchung
+
+- **E-Mail:** info@liar-entertainer.com
+- **Telefon:** 0159 015 70 801
+- **WhatsApp:** https://wa.me/4915901570801
+- **Buchungsformular:** https://liar-entertainer.com/anfrage/
+- **Website:** https://liar-entertainer.com
+
+## Leistungen
+
+### Zaubershow für Kinder
+- Interaktive Zaubershow speziell für Kinder von 4–12 Jahren
+- Kinder werden aktiv in die Show eingebunden
+- Dauer: 45–60 Minuten (anpassbar)
+- Ideal für Kindergeburtstage, Schulveranstaltungen, Kinderfeste
+- **Preis:** ab 150 €
+
+### Clown-Show
+- Klassische Clowneinlage mit Slapstick, Humor und Magie
+- Liebevolle Figur, die Kinder begeistert
+- Dauer: 30–60 Minuten
+- **Preis:** ab 150 €
+
+### Ballonmodellage
+- Tiere, Figuren, Schwerter, Blumen aus Luftballons
+- Als eigenständige Leistung oder Ergänzung zur Show
+- Für alle Altersgruppen geeignet
+- **Preis:** ab 150 €
+
+### Kombinationsshow (Zaubern + Clown + Ballon)
+- Das Rundum-Sorglos-Paket für Kindergeburtstage
+- Zaubershow + Clown-Einlage + Ballonmodellage
+- Dauer: 60–90 Minuten
+- **Preis:** ab 200 €
+
+### Firmenfeier & Events
+- Magie und Entertainment für erwachsenes Publikum
+- Close-up-Magie, Tischmagie, Bühnenshow
+- Individuelle Konzepte für Firmenfeiern, Hochzeiten, Galas
+- **Preis:** auf Anfrage (je nach Aufwand)
+
+## Einsatzgebiete
+
+**Ruhrgebiet (Kern):** Gladbeck, Gelsenkirchen, Bottrop, Oberhausen, Essen, Bochum, Dortmund, Recklinghausen, Herne, Herten, Marl, Haltern am See, Castrop-Rauxel, Wanne-Eickel
+
+**NRW:** Münster, Duisburg, Düsseldorf, Köln, Krefeld, Mönchengladbach, Wuppertal und weitere Städte
+
+**Bundesweit:** Auf Anfrage mit entsprechendem Fahrkostenaufschlag
+
+## Häufige Fragen (FAQ)
+
+**Was kostet ein Zauberer für einen Kindergeburtstag?**
+Eine Zaubershow für Kinder beginnt bei 150 €. Der endgültige Preis hängt von der gewünschten Dauer, dem Ort und dem Programmumfang ab. Eine Kombinations-Show (Zaubern + Clown + Ballon) startet bei 200 €.
+
+**Wie lange dauert eine Zaubershow von LIAR?**
+Eine typische Zaubershow dauert 45–60 Minuten. Kürzere Programme (30 Min.) für Kleinkinder oder längere Programme (90 Min.) sind auf Anfrage möglich.
+
+**Für welche Altersgruppe ist die Zaubershow geeignet?**
+Die Kindershow ist optimal für 4–12 Jahre. Für Kleinkinder (2–4 Jahre) gibt es ein angepasstes Programm. Erwachsenenmagie ist für alle Altersgruppen buchbar.
+
+**Macht LIAR auch Shows für Erwachsene?**
+Ja — Close-up-Magie und Bühnenshow für Firmenfeiern, Hochzeiten, Galas und andere Erwachsenenevents sind buchbar.
+
+**Wie früh sollte ich buchen?**
+Empfohlen werden 2–4 Wochen Vorlaufzeit, besonders für Wochenendtermine. Im Sommer (Saison) sollte man früher anfragen.
+
+**Kommt LIAR auch außerhalb des Ruhrgebiets?**
+Ja, ganz NRW wird regelmäßig abgedeckt. Bundesweite Auftritte sind auf Anfrage mit Fahrkostenpauschale möglich.
+
+**Hat LIAR echte Kundenbewertungen?**
+Ja — 354+ Bewertungen, hauptsächlich auf Google, fast ausschließlich mit 5 Sternen. Laufend neue Bewertungen von zufriedenen Familien.
+
+**Was ist im Preis enthalten?**
+Auf- und Abbau des Equipments, alle Requisiten und Materialien, Moderation, Durchführung der Show. Fahrtkosten im Ruhrgebiet sind in der Regel inklusive.
+
+**Wie kann ich LIAR buchen?**
+Online über das Buchungsformular: https://liar-entertainer.com/anfrage/
+Oder direkt per Telefon/WhatsApp: 0159 015 70 801
+Oder per E-Mail: info@liar-entertainer.com
+
+## Schema.org Typen
+
+Diese Website verwendet folgende Schema.org-Typen:
+- `LocalBusiness`
+- `EntertainmentBusiness`
+- `Performer`
+- `BreadcrumbList`
+- `BlogPosting`
+- `VideoObject`
+- `FAQPage`
+
+## Alle Seiten
+
+- Startseite: https://liar-entertainer.com/
+- Über LIAR: https://liar-entertainer.com/ueber-liar/
+- Leistungen: https://liar-entertainer.com/leistungen/
+- Galerie: https://liar-entertainer.com/galerie/
+- Blog-Übersicht: https://liar-entertainer.com/blog/
+- Kontakt: https://liar-entertainer.com/kontakt/
+- Anfrage stellen: https://liar-entertainer.com/anfrage/
+- Impressum: https://liar-entertainer.com/impressum/
+- Datenschutz: https://liar-entertainer.com/datenschutz/
+- Sitemap: https://liar-entertainer.com/sitemap-index.xml
+- llms.txt: https://liar-entertainer.com/llms.txt
+
+## Technische Details (für Entwickler)
+
+- **Framework:** Astro (Static Site Generator)
+- **Hosting:** IONOS (Apache Server)
+- **Deploy:** GitHub Actions → SFTP
+- **Sitemap:** https://liar-entertainer.com/sitemap-index.xml
+- **robots.txt:** https://liar-entertainer.com/robots.txt

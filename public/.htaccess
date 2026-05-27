@@ -6,6 +6,62 @@
 ErrorDocument 404 /404.html
 
 # ── HTTPS erzwingen ─────────────────────────────────────────
+# === 410 Gone: Deprecated City Pages ===
+# These pages were removed and should return 410, not 404
+# Add this block to public/.htaccess BEFORE the existing rewrite rules
+
+# /zauberer/{city}/ pages — 27 URLs
+Redirect 410 /zauberer/bochum/
+Redirect 410 /zauberer/bottrop/
+Redirect 410 /zauberer/castrop-rauxel/
+Redirect 410 /zauberer/dortmund/
+Redirect 410 /zauberer/duisburg/
+Redirect 410 /zauberer/duelmen/
+Redirect 410 /zauberer/essen/
+Redirect 410 /zauberer/gelsenkirchen/
+Redirect 410 /zauberer/gladbeck/
+Redirect 410 /zauberer/hagen/
+Redirect 410 /zauberer/haltern/
+Redirect 410 /zauberer/hamm/
+Redirect 410 /zauberer/herne/
+Redirect 410 /zauberer/herten/
+Redirect 410 /zauberer/luenen/
+Redirect 410 /zauberer/marl/
+Redirect 410 /zauberer/muenster/
+Redirect 410 /zauberer/oberhausen/
+Redirect 410 /zauberer/recklinghausen/
+Redirect 410 /zauberer/unna/
+Redirect 410 /zauberer/wanne-eickel/
+Redirect 410 /zauberer/wesel/
+Redirect 410 /zauberer/witten/
+Redirect 410 /zauberer/wuppertal/
+Redirect 410 /zauberer/dorsten/
+Redirect 410 /zauberer/krefeld/
+Redirect 410 /zauberer/moers/
+
+# /clown/{city}/ pages — 19 URLs
+Redirect 410 /clown/bochum/
+Redirect 410 /clown/bottrop/
+Redirect 410 /clown/dortmund/
+Redirect 410 /clown/duisburg/
+Redirect 410 /clown/essen/
+Redirect 410 /clown/gelsenkirchen/
+Redirect 410 /clown/gladbeck/
+Redirect 410 /clown/herne/
+Redirect 410 /clown/herten/
+Redirect 410 /clown/marl/
+Redirect 410 /clown/muenster/
+Redirect 410 /clown/oberhausen/
+Redirect 410 /clown/recklinghausen/
+Redirect 410 /clown/wesel/
+Redirect 410 /clown/witten/
+Redirect 410 /clown/castrop-rauxel/
+Redirect 410 /clown/haltern/
+Redirect 410 /clown/hamm/
+Redirect 410 /clown/wanne-eickel/
+
+# === END 410 Gone block ===
+
 RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]

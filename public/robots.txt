@@ -1,29 +1,35 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /*/attachment/*
+Disallow: /attachment/*
 
-Disallow: /kontakt/danke/
-Disallow: /404
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /*/attachment/*
+Disallow: /attachment/*
 
-# AI Search Crawlers
 User-agent: GPTBot
 Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
+Disallow: /api/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api/
 
-User-agent: Applebot-Extended
+User-agent: Applebot
 Allow: /
+Disallow: /api/
 
-User-agent: Bingbot
-Allow: /
+User-agent: AhrefsBot
+Disallow: /
 
-Sitemap: https://liar-entertainer.com/sitemap.xml
+User-agent: SemrushBot
+Disallow: /
+
+Sitemap: https://liar-entertainer.com/sitemap-index.xml

@@ -1,129 +1,68 @@
 ---
-import { Image } from 'astro:assets';
-import logoImg from '../assets/images/general/logo-clown-nrw.png';
-import { getAllBlogPosts } from '../utils/allPosts';
-
-const currentYear = new Date().getFullYear();
-
-const colleagues = [
-  { href: 'https://www.magic-olli.de/', label: 'Magic Olli' },
-  { href: 'https://www.zauberer-berlin.de/', label: 'Zauberer Berlin' },
-  { href: 'https://www.zauberer-duesseldorf.com/', label: 'Zauberer Düsseldorf' },
-  { href: 'https://www.zauberer-bremen.de/', label: 'Zauberer in Bremen' },
-  { href: 'https://www.zauberer-koeln.com/', label: 'Zauberer Köln' },
-  { href: 'https://www.zauberer-koeln-umgebung.de/', label: 'Zauberer Köln und Umgebung' },
-  { href: 'https://www.zauberer-schweiz.ch/', label: 'Zauberer Schweiz' },
-  { href: 'https://www.kinderzauberer-hamburg.de/', label: 'Kinderzauberer Hamburg' },
-];
-
-// Footer-News: dynamisch die neuesten 7 Blog-Artikel (Legacy + Content-Collection gemerget)
-const allPosts = await getAllBlogPosts();
-const newsItems = allPosts.slice(0, 7).map((p) => ({
-  href: p.href,
-  label: p.title,
-}));
 ---
 
-<footer>
-  <!-- Footer Top – 3 columns matching original -->
-  <div class="bg-[#c9d7f0] text-[#040222]">
-    <div class="max-w-6xl mx-auto px-4 py-10">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-        <!-- Column 1: ANDERE KOLLEGEN -->
-        <div>
-          <h3 class="font-bold text-sm uppercase tracking-wide mb-4">ANDERE KOLLEGEN</h3>
-          <ul class="space-y-2">
-            {colleagues.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-[#040222] hover:text-[#d7393e] text-sm transition-colors"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Column 2: NEWS CLOWN ZAUBERER -->
-        <div>
-          <h3 class="font-bold text-sm uppercase tracking-wide mb-4">NEWS CLOWN ZAUBERER</h3>
-          <ul class="space-y-3">
-            {newsItems.map((item) => (
-              <li>
-                <a
-                  href={item.href}
-                  rel="nofollow"
-                  class="text-[#040222] hover:text-[#d7393e] text-sm transition-colors leading-snug block"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Column 3: INFOS -->
-        <div>
-          <h3 class="font-bold text-sm uppercase tracking-wide mb-4">INFOS</h3>
-          <div class="space-y-1 text-sm">
-            <p class="font-bold text-[#040222]">Clown Zauberer LIAR</p>
-            <p class="text-[#040222]">Michaël Prescler</p>
-            <p class="text-[#040222]">Tel: 0172-1517578</p>
-            <p>
-              <a
-                href="mailto:info@liar-entertainer.com"
-                class="text-[#040222] hover:text-[#d7393e] transition-colors"
-              >
-                Email: info@liar-entertainer.com
-              </a>
-            </p>
-          </div>
-          <div class="mt-5">
-            <h4 class="font-bold text-sm uppercase tracking-wide mb-3">Hauptseiten</h4>
-            <ul class="space-y-1.5 text-sm">
-              <li><a href="/clown/clownshow/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Clownshow</a></li>
-              <li><a href="/zauberer/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Zauberer</a></li>
-              <li><a href="/kinderzauberer/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Kinderzauberer</a></li>
-              <li><a href="/kindergeburtstag/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Kindergeburtstag</a></li>
-              <li><a href="/zauberer/zaubershow/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Zaubershow</a></li>
-              <li><a href="/galerie/" class="text-[#040222] hover:text-[#d7393e] transition-colors">Galerie</a></li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer Bottom -->
-  <div class="bg-white border-t border-[#efefef]">
-    <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <Image
-          src={logoImg}
-          alt="LOGO Clown Zauberer LIAR"
-          width={50}
-          height={34}
-          class="w-[50px] h-auto"
-          loading="lazy"
-        />
-        <p class="text-[#595959] text-sm">
-          © {currentYear} Clown Zauberer LIAR – Alle Rechte vorbehalten
+<footer class="bg-gray-900 text-white py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Kontakt -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-yellow-400">Kontakt</h3>
+        <p class="mb-2">🎪 Clownzauberer LIAR</p>
+        <p class="mb-2">📍 Gladbeck & Ruhrgebiet</p>
+        <p class="mb-2">
+          <a href="tel:+4915901570801" class="hover:text-yellow-400 transition-colors">📞 0159 015 70 801</a>
+        </p>
+        <p class="mb-2">
+          <a href="mailto:info@liar-entertainer.com" class="hover:text-yellow-400 transition-colors">✉️ info@liar-entertainer.com</a>
+        </p>
+        <p class="mb-2">
+          <a href="https://wa.me/4915901570801" target="_blank" rel="noopener noreferrer" class="hover:text-yellow-400 transition-colors">💬 WhatsApp</a>
         </p>
       </div>
-      <div class="flex flex-wrap gap-4 text-sm">
-        <a href="/kontakt/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Kontakt</a>
-        <a href="/galerie/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Galerie</a>
-        <a href="/ueber-mich/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Über mich</a>
-        <a href="/impressum/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Impressum</a>
-        <a href="/datenschutzerklaerung-2/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">Datenschutz</a>
-        <a href="/agbs/" class="text-[#595959] hover:text-[#2b2b2b] transition-colors">AGB</a>
+
+      <!-- Navigation -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-yellow-400">Navigation</h3>
+        <ul class="space-y-2">
+          <li><a href="/" class="hover:text-yellow-400 transition-colors">Startseite</a></li>
+          <li><a href="/ueber-liar/" class="hover:text-yellow-400 transition-colors">Über LIAR</a></li>
+          <li><a href="/leistungen/" class="hover:text-yellow-400 transition-colors">Leistungen</a></li>
+          <li><a href="/galerie/" class="hover:text-yellow-400 transition-colors">Galerie</a></li>
+          <li><a href="/blog/" class="hover:text-yellow-400 transition-colors">Blog</a></li>
+          <li><a href="/kontakt/" class="hover:text-yellow-400 transition-colors">Kontakt</a></li>
+          <li><a href="/anfrage/" class="hover:text-yellow-400 transition-colors">Anfrage stellen</a></li>
+        </ul>
       </div>
+
+      <!-- Andere Kollegen & Rechtliches -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-yellow-400">Andere Kollegen</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="https://www.zauberopa.de" target="_blank" rel="noopener noreferrer nofollow" class="hover:text-yellow-400 transition-colors">Zauberopa</a></li>
+          <li><a href="https://www.zauberer-buchen.com" target="_blank" rel="noopener noreferrer nofollow" class="hover:text-yellow-400 transition-colors">Zauberer buchen</a></li>
+          <li><a href="https://www.kinderunterhaltung-ruhrgebiet.de" target="_blank" rel="noopener noreferrer nofollow" class="hover:text-yellow-400 transition-colors">Kinderunterhaltung Ruhrgebiet</a></li>
+          <li><a href="https://www.clown-buchen.de" target="_blank" rel="noopener noreferrer nofollow" class="hover:text-yellow-400 transition-colors">Clown buchen</a></li>
+          <li><a href="https://www.zauberkuenstler.de" target="_blank" rel="noopener noreferrer nofollow" class="hover:text-yellow-400 transition-colors">Zauberkünstler</a></li>
+          <li><a href="https://www.ballonkuenstler.de" target="_blank" rel="noopener noreferrer nofollow" class="hover:text-yellow-400 transition-colors">Ballonkünstler</a></li>
+          <li><a href="https://www.kinderzauberer.de" target="_blank" rel="noopener noreferrer nofollow" class="hover:text-yellow-400 transition-colors">Kinderzauberer</a></li>
+          <li><a href="https://www.kindergeburtstag-ideen.de" target="_blank" rel="noopener noreferrer nofollow" class="hover:text-yellow-400 transition-colors">Kindergeburtstag Ideen</a></li>
+        </ul>
+
+        <div class="mt-6">
+          <h3 class="text-xl font-bold mb-4 text-yellow-400">Rechtliches</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/impressum/" class="hover:text-yellow-400 transition-colors">Impressum</a></li>
+            <li><a href="/datenschutz/" class="hover:text-yellow-400 transition-colors">Datenschutz</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+      <p>&copy; {new Date().getFullYear()} Clownzauberer LIAR — Michael Prescler — Alle Rechte vorbehalten</p>
+      <p class="mt-2">Ihr Clown & Zauberer für Kindergeburtstag, Firmenfeier und Events im Ruhrgebiet</p>
     </div>
   </div>
 </footer>

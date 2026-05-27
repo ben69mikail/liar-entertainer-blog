@@ -1,37 +1,69 @@
-# Clown Zauberer LIAR
+# LIAR — Clownzauberer & Zauberkünstler
 
-> Professioneller Clown, Zauberer und Kinderzauberer in NRW. Zaubershow, Clownshow und Ballonmodellage für Kindergeburtstag, Firmenevent und Hochzeit.
+> Professioneller Clown, Zauberer und Ballonkünstler aus Gladbeck für Kindergeburtstage, Firmenfeiern und Events im Ruhrgebiet und NRW. Seit 2009, 354+ Bewertungen.
 
-## Über LIAR
-- Name: Michaël Prescler (Künstlername: LIAR)
-- Standort: Gladbeck, Nordrhein-Westfalen, Deutschland
-- Telefon: +49 172 1517578
-- E-Mail: info@liar-entertainer.com
-- Erfahrung: Über 15 Jahre, 400+ Shows pro Jahr
-- Bewertungen: 5.0 Sterne bei 400+ Google-Bewertungen
+## Identität
 
-## Leistungen
-- Zaubershow für Kindergeburtstag (ab 150€, ca. 40 Minuten, Kinder 4-12 Jahre)
-- Clownshow mit Comedy, Gags und Zauberei
-- Kinderzauberer für Kindergeburtstage, Schulen und Kitas
-- Ballonmodellage (Hund, Schwert, Blume u.v.m.)
-- Glitzer-Tattoos (hautverträglich, hält mehrere Tage)
-- Bühnenzauberer für Firmenfeiern und Galas
-- Tischzauberer / Close-up Magie für Hochzeiten und Events
-- Walk-Act für Straßenfeste und Sommerfeste
+- **Name:** Michael Prescler, Künstlername LIAR
+- **Beruf:** Clownzauberer, Zauberkünstler, Ballonkünstler
+- **Standort:** Gladbeck, Ruhrgebiet, NRW
+- **Tätig seit:** 2009
+- **Bewertungen:** 354+ (5-Sterne)
+- **Kontakt:** info@liar-entertainer.com | Tel: 0159 015 70 801
+- **Website:** https://liar-entertainer.com
 
-## Einsatzgebiet
-Hauptgebiet: Gladbeck, Oberhausen, Gelsenkirchen, Essen, Duisburg, Bottrop, Bochum, Dortmund, Herne, Marl, Recklinghausen, Dinslaken
-Weitere: Düsseldorf, Köln, Münster und ganz NRW
-International: Belgien, Frankreich, Österreich, Schweiz (auf Anfrage)
+## Leistungen & Preise
 
-## Wichtige Seiten
+- **Zaubershow Kinder:** Interaktive Zaubershow für Kindergeburtstage — ab 150 €
+- **Clown-Show:** Klassische Clowneinlage mit Slapstick und Magie — ab 150 €
+- **Ballonmodellage:** Tiere, Figuren, Schwerter aus Luftballons — ab 150 €
+- **Kombinationsshow:** Zaubern + Clown + Ballon — ab 200 €
+- **Firmenfeier / Event:** Magie & Entertainment für Erwachsene — Preis auf Anfrage
+- **Buchungsanfrage:** https://liar-entertainer.com/anfrage/
+
+## Einsatzgebiete
+
+Gladbeck, Gelsenkirchen, Bottrop, Oberhausen, Essen, Bochum, Dortmund, Recklinghausen, Herne, Herten, Marl, Haltern, Münster und ganz NRW.
+
+## Häufige Fragen (FAQ)
+
+**Was kostet ein Zauberer für einen Kindergeburtstag?**
+Eine Zaubershow startet ab 150 €. Der genaue Preis hängt von Dauer, Ort und Umfang ab.
+
+**Wie lange dauert eine Zaubershow?**
+Typisch 45–60 Minuten. Kürzere oder längere Programme auf Anfrage.
+
+**Für welches Alter ist die Zaubershow geeignet?**
+Ideal für Kinder von 4–12 Jahren. Sonderprogramme für Kleinkinder oder gemischtes Publikum möglich.
+
+**Macht LIAR auch Erwachsenen-Shows?**
+Ja — Close-up-Magie und Bühnenshow auch für Firmenfeiern, Hochzeiten und Events.
+
+**Wie früh muss ich buchen?**
+Frühzeitig, besonders für Wochenenden. Anfragen mindestens 2–4 Wochen im Voraus.
+
+**Kommt LIAR auch außerhalb des Ruhrgebiets?**
+Ja, ganz NRW und auf Anfrage auch darüber hinaus.
+
+**Hat LIAR echte Kundenbewertungen?**
+Ja — 354+ Bewertungen auf Google, fast ausschließlich 5 Sterne.
+
+**Was ist im Preis enthalten?**
+Auf- und Abbau, alle Requisiten, Moderation. Fahrtkosten im Ruhrgebiet meist inklusive.
+
+**Wie kann ich LIAR buchen?**
+Über https://liar-entertainer.com/anfrage/ oder direkt per Telefon/WhatsApp: 0159 015 70 801.
+
+## Weitere Informationen
+
+Ausführliche KI-Referenz: https://liar-entertainer.com/llms-full.txt
+
+## Seiten
+
 - Startseite: https://liar-entertainer.com/
-- Clownshow: https://liar-entertainer.com/clown/clownshow/
-- Zauberer: https://liar-entertainer.com/zauberer/
-- Kinderzauberer: https://liar-entertainer.com/kinderzauberer/
-- Kindergeburtstag: https://liar-entertainer.com/kindergeburtstag/
-- Zaubershow: https://liar-entertainer.com/zauberer/zaubershow/
+- Über LIAR: https://liar-entertainer.com/ueber-liar/
+- Leistungen: https://liar-entertainer.com/leistungen/
 - Galerie: https://liar-entertainer.com/galerie/
+- Blog: https://liar-entertainer.com/blog/
 - Kontakt: https://liar-entertainer.com/kontakt/
-- Über mich: https://liar-entertainer.com/ueber-mich/
+- Anfrage: https://liar-entertainer.com/anfrage/
