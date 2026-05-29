@@ -6,6 +6,7 @@ const menuItems = [
   {
     label: 'Clown',
     href: '/clown/clownshow/',
+    title: 'Clown buchen NRW',
     children: [
       { label: 'Clownshow', href: '/clown/clownshow/' },
       { label: 'Walk Act', href: '/clown/walk-act/' },
@@ -16,6 +17,7 @@ const menuItems = [
   {
     label: 'Zauberer',
     href: '/zauberer/',
+    title: 'Zauberer buchen NRW',
     children: [
       { label: 'Bühnen Zauberer', href: '/zauberer/buehnen-zauberer/' },
       { label: 'Tisch Zauberer', href: '/zauberer/tisch-zauberer/' },
@@ -24,18 +26,22 @@ const menuItems = [
   {
     label: 'Kinderzauberer',
     href: '/kinderzauberer/',
+    title: 'Kinderzauberer NRW',
   },
   {
     label: 'Kindergeburtstag',
     href: '/kindergeburtstag/',
+    title: 'Kindergeburtstag Zauberer NRW',
   },
   {
     label: 'Preise',
     href: '/preise/',
+    title: 'Preise Clown Zauberer NRW',
   },
   {
     label: 'Zaubershow',
     href: '/zauberer/zaubershow/',
+    title: 'Zaubershow buchen NRW',
     children: [
       { label: 'Kindergarten – Kita', href: '/zauberer/zaubershow/kindergarten-kita/' },
       { label: 'Schule', href: '/zauberer/zaubershow/schule/' },
@@ -43,10 +49,10 @@ const menuItems = [
       { label: 'Karneval', href: '/clown/karneval/' },
     ],
   },
-  { label: 'Galerie', href: '/galerie/' },
+  { label: 'Galerie', href: '/galerie/', title: 'Galerie LIAR Clown Zauberer' },
   { label: 'Blog', href: '/blog/' },
   { label: 'Pantomime', href: 'https://pantomime.liar-entertainer.com', external: true },
-  { label: 'Kontakt', href: '/kontakt/' },
+  { label: 'Kontakt', href: '/kontakt/', title: 'Clown Zauberer LIAR kontaktieren' },
 ];
 ---
 
@@ -81,6 +87,7 @@ const menuItems = [
             <div class="relative h-full flex items-center nav-dropdown-wrap">
               <a
                 href={item.href}
+                title={item.title}
                 class="nav-link-wp flex items-center gap-1 px-4 h-full text-[#1f2025] hover:text-[#ffb546] text-[15px] font-medium"
               >
                 {item.label}
@@ -104,6 +111,7 @@ const menuItems = [
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
+              title={item.title}
               class="nav-link-wp flex items-center px-4 h-14 text-[#1f2025] hover:text-[#ffb546] text-[15px] font-medium"
             >
               {item.label}
@@ -111,6 +119,7 @@ const menuItems = [
           ) : (
             <a
               href={item.href}
+              title={item.title}
               class="nav-link-wp flex items-center px-4 h-14 text-[#1f2025] hover:text-[#ffb546] text-[15px] font-medium"
             >
               {item.label}
