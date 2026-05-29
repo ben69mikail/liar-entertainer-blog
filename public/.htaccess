@@ -484,3 +484,11 @@ AddType font/woff2 .woff2
   Header unset ETag
 </IfModule>
 FileETag None
+
+# -- WordPress-Legacy: wp-content 410 Gone --
+# wp-content Pfade sind seit Legacy-Cleanup 22.05.2026 nicht mehr erreichbar
+RewriteRule ^wp-content/.*$ - [R=410,L]
+
+# -- WordPress-Legacy: index.php Startseite --
+RewriteRule ^index\.php/?$ / [R=301,L]
+RewriteRule ^index\.php/(.*)$ /$1 [R=301,L]
