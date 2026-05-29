@@ -3,6 +3,8 @@ Allow: /
 
 Disallow: /kontakt/danke/
 Disallow: /404
+Disallow: /*/attachment/*
+Disallow: /attachment/*
 
 # AI Search Crawlers
 User-agent: GPTBot
