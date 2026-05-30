@@ -1,11 +1,11 @@
 /* ============================================
    DESIGN TOKENS – Clown Zauberer LIAR
    Extrahiert aus den 10 Menü-Seiten (Source of Truth)
-   Letzte Aktualisierung: 2026-03-26
+   Letzte Aktualisierung: 2026-05-30
    ============================================ */
 
 :root {
-  /* ── Farben (Brand) ──────────────── */
+  /* ── Farben (Brand) ─────────────── */
   --color-red: #d7393e;
   --color-red-dark: #b62e32;
   --color-blue: #3b55d5;
@@ -27,9 +27,16 @@
   --color-bg-gray: #f9fafb;       /* bg-gray-50 */
   --color-bg-gray-dark: #f4f4f4;
 
+  /* ── Farben (Pastel-Hintergrund) ── */
+  --color-bg-pastel-red:     #fdf2f2;  /* Sanftes Rot før Stats-Sektion */
+  --color-bg-pastel-blue:    #eff4ff;  /* Sanftes Blau før Services-Sektion */
+  --color-bg-pastel-neutral: #f8f9fa;  /* Neutrales Grau før Video-Sektion */
+
   /* ── Farben (Border) ────────────── */
   --color-border-light: #e5e7eb;   /* gray-200 */
   --color-border-medium: #d1d5db;  /* gray-300 */
+  --color-border-red:    #f0c4c4;  /* Pastel-Red Cards */
+  --color-border-blue:   #c5d3f7;  /* Pastel-Blue Cards */
 
   /* ── Typografie ──────────────────── */
   --font-family: Poppins, Arial, Helvetica, sans-serif;
@@ -61,6 +68,7 @@
   /* ── Bilder ─────────────────────── */
   --img-radius: 0.75rem;       /* rounded-xl */
   --img-radius-sm: 0.5rem;     /* rounded-lg */
+  --img-radius-lg: 1rem;       /* rounded-2xl */
   --img-circular: 9999px;       /* rounded-full */
   --img-portrait-size: 320px;   /* Standard Portrait-Durchmesser */
 
@@ -68,12 +76,14 @@
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
   --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
   --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  --shadow-photo: 0 8px 24px rgba(0,0,0,0.12);  /* Foto-Schatten für Cards */
+  --shadow-card:  0 4px 16px rgba(0,0,0,0.08);  /* Karten-Schatten */
 
   /* ── Karten ─────────────────────── */
-  --card-radius: 0.75rem;       /* rounded-xl */
-  --card-padding: 2rem;         /* p-8 */
-  --card-shadow: 0 1px 2px rgba(0,0,0,0.05); /* shadow-sm */
-  --card-border-width: 4px;     /* border-t-4 */
+  --card-radius: 1rem;          /* rounded-2xl */
+  --card-padding: 1.5rem;       /* p-6 */
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.08); /* shadow-sm */
+  --card-border-width: 1px;     /* border */
 
   /* ── CONSTRAINTS ────────────────── */
   --max-colored-sections: 2;    /* Max 2 farbige Sektionen pro Seite */
